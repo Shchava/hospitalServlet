@@ -1,15 +1,11 @@
 package ua.training.servlet.hospital.dao;
 
-import ua.training.cashregister.dao.impl.JDBCDaoFactory;
+import ua.training.servlet.hospital.dao.impl.JDBCDaoFactory;
 
 public abstract class DaoFactory {
     private static  DaoFactory daoFactory;
 
     public abstract UserDao createUserDao();
-
-    public abstract GoodsDao createGoodsDao();
-
-    public abstract ReceiptDao createReceiptDao();
 
     public static synchronized DaoFactory getInstance(){
         if( daoFactory == null){
