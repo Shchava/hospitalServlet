@@ -32,8 +32,7 @@ public class JDBCUserDaoTest {
     private static String dbName = "hospital";
     private static Connection connection;
 
-    private static Roles role = Roles.PATIENT;
-    private static User user;
+    private static User user = new User("test", "test", "testPatronymic", "test@example.com", "password", Roles.PATIENT);
 
     @InjectMocks
     private UserDao dao = DaoFactory.getInstance().createUserDao();
@@ -51,13 +50,6 @@ public class JDBCUserDaoTest {
 
         RunScript.execute(connection, schema);
         RunScript.execute(connection, data);
-
-        String name = "test";
-        String surname = "test";
-        String patronymic = "testPatronymic";
-        String email = "test@example.com";
-        String password = "password";
-        user = new User(name, surname, patronymic, email, password, role);
     }
 
     @AfterClass
@@ -106,22 +98,22 @@ public class JDBCUserDaoTest {
 
     @Test
     @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
-    public void test3FindRange(){
-        List<User> found = dao.findRange(4,3);
-        assertEquals(3,found.size());
+    public void test3FindRange() {
+        List<User> found = dao.findRange(4, 3);
+        assertEquals(3, found.size());
         assertTrue(found.contains(user));
     }
 
     @Test
     public void test4FindAll() {
         List<User> all = dao.findAll();
-        assertEquals(7,all.size());
+        assertEquals(7, all.size());
         assertTrue(all.contains(user));
     }
 
     @Test
-    public void test5Count(){
-        assertEquals(7,dao.count());
+    public void test5Count() {
+        assertEquals(7, dao.count());
     }
 
     @Test
@@ -131,7 +123,7 @@ public class JDBCUserDaoTest {
         user.setName(newName);
         assertTrue(dao.update(user));
         assertEquals(id, user.getId());
-        assertEquals(user,dao.findById(id).get());
+        assertEquals(user, dao.findById(id).get());
     }
 }
 
