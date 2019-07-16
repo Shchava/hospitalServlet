@@ -88,19 +88,6 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
