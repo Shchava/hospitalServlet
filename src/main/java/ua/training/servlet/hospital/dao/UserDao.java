@@ -1,4 +1,6 @@
 package ua.training.servlet.hospital.dao;
 
-public interface UserDao {
+import ua.training.servlet.hospital.entity.User;
+
+public interface UserDao extends GenericDao<User>{
 }
