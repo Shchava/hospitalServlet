@@ -29,7 +29,7 @@ public abstract class Therapy {
         this.idTherapy = idTherapy;
     }
 
-    public long getIdTherapy() {
+    public long getId() {
         return idTherapy;
     }
 
@@ -49,7 +49,7 @@ public abstract class Therapy {
         return assignedBy;
     }
 
-    public void setIdTherapy(long idTherapy) {
+    public void setId(long idTherapy) {
         this.idTherapy = idTherapy;
     }
 
