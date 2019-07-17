@@ -1,7 +1,10 @@
 package ua.training.servlet.hospital.dao.impl;
 
-import ua.training.servlet.hospital.dao.UserDao;
+import ua.training.servlet.hospital.dao.MedicineDao;
+import ua.training.servlet.hospital.dao.mapper.MedicineMapper;
+import ua.training.servlet.hospital.dao.mapper.ObjectMapper;
 import ua.training.servlet.hospital.dao.mapper.UserMapper;
+import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.User;
 
 import java.sql.*;
@@ -9,17 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JDBCUserDao implements UserDao {
+public class JDBCMedicineDao implements MedicineDao {
     private Connection connection;
 
-    JDBCUserDao(Connection connection) {
+    public JDBCMedicineDao(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public boolean create(User entity) {
+    public boolean create(Medicine entity) {
         boolean created = false;
-        final String query = "INSERT INTO user(name, surname, patronymic, email, password_hash, role) VALUES(?,?,?,?,?,?)";
+        final String query = "INSERT INTO medicine(name, description, assigned, assigned_by_id_user, count, refill) VALUES(?,?,?,?,?,?)";
         try(PreparedStatement statement =  connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
             setEntityValues(statement,entity);
 
@@ -35,31 +38,31 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        User user = null;
-        UserMapper mapper = new UserMapper();
+    public Optional<Medicine> findById(long id) {
+        Medicine entity = null;
+        ObjectMapper<Medicine> mapper = new MedicineMapper();
 
-        final String query = "SELECT * FROM user WHERE id_user = " + id +";";
+        final String query = "SELECT * FROM medicine LEFT JOIN user ON(medicine.assigned_by_id_user = user.id_user) WHERE id_therapy = " + id +";";
         try(Statement statement =  connection.createStatement()){
             ResultSet result = statement.executeQuery(query);
             if(result.next()){
-                user = mapper.extractFromResultSet(result);
+                entity = mapper.extractFromResultSet(result);
             }
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return Optional.ofNullable(user);
+        return Optional.ofNullable(entity);
     }
 
     @Override
-    public List<User> findRange(int start, int count) {
-        final String query = "SELECT SQL_CALC_FOUND_ROWS * FROM user LIMIT " + start + "," + count;
+    public List<Medicine> findRange(int start, int count) {
+        final String query = "SELECT SQL_CALC_FOUND_ROWS * FROM medicine LEFT JOIN user ON(medicine.assigned_by_id_user = user.id_user) LIMIT " + start + "," + count;
         return getAllFromQuery(query);
     }
 
     @Override
-    public List<User> findAll() {
-        final String query = "SELECT * FROM user";
+    public List<Medicine> findAll() {
+        final String query = "SELECT * FROM medicine LEFT JOIN user ON(medicine.assigned_by_id_user = user.id_user)";
         return getAllFromQuery(query);
     }
 
@@ -67,7 +70,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public int count() {
         int count = 0;
-        final String query = "SELECT COUNT(*)FROM user";
+        final String query = "SELECT COUNT(*)FROM medicine";
         try(Statement statement = connection.createStatement()){
             ResultSet rs = statement.executeQuery(query);
             if(rs.next()){
@@ -80,9 +83,9 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public boolean update(User entity) {
+    public boolean update(Medicine entity) {
         boolean created = false;
-        final String query = "UPDATE user SET name = ?, surname = ?, patronymic = ?, email = ?, password_hash = ?, role = ? WHERE id_user = ?";
+        final String query = "UPDATE medicine SET name = ?, description = ?, assigned = ?, assigned_by_id_user = ?, count = ?, refill = ? WHERE id_therapy = ?";
         try(PreparedStatement statement =  connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
             setEntityValues(statement,entity);
             statement.setLong(7,entity.getId());
@@ -98,7 +101,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public boolean delete(long id) {
         boolean affected = false;
-        final String query = "DELETE FROM user WHERE id_user = " + id + ";";
+        final String query = "DELETE FROM medicine WHERE id_therapy = " + id + ";";
         try(Statement statement =  connection.createStatement()){
             statement.execute(query);
             affected = true;
@@ -117,35 +120,35 @@ public class JDBCUserDao implements UserDao {
         }
     }
 
-    private void getId(User user, Statement statement) throws SQLException {
+    private void getId(Medicine medicine, Statement statement) throws SQLException {
         ResultSet generatedKeys = statement.getGeneratedKeys();
         if (generatedKeys.next()) {
-            user.setId(generatedKeys.getLong(1));
+            medicine.setId(generatedKeys.getLong(1));
         }
     }
 
-    private List<User> getAllFromQuery(String query){
-        List<User> users = new ArrayList<>();
-        UserMapper mapper = new UserMapper();
+    private List<Medicine> getAllFromQuery(String query){
+        List<Medicine> entities = new ArrayList<>();
+        ObjectMapper<Medicine> mapper = new MedicineMapper();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                User user = mapper.extractFromResultSet(rs);
-                users.add(user);
+                Medicine entity = mapper.extractFromResultSet(rs);
+                entities.add(entity);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return users;
+            return entities;
         }
-        return users;
+        return entities;
     }
 
-    private void setEntityValues(PreparedStatement statement, User entity) throws SQLException{
+    private void setEntityValues(PreparedStatement statement, Medicine entity) throws SQLException{
         statement.setString(1,entity.getName());
-        statement.setString(2,entity.getSurname());
-        statement.setString(3,entity.getPatronymic());
-        statement.setString(4,entity.getEmail());
-        statement.setString(5,entity.getPasswordHash());
-        statement.setString(6,entity.getRole().name());
+        statement.setString(2,entity.getDescription());
+        statement.setTimestamp(3,Timestamp.valueOf(entity.getAssigned()));
+        statement.setLong(4,entity.getAssignedBy().getId());
+        statement.setInt(5,entity.getCount());
+        statement.setObject(6,entity.getRefill());
     }
 }

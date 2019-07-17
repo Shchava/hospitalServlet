@@ -22,7 +22,7 @@ public class Medicine extends Therapy {
 
     public Medicine(long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
         this(name,description,assigned,assignedBy,count,refill);
-        setIdTherapy(idTherapy);
+        setId(idTherapy);
     }
 
     public int getCount() {

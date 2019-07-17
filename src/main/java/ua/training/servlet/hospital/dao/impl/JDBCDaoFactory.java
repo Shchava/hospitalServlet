@@ -3,6 +3,7 @@ package ua.training.servlet.hospital.dao.impl;
 
 
 import ua.training.servlet.hospital.dao.DaoFactory;
+import ua.training.servlet.hospital.dao.MedicineDao;
 import ua.training.servlet.hospital.dao.UserDao;
 
 import javax.sql.DataSource;
@@ -18,6 +19,10 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCUserDao(getConnection());
     }
 
+    @Override
+    public MedicineDao createMedicineDao() {
+        return new JDBCMedicineDao(getConnection());
+    }
 
     private Connection getConnection(){
         try {

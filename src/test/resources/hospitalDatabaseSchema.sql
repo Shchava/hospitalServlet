@@ -25,7 +25,7 @@ CREATE TABLE PUBLIC.MEDICINE
     DESCRIPTION         varchar(255) NULL,
     NAME                varchar(255) NOT NULL,
     COUNT               int          NULL,
-    REFILL              timestamp    NULL,
+    REFILL              date         NULL,
     ASSIGNED_BY_ID_USER bigint       NULL
 );
 CREATE TABLE PUBLIC.DIAGNOSIS_ASSIGNED_MEDICINE
