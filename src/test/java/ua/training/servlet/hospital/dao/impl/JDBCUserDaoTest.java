@@ -13,12 +13,11 @@ import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.enums.Roles;
 
+import javax.sql.DataSource;
 import java.io.FileReader;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -30,13 +29,14 @@ public class JDBCUserDaoTest {
     private static Server server;
     private static String dbName = "hospital";
     private static Connection connection;
+    private UserDao dao;
 
-    private static User user = new User("test", "test", "testPatronymic", "test@example.com", "password", Roles.PATIENT);
-
+    private static User user = new User("JDBCMedicineDaoTest", "JDBCMedicineDaoTest", "testPatronymic", "JDBCMedicineDaoTest@example.com", "password", Roles.PATIENT);
     @InjectMocks
-    private UserDao dao = DaoFactory.getInstance().createUserDao();
+    DaoFactory factory = DaoFactory.getInstance();
+
     @Mock
-    private Connection mockConnection;
+    DataSource source;
 
     @BeforeClass
     public static void initDB() throws Exception {
@@ -58,28 +58,12 @@ public class JDBCUserDaoTest {
 
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
 
-        when(mockConnection.createStatement())
-                .thenAnswer((Answer<Statement>) invocation -> connection.createStatement());
+        when(source.getConnection())
+                .thenAnswer((Answer<Connection>) invocation -> connection);
 
-        when(mockConnection.prepareStatement(any(String.class)))
-                .thenAnswer((Answer<PreparedStatement>) invocation -> {
-                    Object[] args = invocation.getArguments();
-                    return connection.prepareStatement((String) args[0]);
-                });
-
-        when(mockConnection.prepareStatement(any(String.class), anyInt()))
-                .thenAnswer((Answer<PreparedStatement>) invocation -> {
-                    Object[] args = invocation.getArguments();
-                    return connection.prepareStatement((String) args[0], (Integer) args[1]);
-                });
-
-        doAnswer(invocation -> {
-            connection.close();
-            return null;
-        }).when(mockConnection).close();
+        dao = factory.createUserDao();
     }
 
     @Test
