@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -107,6 +108,12 @@ public class JDBCUserDaoTest {
         assertTrue(dao.update(user));
         assertEquals(id, user.getId());
         assertEquals(user, dao.findById(id).get());
+    }
+
+    @Test
+    public void test7Delete(){
+        assertTrue(dao.delete(user.getId()));
+        assertFalse(dao.findById(user.getId()).isPresent());
     }
 }
 

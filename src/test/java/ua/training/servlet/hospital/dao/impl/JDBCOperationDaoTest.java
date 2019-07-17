@@ -122,4 +122,10 @@ public class JDBCOperationDaoTest {
         assertEquals(id, operation.getId());
         assertEquals(operation, dao.findById(id).get());
     }
+
+    @Test
+    public void test7Delete(){
+        assertTrue(dao.delete(operation.getId()));
+        assertFalse(dao.findById(operation.getId()).isPresent());
+    }
 }

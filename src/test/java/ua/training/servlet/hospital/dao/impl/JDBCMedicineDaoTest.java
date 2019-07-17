@@ -26,6 +26,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -118,6 +119,12 @@ public class JDBCMedicineDaoTest {
         assertTrue(dao.update(medicine));
         assertEquals(id, medicine.getId());
         assertEquals(medicine, dao.findById(id).get());
+    }
+
+    @Test
+    public void test7Delete(){
+        assertTrue(dao.delete(medicine.getId()));
+        assertFalse(dao.findById(medicine.getId()).isPresent());
     }
 }
 
