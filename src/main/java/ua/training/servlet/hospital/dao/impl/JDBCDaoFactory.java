@@ -4,7 +4,9 @@ package ua.training.servlet.hospital.dao.impl;
 
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.MedicineDao;
+import ua.training.servlet.hospital.dao.OperationDao;
 import ua.training.servlet.hospital.dao.UserDao;
+import ua.training.servlet.hospital.entity.Operation;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -22,6 +24,11 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public MedicineDao createMedicineDao() {
         return new JDBCMedicineDao(getConnection());
+    }
+
+    @Override
+    public OperationDao createOperationDao() {
+        return new JDBCOperationDao(getConnection());
     }
 
     private Connection getConnection(){
