@@ -2,27 +2,27 @@ package ua.training.servlet.hospital.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Medicine extends Therapy {
     private int count;
-    private LocalDateTime refill;
+    private LocalDate refill;
 
     public Medicine() {
     }
 
-    public Medicine(String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDateTime refill) {
+    public Medicine(String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
         super(name, description, assigned, assignedBy);
         this.count = count;
         this.refill = refill;
     }
 
-    public Medicine(long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDateTime refill) {
-        super(idTherapy, name, description, assigned, assignedBy);
-        this.count = count;
-        this.refill = refill;
+    public Medicine(long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
+        this(name,description,assigned,assignedBy,count,refill);
+        setIdTherapy(idTherapy);
     }
 
     public int getCount() {
@@ -33,11 +33,11 @@ public class Medicine extends Therapy {
         this.count = count;
     }
 
-    public LocalDateTime getRefill() {
+    public LocalDate getRefill() {
         return refill;
     }
 
-    public void setRefill(LocalDateTime refill) {
+    public void setRefill(LocalDate refill) {
         this.refill = refill;
     }
 
