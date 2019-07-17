@@ -6,7 +6,6 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 import ua.training.servlet.hospital.dao.DaoFactory;
@@ -22,9 +21,9 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
+import static org.mockito.Mockito.*;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JDBCUserDaoTest {
@@ -62,22 +61,22 @@ public class JDBCUserDaoTest {
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(mockConnection.createStatement())
+        when(mockConnection.createStatement())
                 .thenAnswer((Answer<Statement>) invocation -> connection.createStatement());
 
-        Mockito.when(mockConnection.prepareStatement(Mockito.any(String.class)))
+        when(mockConnection.prepareStatement(any(String.class)))
                 .thenAnswer((Answer<PreparedStatement>) invocation -> {
                     Object[] args = invocation.getArguments();
                     return connection.prepareStatement((String) args[0]);
                 });
 
-        Mockito.when(mockConnection.prepareStatement(Mockito.any(String.class), Mockito.anyInt()))
+        when(mockConnection.prepareStatement(any(String.class), anyInt()))
                 .thenAnswer((Answer<PreparedStatement>) invocation -> {
                     Object[] args = invocation.getArguments();
                     return connection.prepareStatement((String) args[0], (Integer) args[1]);
                 });
 
-        Mockito.doAnswer(invocation -> {
+        doAnswer(invocation -> {
             connection.close();
             return null;
         }).when(mockConnection).close();
