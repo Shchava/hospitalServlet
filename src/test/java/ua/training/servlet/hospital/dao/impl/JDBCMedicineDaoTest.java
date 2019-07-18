@@ -35,7 +35,7 @@ public class JDBCMedicineDaoTest {
     private static String dbName = "hospital";
     private static Connection connection;
 
-    private static User user = new User("testUserName", "testUserSurname", "testUserPatronymic", "JDBCMedicineDaoTest@example.com", "password", Roles.DOCTOR);
+    private static User user = new User("testMedicineUserName", "testMedicineUserSurname", "testMedicineUserPatronymic", "JDBCMedicineDaoTestUser@example.com", "password", Roles.DOCTOR);
     private static Medicine medicine = new Medicine("testMedicineName","testDescription",LocalDateTime.now(),user,30,LocalDate.now().plusDays(30));
 
     @InjectMocks
@@ -47,24 +47,16 @@ public class JDBCMedicineDaoTest {
     private MedicineDao dao;
     private UserDao userDao;
 
+
     @BeforeClass
-    public static void initDB() throws Exception {
-        server = Server.createTcpServer("-tcpAllowOthers").start();
-
+    public static void getConnection() throws Exception {
         connection = DriverManager.getConnection("jdbc:h2:mem:" + dbName, "sa", "");
-
-        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
-        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
-
-        RunScript.execute(connection, schema);
-        RunScript.execute(connection, data);
     }
 
     @AfterClass
-    public static void stopDB() throws Exception {
-        server.stop();
+    public static void closeConnection() throws Exception {
+        connection.close();
     }
-
 
     @Before
     public void setUp() throws Exception {

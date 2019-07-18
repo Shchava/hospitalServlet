@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -49,24 +50,16 @@ public class JDBCOperationDaoTest {
     private OperationDao dao;
     private UserDao userDao;
 
+
     @BeforeClass
-    public static void initDB() throws Exception {
-        server = Server.createTcpServer("-tcpAllowOthers").start();
-
+    public static void getConnection() throws Exception {
         connection = DriverManager.getConnection("jdbc:h2:mem:" + dbName, "sa", "");
-
-        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
-        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
-
-        RunScript.execute(connection, schema);
-        RunScript.execute(connection, data);
     }
 
     @AfterClass
-    public static void stopDB() throws Exception {
-        server.stop();
+    public static void closeConnection() throws Exception {
+        connection.close();
     }
-
 
     @Before
     public void setUp() throws Exception {
