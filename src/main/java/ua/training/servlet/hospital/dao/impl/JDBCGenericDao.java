@@ -9,20 +9,20 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class JDBCGenericDao<E> implements GenericDao<E> {
-    private Connection connection;
+    Connection connection;
 
-    private String CreateQuery;
-    private String FindByIDQuery;
-    private String FindRangeQuery;
-    private String FindAllQuery;
-    private String CountQuery;
-    private String CountColumnLabel;
-    private String UpdateQuery;
-    private int UpdateIdParameterIndex;
-    private String DeleteQuery;
-    private ObjectMapper<E> mapper;
+    String CreateQuery;
+    String FindByIDQuery;
+    String FindRangeQuery;
+    String FindAllQuery;
+    String CountQuery;
+    String CountColumnLabel;
+    String UpdateQuery;
+    int UpdateIdParameterIndex;
+    String DeleteQuery;
+    ObjectMapper<E> mapper;
 
-    public JDBCGenericDao(Connection connection, String createQuery, String findByIDQuery, String findRangeQuery, String findAllQuery, String countQuery, String countColumnLabel, String updateQuery, int updateIdParameterIndex, String deleteQuery, ObjectMapper<E> mapper) {
+    JDBCGenericDao(Connection connection, String createQuery, String findByIDQuery, String findRangeQuery, String findAllQuery, String countQuery, String countColumnLabel, String updateQuery, int updateIdParameterIndex, String deleteQuery, ObjectMapper<E> mapper) {
         this.connection = connection;
         CreateQuery = createQuery;
         FindByIDQuery = findByIDQuery;
@@ -40,8 +40,8 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     public boolean create(E entity) {
         boolean created = false;
         try (PreparedStatement statement = connection.prepareStatement(CreateQuery, Statement.RETURN_GENERATED_KEYS)) {
-            setEntityValues(statement, entity);
-            int affected = statement.executeUpdate();
+
+            int affected = insertIntoDb(statement,entity);
             if (affected == 1) {
                 setId(entity, getId(entity, statement));
                 created = true;
@@ -60,7 +60,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             statement.setLong(1, id);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                entity = mapper.extractFromResultSet(result);
+                entity = extractEntity(result);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -79,7 +79,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             ex.printStackTrace();
         }
         return found;
-    };
+    }
 
 
     @Override
@@ -112,10 +112,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     public boolean update(E entity) {
         boolean created = false;
         try (PreparedStatement statement = connection.prepareStatement(UpdateQuery, Statement.RETURN_GENERATED_KEYS)) {
-            setEntityValues(statement, entity);
-            statement.setLong(UpdateIdParameterIndex, getId(entity));
-
-            int affected = statement.executeUpdate();
+            int affected = updateOnDb(statement,entity);
             created = affected == 1;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -127,8 +124,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     public boolean delete(long id) {
         boolean affected = false;
         try (PreparedStatement statement = connection.prepareStatement(DeleteQuery)) {
-            statement.setLong(1, id);
-            statement.execute();
+            deleteEntity(statement,id);
             affected = true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -159,10 +155,29 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
         List<E> entities = new ArrayList<>();
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            E entity = mapper.extractFromResultSet(rs);
-            entities.add(entity);
+            entities.add(extractEntity(rs));
         }
         return entities;
+    }
+
+    int insertIntoDb(PreparedStatement statement, E entity) throws SQLException {
+        setEntityValues(statement, entity);
+        return statement.executeUpdate();
+    }
+
+    int updateOnDb(PreparedStatement statement, E entity) throws SQLException {
+        setEntityValues(statement, entity);
+        statement.setLong(UpdateIdParameterIndex, getId(entity));
+        return statement.executeUpdate();
+    }
+
+    E extractEntity(ResultSet rs) throws SQLException {
+        return mapper.extractFromResultSet(rs);
+    }
+
+    void deleteEntity(PreparedStatement statement, long entityId) throws SQLException {
+        statement.setLong(1, entityId);
+        statement.execute();
     }
 
     abstract long getId(E entity);
