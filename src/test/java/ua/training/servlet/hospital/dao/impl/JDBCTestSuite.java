@@ -18,7 +18,8 @@ import java.sql.SQLOutput;
 @Suite.SuiteClasses({
         JDBCUserDaoTest.class,
         JDBCOperationDaoTest.class,
-        JDBCMedicineDaoTest.class
+        JDBCMedicineDaoTest.class,
+        JDBCProcedureDaoTest.class
 })
 
 public class JDBCTestSuite {

@@ -12,6 +12,8 @@ public abstract class DaoFactory {
 
     public abstract OperationDao createOperationDao();
 
+    public abstract ProcedureDao createProcedureDao();
+
     public static synchronized DaoFactory getInstance(){
         if( daoFactory == null){
             synchronized (DaoFactory.class) {

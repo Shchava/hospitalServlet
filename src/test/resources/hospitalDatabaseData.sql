@@ -36,3 +36,45 @@ INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
 VALUES ('operationName5','operationDescription5',{ts '2019-07-21 11:21:55.43'},5,{ts '2019-08-29 9:00'});
 INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
 VALUES ('operationName6','operationDescription6',{ts '2019-07-10 13:04:11.21'},4,{ts '2019-09-14 14:45'});
+
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName1','procedureDescription1',{ts '2019-07-09 12:43:31.65'},1,112);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName2','procedureDescription2',{ts '2019-07-30 15:11:23.43'},2,511);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName3','procedureDescription3',{ts '2019-07-21 17:32:54.23'},1,912);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName4','procedureDescription4',{ts '2019-07-27 10:11:09.12'},4,120);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName5','procedureDescription5',{ts '2019-07-25 14:43:12.46'},5,301);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
+VALUES ('procedureName6','procedureDescription6',{ts '2019-07-03 16:31:34.32'},4,325);
+
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-09 10:49:57.50'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-02 18:47:54.04'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-01 12:34:27.37'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-29 13:50:39.03'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (2,{ts '2019-07-12 17:30:19.11'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (2,{ts '2019-07-10 17:54:40.13'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (2,{ts '2019-07-29 11:19:53.52'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (2,{ts '2019-07-22 15:17:15.38'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (3,{ts '2019-07-07 11:08:52.45'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (3,{ts '2019-07-24 08:19:51.03'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (3,{ts '2019-07-05 14:46:39.59'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (3,{ts '2019-07-04 13:07:08.27'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (3,{ts '2019-07-18 11:13:20.17'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (4,{ts '2019-07-09 16:27:28.54'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (4,{ts '2019-07-22 12:55:15.33'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (4,{ts '2019-07-01 17:05:39.12'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (5,{ts '2019-07-08 12:54:14.23'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (5,{ts '2019-07-20 16:19:13.41'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (5,{ts '2019-07-27 18:49:13.27'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (5,{ts '2019-07-15 17:36:03.53'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (5,{ts '2019-07-07 14:29:02.11'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-15 12:35:12.59'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-29 18:45:39.47'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-08 12:48:44.18'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-03 08:03:47.20'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-24 18:38:01.50'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-08 14:18:45.54'});
+INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (6,{ts '2019-07-06 12:54:14.23'});
