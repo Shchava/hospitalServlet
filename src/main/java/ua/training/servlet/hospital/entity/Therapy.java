@@ -1,12 +1,9 @@
 package ua.training.servlet.hospital.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 
-@MappedSuperclass
 public abstract class Therapy {
     private long idTherapy;
     private String name;

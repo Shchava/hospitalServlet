@@ -1,16 +1,9 @@
 package ua.training.servlet.hospital.entity;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-
-@Entity
-@Table(name = "Treatment")
 public class Procedure extends Therapy{
     private int room;
     private List<LocalDateTime> appointmentDates;
