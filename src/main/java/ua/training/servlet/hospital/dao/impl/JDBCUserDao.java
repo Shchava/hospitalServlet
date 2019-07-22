@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
+    private String FindByEmailQuery = "SELECT * FROM user WHERE email = ?";
+
     public JDBCUserDao(Connection connection) {
         super(
                 connection,
@@ -43,5 +45,21 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
         statement.setString(4,entity.getEmail());
         statement.setString(5,entity.getPasswordHash());
         statement.setString(6,entity.getRole().name());
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        User entity = null;
+
+        try (PreparedStatement statement = connection.prepareStatement(FindByEmailQuery)) {
+            statement.setString(1, email);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                entity = extractEntity(result);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return Optional.ofNullable(entity);
     }
 }
