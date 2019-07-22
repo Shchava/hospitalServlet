@@ -6,7 +6,7 @@ import ua.training.servlet.hospital.service.user.AuthServiceImpl;
 import ua.training.servlet.hospital.service.user.UserService;
 import ua.training.servlet.hospital.service.user.UserServiceImpl;
 
-public class DefaultServiceFactory implements ServiceFactory {
+public class DefaultServiceFactory extends ServiceFactory {
     @Override
     public UserService getUserService(UserDao dao) {
         return new UserServiceImpl(dao);
