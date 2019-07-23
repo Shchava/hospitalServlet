@@ -26,7 +26,7 @@
             <c:if test="${!empty requestScope.error}">
                 <div class="alert alert-danger" role="alert"><fmt:message key="login.loginError" /></div>
             </c:if>
-            <form method="POST" action="/login/">
+            <form method="POST" action="<c:url value="/login"/>">
                 <div class="form-group">
                     <input type="text" name="email" class="form-control" placeholder="<fmt:message key="login.email" />" value="" />
                 </div>
