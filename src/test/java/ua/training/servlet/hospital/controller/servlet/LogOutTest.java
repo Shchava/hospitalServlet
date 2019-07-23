@@ -36,6 +36,7 @@ public class LogOutTest {
     @Test
     public void testLogOut() throws Exception {
         login.doGet(request, response);
+        verify(request,times(1)).setAttribute("logout",true);
         verify(session,times(1)).invalidate();
         verify(request,times(1)).getRequestDispatcher("/login.jsp");
         verify(requestDispatcher,times(1)).forward(any(),any());
