@@ -21,10 +21,10 @@
             <h3><fmt:message key="login.label" /></h3>
 
             <c:if test="${!empty requestScope.logout}">
-                <div class="alert alert-info" role="alert">You've been logged out successfully.</div>
+                <div class="alert alert-info" role="alert"><fmt:message key="login.logoutMessage" /></div>
             </c:if>
             <c:if test="${!empty requestScope.error}">
-                <div class="alert alert-danger" role="alert">Invalid Username or Password!</div>
+                <div class="alert alert-danger" role="alert"><fmt:message key="login.loginError" /></div>
             </c:if>
             <form method="POST" action="/login/">
                 <div class="form-group">
@@ -34,7 +34,7 @@
                     <input type="password" name="password" class="form-control" placeholder="<fmt:message key="login.password" />" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="form-control"  value="<fmt:message key="login.login.button" />" />
+                    <input type="submit" class="form-control"  value="<fmt:message key="login.loginButton" />" />
                 </div>
             </form>
         </div>
