@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.controller.servlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +11,10 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogOut extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         logout(request);
-        response.sendRedirect("/login.jsp");
+        request.setAttribute("logout",true);
+        request.getRequestDispatcher("/login.jsp").forward(request,response);
     }
 
     private void logout(HttpServletRequest request){
