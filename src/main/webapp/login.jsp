@@ -19,6 +19,13 @@
     <div class="row">
         <div class="col login-form-1">
             <h3><fmt:message key="login.label" /></h3>
+
+            <c:if test="${!empty requestScope.logout}">
+                <div class="alert alert-info" role="alert">You've been logged out successfully.</div>
+            </c:if>
+            <c:if test="${!empty requestScope.error}">
+                <div class="alert alert-danger" role="alert">Invalid Username or Password!</div>
+            </c:if>
             <form method="POST" action="/login/">
                 <div class="form-group">
                     <input type="text" name="email" class="form-control" placeholder="<fmt:message key="login.email" />" value="" />
