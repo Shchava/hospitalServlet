@@ -1,11 +1,8 @@
 package ua.training.servlet.hospital.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
 public class Operation extends Therapy {
     private LocalDateTime date;
 

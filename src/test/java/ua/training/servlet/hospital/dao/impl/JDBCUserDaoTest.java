@@ -107,5 +107,11 @@ public class JDBCUserDaoTest {
         assertTrue(dao.delete(user.getId()));
         assertFalse(dao.findById(user.getId()).isPresent());
     }
+
+    @Test
+    public void findByEmail() {
+        assertEquals(dao.findById(2),dao.findByEmail("email2@example.com"));
+        assertEquals(dao.findById(4),dao.findByEmail("email4@example.com"));
+    }
 }
 
