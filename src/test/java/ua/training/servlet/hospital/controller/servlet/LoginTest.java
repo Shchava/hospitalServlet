@@ -85,7 +85,8 @@ public class LoginTest {
         login.doPost(request, response);
 
         verify(session,times(0)).setAttribute(any(), any());
-        verify(response,times(1)).sendRedirect("/login");
+        verify(request,times(1)).getRequestDispatcher("/login.jsp");
+        verify(requestDispatcher,times(1)).forward(any(),any());
     }
 
     @Test

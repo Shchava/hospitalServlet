@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
         auth = serviceFactory.getAuthService(userService);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -37,7 +37,8 @@ public class Login extends HttpServlet {
             });
             response.sendRedirect("/index.jsp");
         } else {
-            response.sendRedirect("/login");
+            request.setAttribute("error",true);
+            request.getRequestDispatcher("/login.jsp").forward(request,response);
         }
     }
 
