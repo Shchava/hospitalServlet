@@ -92,5 +92,6 @@ public class LoginTest {
     public void testDoGetMethod() throws IOException, ServletException {
         login.doGet(request, response);
         verify(request,times(1)).getRequestDispatcher("/login.jsp");
+        verify(requestDispatcher,times(1)).forward(any(),any());
     }
 }
