@@ -30,13 +30,15 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        String requestedPage = getRequestedPage(request);
 
         if (auth.checkAuthority(email, password)) {
             userService.getUser(email).ifPresent(user -> {
                 request.getSession().setAttribute("LoggedUser",user);
             });
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect(requestedPage);
         } else {
+            request.setAttribute("requestedUrl",requestedPage);
             request.setAttribute("error",true);
             request.getRequestDispatcher("/login.jsp").forward(request,response);
         }
@@ -44,5 +46,13 @@ public class Login extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("/login.jsp").forward(request, response);
+    }
+
+    private String getRequestedPage(HttpServletRequest request){
+        String url = request.getParameter("requestedUrl");
+        if(url == null || url.startsWith("/login")){
+            url = "/index.jsp";
+        }
+        return url;
     }
 }

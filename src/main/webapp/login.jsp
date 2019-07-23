@@ -27,6 +27,10 @@
                 <div class="alert alert-danger" role="alert"><fmt:message key="login.loginError" /></div>
             </c:if>
             <form method="POST" action="<c:url value="/login"/>">
+
+                <c:if test="${!empty requestScope.requestedUrl}">
+                    <input type="hidden" name="requestedUrl" value="${requestScope.requestedUrl}">
+                </c:if>
                 <div class="form-group">
                     <input type="text" name="email" class="form-control" placeholder="<fmt:message key="login.email" />" value="" />
                 </div>

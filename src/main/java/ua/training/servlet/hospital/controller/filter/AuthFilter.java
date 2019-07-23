@@ -29,6 +29,7 @@ public class AuthFilter implements Filter {
             if (nonNull(session) && nonNull(session.getAttribute("LoggedUser"))) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
+                servletRequest.setAttribute("requestedUrl",path);
                 servletRequest.getRequestDispatcher("/login.jsp").forward(servletRequest, servletResponse);
             }
         }

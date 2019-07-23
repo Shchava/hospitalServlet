@@ -43,6 +43,13 @@ public class LoginTest {
 
     String email = "email@test.com";
     String password = "password";
+    User foundUser = new User(
+            "TestName",
+            "TestName",
+            "TestPatronymic",
+            email,
+            "SomeGeneratedPasswordHash",
+            Roles.DOCTOR);
 
     @Before
     public void setUp() throws Exception {
@@ -55,14 +62,6 @@ public class LoginTest {
     public void testRightAuth() throws Exception {
         given(request.getParameter("email")).willReturn(email);
         given(request.getParameter("password")).willReturn(password);
-
-        User foundUser = new User(
-                "TestName",
-                "TestName",
-                "TestPatronymic",
-                email,
-                "SomeGeneratedPasswordHash",
-                Roles.DOCTOR);
 
         given(userService.getUser(email)).willReturn(Optional.of(foundUser));
         given(authService.checkAuthority(email,password)).willReturn(true);
@@ -94,5 +93,24 @@ public class LoginTest {
         login.doGet(request, response);
         verify(request,times(1)).getRequestDispatcher("/login.jsp");
         verify(requestDispatcher,times(1)).forward(any(),any());
+    }
+
+    @Test
+    public void testRequestedPageRedirect() throws IOException, ServletException {
+        String requestedUrl = "/test";
+
+        given(request.getParameter("email")).willReturn(email);
+        given(request.getParameter("password")).willReturn(password);
+        given(request.getParameter("requestedUrl")).willReturn(requestedUrl);
+
+        given(userService.getUser(email)).willReturn(Optional.of(foundUser));
+        given(authService.checkAuthority(email,password)).willReturn(true);
+
+        login.doPost(request, response);
+        verify(response,times(1)).sendRedirect(requestedUrl);
+
+        given(authService.checkAuthority(email,password)).willReturn(false);
+        login.doPost(request, response);
+        verify(request,times(1)).setAttribute("requestedUrl",requestedUrl);
     }
 }
