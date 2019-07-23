@@ -10,10 +10,13 @@ import ua.training.servlet.hospital.entity.enums.Roles;
 import ua.training.servlet.hospital.service.user.AuthService;
 import ua.training.servlet.hospital.service.user.UserService;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
@@ -35,6 +38,8 @@ public class LoginTest {
     AuthService authService;
     @Mock
     UserService userService;
+    @Mock
+    RequestDispatcher requestDispatcher;
 
     String email = "email@test.com";
     String password = "password";
@@ -43,6 +48,7 @@ public class LoginTest {
     public void setUp() throws Exception {
         initMocks(this);
         when(request.getSession()).thenReturn(session);
+        when(request.getRequestDispatcher(any())).thenReturn(requestDispatcher);
     }
 
     @Test
@@ -80,5 +86,11 @@ public class LoginTest {
 
         verify(session,times(0)).setAttribute(any(), any());
         verify(response,times(1)).sendRedirect("/login");
+    }
+
+    @Test
+    public void testDoGetMethod() throws IOException, ServletException {
+        login.doGet(request, response);
+        verify(request,times(1)).getRequestDispatcher("/login.jsp");
     }
 }
