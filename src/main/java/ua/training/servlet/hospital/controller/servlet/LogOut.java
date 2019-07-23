@@ -11,10 +11,9 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogOut extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logout(request);
-        request.setAttribute("logout",true);
-        request.getRequestDispatcher("/login.jsp").forward(request,response);
+        response.sendRedirect("/login.jsp");
     }
 
     private void logout(HttpServletRequest request){
