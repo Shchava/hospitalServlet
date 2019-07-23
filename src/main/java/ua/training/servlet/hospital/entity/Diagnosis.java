@@ -1,12 +1,9 @@
 package ua.training.servlet.hospital.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
 public class Diagnosis {
     private long idDiagnosis;
     private String name;

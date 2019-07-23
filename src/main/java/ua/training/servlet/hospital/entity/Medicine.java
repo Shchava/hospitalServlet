@@ -1,12 +1,9 @@
 package ua.training.servlet.hospital.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
 public class Medicine extends Therapy {
     private int count;
     private LocalDate refill;
