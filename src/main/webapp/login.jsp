@@ -31,8 +31,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${pageContext.response.locale.country}</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown">
-                        <a class="dropdown-item" href="?lang=UA"><fmt:message key="header.language.UA"/></a>
-                        <a class="dropdown-item" href="?lang=EN"><fmt:message key="header.language.EN"/></a>
+                        <a class="dropdown-item" href="?lang=<fmt:message key="header.language.UA.tag"/>"><fmt:message key="header.language.UA"/></a>
+                        <a class="dropdown-item" href="?lang=<fmt:message key="header.language.EN.tag"/>"><fmt:message key="header.language.EN"/></a>
                     </div>
                 </li>
                 <li>

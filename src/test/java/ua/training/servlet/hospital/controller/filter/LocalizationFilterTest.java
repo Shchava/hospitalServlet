@@ -58,7 +58,7 @@ public class LocalizationFilterTest {
 
     @Test
     public void testParameterLocaleSetting() throws IOException, ServletException {
-        when(request.getParameter("lang")).thenReturn("UA");
+        when(request.getParameter("lang")).thenReturn("uk-UA");
 
         localization.doFilter(request,response,chain);
 

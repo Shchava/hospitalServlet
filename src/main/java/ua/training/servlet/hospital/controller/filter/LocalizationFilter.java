@@ -31,7 +31,7 @@ public class LocalizationFilter implements Filter {
         Locale locale;
 
         if(nonNull(request.getParameter("lang"))){
-            locale = getLocaleFromLang(request.getParameter("lang"));
+            locale = Locale.forLanguageTag(request.getParameter("lang"));
             Cookie cookie = new Cookie("lang",locale.toLanguageTag());
             response.addCookie(cookie);
         } else{
@@ -53,15 +53,5 @@ public class LocalizationFilter implements Filter {
                 .filter(c -> key.equals(c.getName()))
                 .map(Cookie::getValue)
                 .findAny();
-    }
-
-    private Locale getLocaleFromLang(String lang){
-        Locale locale;
-        if(lang.equals("UA")){
-            locale = new Locale("uk","UA");
-        }else{
-            locale = new Locale("en","EN");
-        }
-        return locale;
     }
 }
