@@ -13,8 +13,6 @@
     <title>Index</title>
 </head>
 <body>
-
-<h1>${pageContext.response.locale}</h1>
 <div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="collapse navbar-collapse">
