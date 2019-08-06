@@ -1,23 +1,24 @@
 package ua.training.servlet.hospital.dao.mapper;
 
-import ua.training.servlet.hospital.entity.Operation;
+import ua.training.servlet.hospital.entity.Surgery;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OperationMapper implements ObjectMapper<Operation> {
+public class OperationMapper implements ObjectMapper<Surgery> {
     @Override
-    public Operation extractFromResultSet(ResultSet rs) throws SQLException {
+    public Surgery extractFromResultSet(ResultSet rs) throws SQLException {
         UserMapper userMapper = new UserMapper();
 
-        Operation operation = new Operation();
-        operation.setId(rs.getLong("operation.id_therapy"));
-        operation.setName(rs.getString("operation.name"));
-        operation.setDescription(rs.getString("operation.description"));
-        operation.setAssigned(rs.getTimestamp("operation.assigned").toLocalDateTime());
-        operation.setAssignedBy(userMapper.extractFromResultSet(rs));
-        operation.setDate(rs.getTimestamp("operation.date").toLocalDateTime());
+        Surgery surgery = new Surgery();
+        surgery.setDiagnosis(rs.getLong("surgery.diagnosis"));
+        surgery.setId(rs.getLong("surgery.id_therapy"));
+        surgery.setName(rs.getString("surgery.name"));
+        surgery.setDescription(rs.getString("surgery.description"));
+        surgery.setAssigned(rs.getTimestamp("surgery.assigned").toLocalDateTime());
+        surgery.setAssignedBy(userMapper.extractFromResultSet(rs));
+        surgery.setDate(rs.getTimestamp("surgery.date").toLocalDateTime());
 
-        return operation;
+        return surgery;
     }
 }

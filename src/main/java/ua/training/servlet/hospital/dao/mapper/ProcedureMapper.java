@@ -11,6 +11,7 @@ public class ProcedureMapper implements ObjectMapper<Procedure> {
         UserMapper userMapper = new UserMapper();
 
         Procedure procedure = new Procedure();
+        procedure.setDiagnosis(rs.getLong("treatment.diagnosis"));
         procedure.setId(rs.getLong("treatment.id_therapy"));
         procedure.setName(rs.getString("treatment.name"));
         procedure.setDescription(rs.getString("treatment.description"));

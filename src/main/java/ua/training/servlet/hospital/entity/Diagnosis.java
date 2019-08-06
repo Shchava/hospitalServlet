@@ -14,7 +14,7 @@ public class Diagnosis {
     private User doctor;
     private List<Medicine> assignedMedicine;
     private List<Procedure> assignedProcedures;
-    private List<Operation> assignedOperations;
+    private List<Surgery> assignedSurgeries;
 
     public Diagnosis() {
     }
@@ -28,13 +28,13 @@ public class Diagnosis {
         this.doctor = doctor;
     }
 
-    public Diagnosis(long idDiagnosis, String name, String description, LocalDateTime assigned, LocalDateTime cured, User patient, User doctor, List<Medicine> assignedMedicine, List<Procedure> assignedProcedures, List<Operation> assignedOperations) {
+    public Diagnosis(long idDiagnosis, String name, String description, LocalDateTime assigned, LocalDateTime cured, User patient, User doctor, List<Medicine> assignedMedicine, List<Procedure> assignedProcedures, List<Surgery> assignedSurgeries) {
         this(name, description, assigned, cured, patient, doctor);
         this.idDiagnosis = idDiagnosis;
         this.doctor = doctor;
         this.assignedMedicine = assignedMedicine;
         this.assignedProcedures = assignedProcedures;
-        this.assignedOperations = assignedOperations;
+        this.assignedSurgeries = assignedSurgeries;
     }
 
     public long getIdDiagnosis() {
@@ -73,8 +73,8 @@ public class Diagnosis {
         return assignedProcedures;
     }
 
-    public List<Operation> getAssignedOperations() {
-        return assignedOperations;
+    public List<Surgery> getAssignedSurgeries() {
+        return assignedSurgeries;
     }
 
     public void setIdDiagnosis(long idDiagnosis) {
@@ -113,8 +113,8 @@ public class Diagnosis {
         this.assignedProcedures = assignedProcedures;
     }
 
-    public void setAssignedOperations(List<Operation> assignedOperations) {
-        this.assignedOperations = assignedOperations;
+    public void setAssignedSurgeries(List<Surgery> assignedSurgeries) {
+        this.assignedSurgeries = assignedSurgeries;
     }
 
     @Override
@@ -131,11 +131,11 @@ public class Diagnosis {
                 Objects.equals(doctor, diagnosis.doctor) &&
                 Objects.equals(assignedMedicine, diagnosis.assignedMedicine) &&
                 Objects.equals(assignedProcedures, diagnosis.assignedProcedures) &&
-                Objects.equals(assignedOperations, diagnosis.assignedOperations);
+                Objects.equals(assignedSurgeries, diagnosis.assignedSurgeries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDiagnosis, name, description, assigned, cured, patient, doctor, assignedMedicine, assignedProcedures, assignedOperations);
+        return Objects.hash(idDiagnosis, name, description, assigned, cured, patient, doctor, assignedMedicine, assignedProcedures, assignedSurgeries);
     }
 }

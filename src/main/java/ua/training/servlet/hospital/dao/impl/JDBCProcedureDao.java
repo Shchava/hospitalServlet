@@ -17,14 +17,14 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
     public JDBCProcedureDao(Connection connection) {
         super(
                 connection,
-                "INSERT INTO treatment(name, description, assigned, assigned_by_id_user, room) VALUES(?,?,?,?,?)",
+                "INSERT INTO treatment(diagnosis,name, description, assigned, assigned_by_id_user, room) VALUES(?,?,?,?,?,?)",
                 "SELECT * FROM treatment LEFT JOIN user ON(treatment.assigned_by_id_user = user.id_user) WHERE id_therapy = ?",
                 "SELECT SQL_CALC_FOUND_ROWS * FROM treatment LEFT JOIN user ON(treatment.assigned_by_id_user = user.id_user) LIMIT ?,?",
                 "SELECT * FROM treatment LEFT JOIN user ON(treatment.assigned_by_id_user = user.id_user)",
                 "SELECT COUNT(*)FROM treatment",
                 "COUNT(*)",
-                "UPDATE treatment SET name = ?, description = ?, assigned = ?, assigned_by_id_user = ?, room = ? WHERE id_therapy = ?",
-                6,
+                "UPDATE treatment SET diagnosis = ?, name = ?, description = ?, assigned = ?, assigned_by_id_user = ?, room = ? WHERE id_therapy = ?",
+                7,
                 "DELETE FROM treatment WHERE id_therapy = ?",
                 new ProcedureMapper());
     }
@@ -82,11 +82,12 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
 
     @Override
     void setEntityValues(PreparedStatement statement, Procedure entity) throws SQLException {
-        statement.setString(1,entity.getName());
-        statement.setString(2,entity.getDescription());
-        statement.setTimestamp(3, Timestamp.valueOf(entity.getAssigned()));
-        statement.setLong(4,entity.getAssignedBy().getId());
-        statement.setInt(5,entity.getRoom());
+        statement.setLong(1,entity.getDiagnosis());
+        statement.setString(2,entity.getName());
+        statement.setString(3,entity.getDescription());
+        statement.setTimestamp(4, Timestamp.valueOf(entity.getAssigned()));
+        statement.setLong(5,entity.getAssignedBy().getId());
+        statement.setInt(6,entity.getRoom());
 
     }
 
