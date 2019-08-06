@@ -15,14 +15,14 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
     public JDBCUserDao(Connection connection) {
         super(
                 connection,
-                "INSERT INTO user(name, surname, patronymic, email, password_hash, role) VALUES(?,?,?,?,?,?)",
+                "INSERT INTO user(name, surname, patronymic, info, email, password_hash, role) VALUES(?,?,?,?,?,?,?)",
                 "SELECT * FROM user WHERE id_user = ?",
                 "SELECT SQL_CALC_FOUND_ROWS * FROM user LIMIT ?,?",
                 "SELECT * FROM user",
                 "SELECT COUNT(*)FROM user",
                 "COUNT(*)",
-                "UPDATE user SET name = ?, surname = ?, patronymic = ?, email = ?, password_hash = ?, role = ? WHERE id_user = ?",
-                7,
+                "UPDATE user SET name = ?, surname = ?, patronymic = ?, info=?, email = ?, password_hash = ?, role = ? WHERE id_user = ?",
+                8,
                 "DELETE FROM user WHERE id_user = ?",
                 new UserMapper());
     }
@@ -42,9 +42,10 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
         statement.setString(1,entity.getName());
         statement.setString(2,entity.getSurname());
         statement.setString(3,entity.getPatronymic());
-        statement.setString(4,entity.getEmail());
-        statement.setString(5,entity.getPasswordHash());
-        statement.setString(6,entity.getRole().name());
+        statement.setString(4,entity.getInfo());
+        statement.setString(5,entity.getEmail());
+        statement.setString(6,entity.getPasswordHash());
+        statement.setString(7,entity.getRole().name());
     }
 
     @Override

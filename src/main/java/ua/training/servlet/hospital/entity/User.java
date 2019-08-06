@@ -11,6 +11,7 @@ public class User {
     private String patronymic;
     private String email;
     private String passwordHash;
+    private String info;
     private Roles role;
 
 
@@ -26,9 +27,20 @@ public class User {
         this.role = role;
     }
 
+    public User(String name, String surname, String patronymic, String email, String passwordHash, String info, Roles role) {
+        this(name, surname, patronymic,email, passwordHash, role);
+        this.info = info;
+    }
+
     public User(long id, String name, String surname, String patronymic, String email, String passwordHash, Roles role) {
         this(name, surname, patronymic,email, passwordHash, role);
         this.id = id;
+    }
+
+    public User(long id, String name, String surname, String patronymic, String email, String passwordHash, String info, Roles role) {
+        this(name, surname, patronymic,email, passwordHash, info ,role);
+        this.id = id;
+
     }
 
     public long getId() {
@@ -45,6 +57,10 @@ public class User {
 
     public String getPatronymic() {
         return patronymic;
+    }
+
+    public String getInfo() {
+        return info;
     }
 
     public String getEmail() {
@@ -73,6 +89,10 @@ public class User {
 
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public void setEmail(String email) {

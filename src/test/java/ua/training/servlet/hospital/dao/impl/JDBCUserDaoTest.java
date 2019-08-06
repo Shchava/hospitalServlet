@@ -32,7 +32,7 @@ public class JDBCUserDaoTest {
     private static Connection connection;
     private UserDao dao;
 
-    private static User user = new User("JDBCMedicineDaoTest", "JDBCMedicineDaoTest", "testPatronymic", "JDBCMedicineDaoTest@example.com", "password", Roles.PATIENT);
+    private static User user = new User("JDBCMedicineDaoTest", "JDBCMedicineDaoTest", "testPatronymic", "JDBCMedicineDaoTest@example.com", "password","testUserInfo", Roles.PATIENT);
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
 
