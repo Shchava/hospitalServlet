@@ -12,9 +12,6 @@ public class Diagnosis {
     private LocalDateTime cured;
     private User patient;
     private User doctor;
-    private List<Medicine> assignedMedicine;
-    private List<Procedure> assignedProcedures;
-    private List<Surgery> assignedSurgeries;
 
     public Diagnosis() {
     }
@@ -26,15 +23,6 @@ public class Diagnosis {
         this.cured = cured;
         this.patient = patient;
         this.doctor = doctor;
-    }
-
-    public Diagnosis(long idDiagnosis, String name, String description, LocalDateTime assigned, LocalDateTime cured, User patient, User doctor, List<Medicine> assignedMedicine, List<Procedure> assignedProcedures, List<Surgery> assignedSurgeries) {
-        this(name, description, assigned, cured, patient, doctor);
-        this.idDiagnosis = idDiagnosis;
-        this.doctor = doctor;
-        this.assignedMedicine = assignedMedicine;
-        this.assignedProcedures = assignedProcedures;
-        this.assignedSurgeries = assignedSurgeries;
     }
 
     public long getIdDiagnosis() {
@@ -65,18 +53,6 @@ public class Diagnosis {
         return doctor;
     }
 
-    public List<Medicine> getAssignedMedicine() {
-        return assignedMedicine;
-    }
-
-    public List<Procedure> getAssignedProcedures() {
-        return assignedProcedures;
-    }
-
-    public List<Surgery> getAssignedSurgeries() {
-        return assignedSurgeries;
-    }
-
     public void setIdDiagnosis(long idDiagnosis) {
         this.idDiagnosis = idDiagnosis;
     }
@@ -105,18 +81,6 @@ public class Diagnosis {
         this.doctor = doctor;
     }
 
-    public void setAssignedMedicine(List<Medicine> assignedMedicine) {
-        this.assignedMedicine = assignedMedicine;
-    }
-
-    public void setAssignedProcedures(List<Procedure> assignedProcedures) {
-        this.assignedProcedures = assignedProcedures;
-    }
-
-    public void setAssignedSurgeries(List<Surgery> assignedSurgeries) {
-        this.assignedSurgeries = assignedSurgeries;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -128,14 +92,11 @@ public class Diagnosis {
                 Objects.equals(assigned, diagnosis.assigned) &&
                 Objects.equals(cured, diagnosis.cured) &&
                 Objects.equals(patient, diagnosis.patient) &&
-                Objects.equals(doctor, diagnosis.doctor) &&
-                Objects.equals(assignedMedicine, diagnosis.assignedMedicine) &&
-                Objects.equals(assignedProcedures, diagnosis.assignedProcedures) &&
-                Objects.equals(assignedSurgeries, diagnosis.assignedSurgeries);
+                Objects.equals(doctor, diagnosis.doctor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDiagnosis, name, description, assigned, cured, patient, doctor, assignedMedicine, assignedProcedures, assignedSurgeries);
+        return Objects.hash(idDiagnosis, name, description, assigned, cured, patient, doctor);
     }
 }
