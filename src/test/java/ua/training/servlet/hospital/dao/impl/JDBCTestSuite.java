@@ -18,7 +18,8 @@ import java.sql.SQLException;
         JDBCUserDaoTest.class,
         JDBCSurgeryDaoTest.class,
         JDBCMedicineDaoTest.class,
-        JDBCProcedureDaoTest.class
+        JDBCProcedureDaoTest.class,
+        JDBCDiagnosisDaoTest.class
 })
 
 public class JDBCTestSuite {

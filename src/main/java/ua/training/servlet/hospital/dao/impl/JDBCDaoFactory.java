@@ -18,6 +18,11 @@ public class JDBCDaoFactory extends DaoFactory {
     }
 
     @Override
+    public DiagnosisDao createDiagnosisDao(){
+        return new JDBCDiagnosisDao(getConnection());
+    }
+
+    @Override
     public MedicineDao createMedicineDao() {
         return new JDBCMedicineDao(getConnection());
     }

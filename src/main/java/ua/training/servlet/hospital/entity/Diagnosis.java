@@ -16,6 +16,13 @@ public class Diagnosis {
     public Diagnosis() {
     }
 
+    public Diagnosis(String name, String description, LocalDateTime assigned, LocalDateTime cured) {
+        this.name = name;
+        this.description = description;
+        this.assigned = assigned;
+        this.cured = cured;
+    }
+
     public Diagnosis(String name, String description, LocalDateTime assigned, LocalDateTime cured, User patient, User doctor) {
         this.name = name;
         this.description = description;
