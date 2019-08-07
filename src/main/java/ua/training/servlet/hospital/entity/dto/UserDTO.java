@@ -77,4 +77,7 @@ public class UserDTO {
         this.confirmPassword = confirmPassword;
         this.role = role;
     }
+
+    public UserDTO() {
+    }
 }
