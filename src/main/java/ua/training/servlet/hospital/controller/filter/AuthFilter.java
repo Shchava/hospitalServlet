@@ -22,7 +22,7 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
         String path = (request).getRequestURI();
-        if (path.startsWith("/login")) {
+        if (path.startsWith("/login") || path.startsWith("/registration")) {
             filterChain.doFilter(request, response);
         }else {
             HttpSession session = request.getSession();

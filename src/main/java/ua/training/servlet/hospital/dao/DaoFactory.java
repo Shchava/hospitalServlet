@@ -1,16 +1,17 @@
 package ua.training.servlet.hospital.dao;
 
 import ua.training.servlet.hospital.dao.impl.JDBCDaoFactory;
-import ua.training.servlet.hospital.entity.Operation;
 
 public abstract class DaoFactory {
     private static  DaoFactory daoFactory;
 
     public abstract UserDao createUserDao();
 
+    public abstract DiagnosisDao createDiagnosisDao();
+
     public abstract MedicineDao createMedicineDao();
 
-    public abstract OperationDao createOperationDao();
+    public abstract SurgeryDao createOperationDao();
 
     public abstract ProcedureDao createProcedureDao();
 

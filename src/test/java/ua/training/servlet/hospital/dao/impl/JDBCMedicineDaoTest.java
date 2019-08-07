@@ -36,7 +36,7 @@ public class JDBCMedicineDaoTest {
     private static Connection connection;
 
     private static User user = new User("testMedicineUserName", "testMedicineUserSurname", "testMedicineUserPatronymic", "JDBCMedicineDaoTestUser@example.com", "password", Roles.DOCTOR);
-    private static Medicine medicine = new Medicine("testMedicineName","testDescription",LocalDateTime.now(),user,30,LocalDate.now().plusDays(30));
+    private static Medicine medicine = new Medicine(1,"testMedicineName","testDescription",LocalDateTime.now(),user,30,LocalDate.now().plusDays(30));
 
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();

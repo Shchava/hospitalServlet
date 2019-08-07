@@ -37,7 +37,7 @@ public class JDBCProcedureDaoTest {
             LocalDateTime.of(2019, Month.AUGUST, 16, 14, 30),
             LocalDateTime.of(2019, Month.AUGUST, 19, 14, 0),
             LocalDateTime.of(2019, Month.AUGUST, 21, 15, 30));
-    private static Procedure procedure = new Procedure("testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
+    private static Procedure procedure = new Procedure(1,"testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
 

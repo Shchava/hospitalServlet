@@ -10,20 +10,38 @@ public abstract class Therapy {
     private String description;
     private LocalDateTime assigned;
     private User assignedBy;
+    private long diagnosis;
 
     public Therapy() {
     }
 
-    public Therapy(String name, String description, LocalDateTime assigned, User assignedBy) {
+    public Therapy(long diagnosis, String name, String description, LocalDateTime assigned, User assignedBy) {
+        this.diagnosis=diagnosis;
         this.name = name;
         this.description = description;
         this.assigned = assigned;
         this.assignedBy = assignedBy;
     }
 
-    public Therapy(long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy) {
-        this(name, description, assigned, assignedBy);
+    public Therapy(long idTherapy, long diagnosis, String name, String description, LocalDateTime assigned, User assignedBy) {
+        this(diagnosis, name, description, assigned, assignedBy);
         this.idTherapy = idTherapy;
+    }
+
+    public long getIdTherapy() {
+        return idTherapy;
+    }
+
+    public void setIdTherapy(long idTherapy) {
+        this.idTherapy = idTherapy;
+    }
+
+    public long getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(long diagnosis) {
+        this.diagnosis = diagnosis;
     }
 
     public long getId() {

@@ -47,6 +47,9 @@
         <div class="col login-form-1">
             <h3><fmt:message key="login.label" /></h3>
 
+            <c:if test="${!empty requestScope.registered}">
+                <div class="alert alert-info" role="alert"><fmt:message key="login.registered" /></div>
+            </c:if>
             <c:if test="${!empty requestScope.logout}">
                 <div class="alert alert-info" role="alert"><fmt:message key="login.logoutMessage" /></div>
             </c:if>
@@ -65,8 +68,10 @@
                     <input type="password" name="password" class="form-control" placeholder="<fmt:message key="login.password" />" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="form-control"  value="<fmt:message key="login.loginButton" />" />
+                    <input type="submit" class="form-control"  value="<fmt:message key="login.login.button" />" />
                 </div>
+                    <p class="text-center"><fmt:message key="login.registrationInvitation"/>
+                        <a href="/registration"><fmt:message key="login.registrationLink"/></a></p>
             </form>
         </div>
     </div>

@@ -11,6 +11,7 @@ import org.mockito.stubbing.Answer;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.User;
+import ua.training.servlet.hospital.entity.dto.ShowUserToDoctorDTO;
 import ua.training.servlet.hospital.entity.enums.Roles;
 
 import javax.sql.DataSource;
@@ -32,7 +33,14 @@ public class JDBCUserDaoTest {
     private static Connection connection;
     private UserDao dao;
 
-    private static User user = new User("JDBCMedicineDaoTest", "JDBCMedicineDaoTest", "testPatronymic", "JDBCMedicineDaoTest@example.com", "password", Roles.PATIENT);
+    private static User user = new User(
+            "JDBCMedicineDaoTest",
+            "JDBCMedicineDaoTest",
+            "testPatronymic",
+            "JDBCMedicineDaoTest@example.com",
+            "password",
+            "testUserInfo",
+            Roles.PATIENT);
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
 
@@ -103,15 +111,21 @@ public class JDBCUserDaoTest {
     }
 
     @Test
-    public void test7Delete(){
-        assertTrue(dao.delete(user.getId()));
-        assertFalse(dao.findById(user.getId()).isPresent());
+    @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
+    public void testFindPatientsForDoctorPage(){
+        List<ShowUserToDoctorDTO> patients = dao.findPatientsForDoctorPage(0,3);
+        assertEquals(2, patients.size());
     }
 
     @Test
-    public void findByEmail() {
+    public void test8FindByEmail() {
         assertEquals(dao.findById(2),dao.findByEmail("email2@example.com"));
         assertEquals(dao.findById(4),dao.findByEmail("email4@example.com"));
+    }
+    @Test
+    public void test9Delete(){
+        assertTrue(dao.delete(user.getId()));
+        assertFalse(dao.findById(user.getId()).isPresent());
     }
 }
 

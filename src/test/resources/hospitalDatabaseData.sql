@@ -11,44 +11,57 @@ VALUES ('userName5', 'userSurname5', 'userPatronymic5', 'email5@example.com', 's
 INSERT INTO USER(name, surname, patronymic, email, password_hash, role)
 VALUES ('userName6', 'userSurname6', 'userPatronymic6', 'email6@example.com', 'someHash6', 'PATIENT');
 
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName1','medicineDescription1',{ts '2019-07-17 18:47:44.69'},1,30,{d '2019-08-17'});
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName2','medicineDescription2',{ts '2019-07-18 17:44:52.11'},2,40,{d '2019-09-11'});
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName3','medicineDescription3',{ts '2019-07-19 12:41:52.12'},1,60,{d '2019-08-01'});
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName4','medicineDescription4',{ts '2019-07-16 11:45:12.66'},4,10,{d '2019-08-12'});
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName5','medicineDescription5',{ts '2019-07-15 14:17:25.69'},5,5,{d '2019-09-13'});
-INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill)
-VALUES ('medicineName6','medicineDescription6',{ts '2019-07-19 13:01:12.78'},4,60,{d '2019-09-14'});
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName1','diagnosisDescription1',{ts '2019-07-17 18:47:44.69'},{ts '2019-08-01 13:43:12.31'},4,3);
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName2','diagnosisDescription2',{ts '2019-06-17 18:47:44.69'},NULL,4,6);
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName3','diagnosisDescription3',{ts '2019-07-16 18:47:44.69'},{ts '2019-07-31 15:21:12.43'},1,3);
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName4','diagnosisDescription4',{ts '2019-06-21 18:47:44.69'},NULL,1,6);
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName5','diagnosisDescription5',{ts '2019-07-31 18:47:44.69'},{ts '2019-08-07 11:35:54.32'},4,3);
+INSERT INTO DIAGNOSIS(name, description, assigned, cured,  doctor_id_user, patient_id_user)
+VALUES ('diagnosisName6','diagnosisDescription6',{ts '2019-05-21 18:47:44.69'},NULL,1,6);
 
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName1','operationDescription1',{ts '2019-07-05 17:45:44.21'},1,{ts '2019-08-15 10:30'});
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName2','operationDescription2',{ts '2019-07-21 12:44:12.11'},2,{ts '2019-09-05 11:00'});
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName3','operationDescription3',{ts '2019-07-19 13:12:31.11'},1,{ts '2019-08-07 16:00'});
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName4','operationDescription4',{ts '2019-07-18 14:23:44.66'},4,{ts '2019-08-12 13:00'});
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName5','operationDescription5',{ts '2019-07-21 11:21:55.43'},5,{ts '2019-08-29 9:00'});
-INSERT INTO OPERATION(name,description, assigned, assigned_by_id_user, date)
-VALUES ('operationName6','operationDescription6',{ts '2019-07-10 13:04:11.21'},4,{ts '2019-09-14 14:45'});
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName1','medicineDescription1',{ts '2019-07-17 18:47:44.69'},1,30,{d '2019-08-17'},1);
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName2','medicineDescription2',{ts '2019-07-18 17:44:52.11'},2,40,{d '2019-09-11'},2);
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName3','medicineDescription3',{ts '2019-07-19 12:41:52.12'},1,60,{d '2019-08-01'},2);
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName4','medicineDescription4',{ts '2019-07-16 11:45:12.66'},4,10,{d '2019-08-12'},3);
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName5','medicineDescription5',{ts '2019-07-15 14:17:25.69'},5,5,{d '2019-09-13'},3);
+INSERT INTO MEDICINE(name,description, assigned, assigned_by_id_user, count, refill,diagnosis)
+VALUES ('medicineName6','medicineDescription6',{ts '2019-07-19 13:01:12.78'},4,60,{d '2019-09-14'},3);
 
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName1','procedureDescription1',{ts '2019-07-09 12:43:31.65'},1,112);
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName2','procedureDescription2',{ts '2019-07-30 15:11:23.43'},2,511);
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName3','procedureDescription3',{ts '2019-07-21 17:32:54.23'},1,912);
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName4','procedureDescription4',{ts '2019-07-27 10:11:09.12'},4,120);
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName5','procedureDescription5',{ts '2019-07-25 14:43:12.46'},5,301);
-INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room)
-VALUES ('procedureName6','procedureDescription6',{ts '2019-07-03 16:31:34.32'},4,325);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName1','operationDescription1',{ts '2019-07-05 17:45:44.21'},1,{ts '2019-08-15 10:30'},4);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName2','operationDescription2',{ts '2019-07-21 12:44:12.11'},2,{ts '2019-09-05 11:00'},4);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName3','operationDescription3',{ts '2019-07-19 13:12:31.11'},1,{ts '2019-08-07 16:00'},4);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName4','operationDescription4',{ts '2019-07-18 14:23:44.66'},4,{ts '2019-08-12 13:00'},5);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName5','operationDescription5',{ts '2019-07-21 11:21:55.43'},5,{ts '2019-08-29 9:00'},5);
+INSERT INTO SURGERY(name,description, assigned, assigned_by_id_user, date,diagnosis)
+VALUES ('operationName6','operationDescription6',{ts '2019-07-10 13:04:11.21'},4,{ts '2019-09-14 14:45'},5);
+
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName1','procedureDescription1',{ts '2019-07-09 12:43:31.65'},1,112,6);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName2','procedureDescription2',{ts '2019-07-30 15:11:23.43'},2,511,6);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName3','procedureDescription3',{ts '2019-07-21 17:32:54.23'},1,912,1);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName4','procedureDescription4',{ts '2019-07-27 10:11:09.12'},4,120,1);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName5','procedureDescription5',{ts '2019-07-25 14:43:12.46'},5,301,2);
+INSERT INTO TREATMENT(name,description, assigned, assigned_by_id_user, room,diagnosis)
+VALUES ('procedureName6','procedureDescription6',{ts '2019-07-03 16:31:34.32'},4,325,1);
 
 INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-09 10:49:57.50'});
 INSERT INTO PROCEDURE_APPOINTMENT_DATES(procedure_id_therapy, appointment_dates) VALUES (1,{ts '2019-07-02 18:47:54.04'});

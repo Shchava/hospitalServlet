@@ -12,14 +12,14 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         JDBCUserDaoTest.class,
-        JDBCOperationDaoTest.class,
+        JDBCSurgeryDaoTest.class,
         JDBCMedicineDaoTest.class,
-        JDBCProcedureDaoTest.class
+        JDBCProcedureDaoTest.class,
+        JDBCDiagnosisDaoTest.class
 })
 
 public class JDBCTestSuite {
