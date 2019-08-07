@@ -59,6 +59,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean emailExists(String email){
-        return userDao.findByEmail(email) != null;
+        return userDao.findByEmail(email).isPresent();
     }
 }
