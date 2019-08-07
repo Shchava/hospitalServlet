@@ -11,8 +11,8 @@ import ua.training.servlet.hospital.service.user.UserService;
 public abstract class ServiceFactory {
     private static ServiceFactory serviceFactory;
 
-    public abstract UserService getUserService(UserDao dao);
-    public abstract AuthService getAuthService(UserService userService);
+    public abstract UserService getUserService();
+    public abstract AuthService getAuthService();
     public abstract DiagnosisService getDiagnosisService();
     public abstract MedicineService getMedicineService();
     public abstract ProcedureService getProcedureService();

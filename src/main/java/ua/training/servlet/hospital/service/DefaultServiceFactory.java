@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.service;
 
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
 import ua.training.servlet.hospital.service.medicine.MedicineService;
@@ -11,14 +12,16 @@ import ua.training.servlet.hospital.service.user.UserService;
 import ua.training.servlet.hospital.service.user.UserServiceImpl;
 
 public class DefaultServiceFactory extends ServiceFactory {
+    private DaoFactory daoFactory = DaoFactory.getInstance();
+
     @Override
-    public UserService getUserService(UserDao dao) {
-        return new UserServiceImpl(dao);
+    public UserService getUserService() {
+        return new UserServiceImpl(daoFactory.createUserDao());
     }
 
     @Override
-    public AuthService getAuthService(UserService service) {
-        return new AuthServiceImpl(service);
+    public AuthService getAuthService() {
+        return new AuthServiceImpl(getUserService());
     }
 
     @Override

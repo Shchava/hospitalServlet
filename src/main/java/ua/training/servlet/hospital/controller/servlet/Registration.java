@@ -29,7 +29,7 @@ public class Registration extends HttpServlet {
     @Override
     public void init(){
         serviceFactory = ServiceFactory.getInstance();
-        userService = serviceFactory.getUserService(DaoFactory.getInstance().createUserDao());
+        userService = serviceFactory.getUserService();
     }
 
     @Override
