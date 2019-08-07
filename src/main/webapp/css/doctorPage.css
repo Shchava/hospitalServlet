@@ -1,0 +1,9 @@
+
+.hint-text {
+    float: left;
+    width: fit-content;
+    display: inline;
+    margin-top: 10px;
+    font-size: 13px;
+
+}
