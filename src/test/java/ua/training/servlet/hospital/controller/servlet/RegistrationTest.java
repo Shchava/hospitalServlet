@@ -48,8 +48,8 @@ public class RegistrationTest {
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
         registration.init(config);
+        initMocks(this);
         when(request.getRequestDispatcher(any())).thenReturn(requestDispatcher);
         when(config.getServletContext()).thenReturn(context);
         when(context.getResourceAsStream(any()))

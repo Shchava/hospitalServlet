@@ -8,6 +8,7 @@ import ua.training.servlet.hospital.entity.exceptions.EmailExistsException;
 import ua.training.servlet.hospital.service.ServiceFactory;
 import ua.training.servlet.hospital.service.user.UserService;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +26,8 @@ public class Registration extends HttpServlet {
     private UserService userService;
     private boolean allMatches;
 
-    public Registration() {
-        super();
+    @Override
+    public void init(){
         serviceFactory = ServiceFactory.getInstance();
         userService = serviceFactory.getUserService(DaoFactory.getInstance().createUserDao());
     }
