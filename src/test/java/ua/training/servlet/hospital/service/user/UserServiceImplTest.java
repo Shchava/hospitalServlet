@@ -56,6 +56,7 @@ public class UserServiceImplTest {
 
         given(userDao.findByEmail(testEmail) ).willReturn(Optional.of(testUser));
         given(userDao.findByEmail(wrongEmail) ).willReturn(Optional.empty());
+        given(userDao.findByEmail(notExistEmail) ).willReturn(Optional.empty());
         given(userDao.create(any())).willReturn(true);
 
         given(encoder.encode(any())).willReturn("cryptedPassword");
