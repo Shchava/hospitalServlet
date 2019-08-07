@@ -13,4 +13,5 @@ public interface UserService {
     boolean registerUser(UserDTO userDto);
     int getNumberOfRecords();
     List<ShowUserToDoctorDTO> findPatientsToShow(int pageNumber, int UsersPerPage);
+    int getNumberOfPatients();
 }

@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int getNumberOfPatients(){
+        return userDao.countPatients();
+    }
+
+    @Override
     public List<ShowUserToDoctorDTO> findPatientsToShow(int pageNumber, int UsersPerPage) {
         return userDao.findPatientsForDoctorPage(pageNumber*UsersPerPage,UsersPerPage);
     }

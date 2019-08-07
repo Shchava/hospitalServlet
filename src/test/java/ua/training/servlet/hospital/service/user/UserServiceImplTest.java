@@ -102,6 +102,12 @@ public class UserServiceImplTest {
     }
 
     @Test
+    public void testGetNumberOfPatients(){
+        given(userDao.countPatients()).willReturn(612);
+        assertEquals(612,service.getNumberOfPatients());
+    }
+
+    @Test
     public void testFindPatientsToShow(){
         given(userDao.findPatientsForDoctorPage(5,5)).willReturn(patientsDtoList);
         assertEquals(patientsDtoList,service.findPatientsToShow(1,5));
