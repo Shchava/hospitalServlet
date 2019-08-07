@@ -65,6 +65,14 @@ public class RegistrationTest {
     }
 
     @Test
+    public void testGetTest() throws IOException, ServletException {
+        registration.doGet(request,response);
+
+        verify(request,times(1)).getRequestDispatcher("/register.jsp");
+        verify(requestDispatcher,times(1)).forward(any(),any());
+    }
+
+    @Test
     public void testRegisterWithNullNamingData() throws IOException, ServletException {
         given(request.getParameter("name")).willReturn(null);
         given(request.getParameter("surname")).willReturn(null);
