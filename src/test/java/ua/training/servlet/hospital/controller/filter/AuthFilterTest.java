@@ -86,4 +86,16 @@ public class AuthFilterTest {
         verify(chain,times(1)).doFilter(any(), any());
         verify(request,times(0)).getRequestDispatcher("/login.jsp");
     }
+
+    @Test
+    public void testRegistrationPageAcces() throws IOException, ServletException {
+
+        given(session.getAttribute("LoggedUser")).willReturn(null);
+        given(request.getRequestURI()).willReturn("/registration.jsp");
+
+        login.doFilter(request,response,chain);
+
+        verify(chain,times(1)).doFilter(any(), any());
+        verify(request,times(0)).getRequestDispatcher("/login.jsp");
+    }
 }
