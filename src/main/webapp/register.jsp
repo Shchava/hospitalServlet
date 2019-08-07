@@ -163,9 +163,9 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block btn-lg"><fmt:message key="registration.signUp"/></button>
             </div>
-
+            <p class="text-center"><fmt:message key="registration.loginInvitation"/>
+                <a href="/login"><fmt:message key="registration.loginLink"/></a></p>
             <p class="small text-center"><fmt:message key="registration.agreement"/></p>
-
         </form>
     </div>
 </div>
