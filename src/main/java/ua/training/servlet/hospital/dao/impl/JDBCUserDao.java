@@ -17,6 +17,7 @@ import java.util.Optional;
 
 public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
     private final String FindByEmailQuery = "SELECT * FROM user WHERE email = ?";
+
     private final String findPatientsForDoctorPageQuery = "SELECT user.id_user, user.name, user.surname, user.patronymic ,user.email, diagnosis.name " +
             "FROM user " +
             "LEFT JOIN diagnosis ON (user.id_user = diagnosis.patient_id_user) " +
@@ -25,6 +26,9 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
             "OR diagnosis.patient_id_user IS NULL) " +
             "AND role='PATIENT' " +
             "LIMIT ?,?";
+
+    private final String countPatientsQuery = "SELECT COUNT(*)FROM user WHERE role = 'PATIENT'";
+    private final String patientsCountLabel = "COUNT(*)";
 
     public JDBCUserDao(Connection connection) {
         super(
@@ -79,6 +83,11 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
     }
 
     @Override
+    public int countPatients() {
+        return count(countPatientsQuery,patientsCountLabel);
+    }
+
+    @Override
     public List<ShowUserToDoctorDTO> findPatientsForDoctorPage(int start, int count) {
         List<ShowUserToDoctorDTO> found = null;
 
@@ -92,7 +101,6 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
         return found;
     }
 
-    ;
 
     private List<ShowUserToDoctorDTO> getAllFromShowUserToDoctorDTOStatement(PreparedStatement statement) throws SQLException {
         ObjectMapper<ShowUserToDoctorDTO> showUserToDoctorDTOMapper = new ShowUserToDoctorDTOMapper();

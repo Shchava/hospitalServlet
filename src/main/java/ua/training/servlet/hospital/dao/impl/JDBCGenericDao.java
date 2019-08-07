@@ -96,16 +96,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
 
     @Override
     public int count() {
-        int count = 0;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery(CountQuery);
-            if (rs.next()) {
-                count = rs.getInt(CountColumnLabel);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return count;
+        return count(CountQuery,CountColumnLabel);
     }
 
     @Override
@@ -178,6 +169,19 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     void deleteEntity(PreparedStatement statement, long entityId) throws SQLException {
         statement.setLong(1, entityId);
         statement.execute();
+    }
+
+    int count(String query, String countColumnLabel) {
+        int count = 0;
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next()) {
+                count = rs.getInt(countColumnLabel);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return count;
     }
 
     abstract long getId(E entity);
