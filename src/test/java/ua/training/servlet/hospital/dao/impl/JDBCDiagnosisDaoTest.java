@@ -12,6 +12,7 @@ import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.User;
+import ua.training.servlet.hospital.entity.dto.ShowUserToDoctorDTO;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -109,7 +110,20 @@ public class JDBCDiagnosisDaoTest {
     }
 
     @Test
-    public void test6Update() {
+    public void test6CountDiagnosesOfPatient() {
+        Assert.assertEquals(4, dao.countDiagnosesOfPatient(3));
+    }
+
+    @Test
+    @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
+    public void test7FindPatientsForDoctorPage(){
+        List<Diagnosis> diagnoses = dao.findDiagnosesByPatientId(0,3,3);
+        assertEquals(4, diagnoses.size());
+        assertTrue(diagnoses.contains(diagnosis));
+    }
+
+    @Test
+    public void test8Update() {
         long id = diagnosis.getIdDiagnosis();
         String newName = "test2";
         diagnosis.setName(newName);
@@ -119,7 +133,7 @@ public class JDBCDiagnosisDaoTest {
     }
 
     @Test
-    public void test7Delete(){
+    public void test9Delete(){
         assertTrue(dao.delete(diagnosis.getIdDiagnosis()));
         assertFalse(dao.findById(diagnosis.getIdDiagnosis()).isPresent());
     }

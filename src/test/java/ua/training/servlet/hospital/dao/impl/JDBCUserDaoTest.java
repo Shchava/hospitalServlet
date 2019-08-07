@@ -101,7 +101,7 @@ public class JDBCUserDaoTest {
     }
 
     @Test
-    public void test06Count() {
+    public void test06CountPatients() {
         assertEquals(3, dao.countPatients());
     }
 

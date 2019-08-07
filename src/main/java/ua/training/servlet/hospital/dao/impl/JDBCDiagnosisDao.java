@@ -8,8 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements DiagnosisDao  {
+    private final String findDiagnosesByPatientIdQuery = "SELECT * FROM diagnosis WHERE diagnosis.patient_id_user = ?  LIMIT ?,?";
+    private final String countPatientsQuery = "SELECT COUNT(*)FROM diagnosis WHERE diagnosis.patient_id_user = ";
+    private final String patientsCountLabel = "COUNT(*)";
 
     public JDBCDiagnosisDao(Connection connection) {
         super(
@@ -44,5 +48,24 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
         statement.setTimestamp(4, Timestamp.valueOf(entity.getCured()));
         statement.setLong(5,entity.getDoctor().getId());
         statement.setLong(6,entity.getPatient().getId());
+    }
+
+    @Override
+    public List<Diagnosis> findDiagnosesByPatientId(int start, int count, long patientId) {
+        List<Diagnosis> found = null;
+        try (PreparedStatement statement = connection.prepareStatement(findDiagnosesByPatientIdQuery)){
+            statement.setLong(1,patientId);
+            statement.setInt(2,start);
+            statement.setInt(3,count);
+            found = getAllFromStatement(statement);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return found;
+    }
+
+    @Override
+    public int countDiagnosesOfPatient(long patientId) {
+        return count(countPatientsQuery + patientId,patientsCountLabel);
     }
 }
