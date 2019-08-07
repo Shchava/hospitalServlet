@@ -32,5 +32,4 @@ public class PaginationUtility {
         return recordsPerPage;
     }
 
-    ;
 }

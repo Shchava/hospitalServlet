@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
@@ -66,7 +67,7 @@
                             <h2><fmt:message key="doctor.page.patientsList.title"/></h2>
                         </div>
                         <div class="col-sm-8">
-                            <a href="/patientsList/${page.number}?recordsPerPage=${page.size}"
+                            <a href="/patientsList?recordsPerPage=${requestScope.recordsPerPage}&page=${requestScope.page}"
                                class="btn btn-primary"><i class="material-icons">&#xE863;</i>
                                 <span><fmt:message key="doctor.page.patientsList.refresh"/></span></a>
                         </div>
@@ -79,16 +80,16 @@
                                 <span><fmt:message key="pagination.show"/></span>
                                 <div class="dropdown">
                                     <button class="btn btn-primary  float-none dropdown-toggle paginationDropdown"
-                                            type="button" data-toggle="dropdown">${page.size}</button>
+                                            type="button" data-toggle="dropdown">${recordsPerPage}</button>
                                     <ul class="dropdown-menu ">
                                         <li><a class="dropdown-item"
-                                               href="/patientsList/${page.number}?recordsPerPage=5">5</a></li>
+                                               href="/patientsList?page=${requestScope.page}&recordsPerPage=5">5</a></li>
                                         <li><a class="dropdown-item"
-                                               href="/patientsList/${page.number}?recordsPerPage=10">10</a></li>
+                                               href="/patientsList?page=${requestScope.page}&recordsPerPage=10">10</a></li>
                                         <li><a class="dropdown-item"
-                                               href="/patientsList/${page.number}?recordsPerPage=15">15</a></li>
+                                               href="/patientsList?page=${requestScope.page}&recordsPerPage=15">15</a></li>
                                         <li><a class="dropdown-item"
-                                               href="/patientsList/${page.number}?recordsPerPage=20">20</a></li>
+                                               href="/patientsList?page=${requestScope.page}&recordsPerPage=20">20</a></li>
                                     </ul>
                                 </div>
                                 <span> <fmt:message key="pagination.entries"/></span>
@@ -118,14 +119,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${page.content}" var="patient">
+                    <c:forEach items="${requestScope.patients}" var="patient">
                         <tr>
                             <th><c:out value="${patient.id}"/></th>
                             <th><c:out value="${patient.name}"/> <c:out value="${patient.patronymic}"/> <c:out
                                     value="${patient.surname}"/></th>
                             <th><c:out value="${patient.email}"/></th>
                             <th><c:out value="${patient.lastDiagnosisName}"/></th>
-                            <th><a class="btn btn-primary" href="/patient${patient.id}/0?recordsPerPage=${page.size}" role="button">
+                            <th><a class="btn btn-primary" href="#" role="button">
                                 <fmt:message key="doctor.page.patientsList.open"/></a>
                             </th>
                         </tr>
@@ -136,36 +137,36 @@
 
                 <div class="clearfix">
                     <div class="hint-text"><fmt:message key="pagination.label.showing"/> <b><c:out
-                            value="${page.numberOfElements}"/></b> <fmt:message key="pagination.label.outOf"/>
-                        <b>${page.totalElements}</b> <fmt:message key="pagination.label.entries"/></div>
+                            value="${fn:length(requestScope.patients)}"/></b> <fmt:message key="pagination.label.outOf"/>
+                        <b>${requestScope.records}</b> <fmt:message key="pagination.label.entries"/></div>
 
 
                     <ul class="pagination">
-                        <c:if test="${!page.first}">
+                        <c:if test="${1 ne requestScope.page}">
                             <li class="page-item"><a class="page-link"
-                                                     href="/patientsList/${page.number - 1}?recordsPerPage=${page.size}">
+                                                     href="/patientsList?page=${requestScope.page - 1}&recordsPerPage=${requestScope.recordsPerPage}">
                                 <fmt:message key="pagination.previous"/></a>
                             </li>
                         </c:if>
 
-                        <c:forEach begin="1" end="${page.totalPages}" var="i">
+                        <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
                             <c:choose>
-                                <c:when test="${page.number + 1 eq i}">
+                                <c:when test="${requestScope.page + 1 eq i}">
                                     <li class="page-item active"><a class="page-link">
                                             ${i} <span class="sr-only"><fmt:message key="pagination.current"/></span></a>
                                     </li>
                                 </c:when>
                                 <c:otherwise>
                                     <li class="page-item"><a class="page-link"
-                                                             href="/patientsList/${i}?recordsPerPage=${page.size}">${i}</a>
+                                                             href="/patientsList?page=${i}&recordsPerPage=${requestScope.recordsPerPage}">${i}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
 
-                        <c:if test="${!page.last}">
+                        <c:if test="${requestScope.page lt requestScope.numberOfPages}">
                             <li class="page-item"><a class="page-link"
-                                                     href="/patientsList/${page.number+1}?recordsPerPage=${page.size}"><fmt:message key="pagination.next"/></a>
+                                                     href="/patientsList?page=${requestScope.page + 1}&recordsPerPage=${requestScope.recordsPerPage}""><fmt:message key="pagination.next"/></a>
                             </li>
                         </c:if>
                     </ul>

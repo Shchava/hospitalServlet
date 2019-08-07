@@ -65,7 +65,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void testGetTest() throws IOException, ServletException {
+    public void testGetPage() throws IOException, ServletException {
         registration.doGet(request,response);
 
         verify(request,times(1)).getRequestDispatcher("/register.jsp");
