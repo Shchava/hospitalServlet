@@ -18,6 +18,10 @@ public class User {
     public User() {
     }
 
+    public User(long id) {
+        this.id = id;
+    }
+
     public User(String name, String surname, String patronymic, String email, String passwordHash, Roles role) {
         this.name = name;
         this.surname = surname;
