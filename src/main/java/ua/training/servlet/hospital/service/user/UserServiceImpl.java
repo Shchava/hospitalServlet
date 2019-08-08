@@ -45,12 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getNumberOfRecords() {
+    public long getNumberOfRecords() {
         return userDao.count();
     }
 
     @Override
-    public int getNumberOfPatients(){
+    public long getNumberOfPatients(){
         return userDao.countPatients();
     }
 

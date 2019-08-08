@@ -34,7 +34,7 @@ public class PaginationUtilityTest {
         verify(request,times(1)).setAttribute("numberOfPages",9);
         verify(request,times(1)).setAttribute("page",4);
         verify(request,times(1)).setAttribute("recordsPerPage",5);
-        verify(request,times(1)).setAttribute("records",43);
+        verify(request,times(1)).setAttribute("records",43L);
     }
 
     @Test

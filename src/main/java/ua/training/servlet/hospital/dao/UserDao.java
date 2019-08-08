@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface UserDao extends GenericDao<User>{
     Optional<User> findByEmail(String email);
     List<ShowUserToDoctorDTO> findPatientsForDoctorPage(int start, int count);
-    int countPatients();
+    long countPatients();
 }

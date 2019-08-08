@@ -83,7 +83,7 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
     }
 
     @Override
-    public int countPatients() {
+    public long countPatients() {
         return count(countPatientsQuery,patientsCountLabel);
     }
 

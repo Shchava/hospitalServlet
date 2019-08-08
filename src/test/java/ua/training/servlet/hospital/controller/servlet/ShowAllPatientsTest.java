@@ -44,7 +44,7 @@ public class ShowAllPatientsTest {
         showAllPatients.init();
         initMocks(this);
         when(request.getRequestDispatcher(any())).thenReturn(requestDispatcher);
-        when(userService.getNumberOfPatients()).thenReturn(43);
+        when(userService.getNumberOfPatients()).thenReturn(43L);
     }
 
     @Test

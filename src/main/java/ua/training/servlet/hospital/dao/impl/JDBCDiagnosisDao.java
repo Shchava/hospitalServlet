@@ -65,7 +65,7 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
     }
 
     @Override
-    public int countDiagnosesOfPatient(long patientId) {
+    public long countDiagnosesOfPatient(long patientId) {
         return count(countPatientsQuery + patientId,patientsCountLabel);
     }
 }

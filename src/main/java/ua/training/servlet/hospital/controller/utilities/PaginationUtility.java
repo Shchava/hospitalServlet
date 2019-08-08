@@ -8,7 +8,7 @@ public class PaginationUtility {
     private int page = 1;
     private int recordsPerPage = 5;
 
-    public void setAttributes(HttpServletRequest request, int rows) {
+    public void setAttributes(HttpServletRequest request, long rows) {
         if (nonNull(request.getParameter("page"))) {
             page = Integer.parseInt(request.getParameter("page"));
         }

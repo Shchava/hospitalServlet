@@ -97,13 +97,13 @@ public class UserServiceImplTest {
 
     @Test
     public void testGetNumberOfRecords(){
-        given(userDao.count()).willReturn(612);
+        given(userDao.count()).willReturn(612L);
         assertEquals(612,service.getNumberOfRecords());
     }
 
     @Test
     public void testGetNumberOfPatients(){
-        given(userDao.countPatients()).willReturn(612);
+        given(userDao.countPatients()).willReturn(612L);
         assertEquals(612,service.getNumberOfPatients());
     }
 

@@ -95,7 +95,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
 
 
     @Override
-    public int count() {
+    public long count() {
         return count(CountQuery,CountColumnLabel);
     }
 
@@ -171,7 +171,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
         statement.execute();
     }
 
-    int count(String query, String countColumnLabel) {
+    long count(String query, String countColumnLabel) {
         int count = 0;
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
