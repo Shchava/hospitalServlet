@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface DiagnosisService {
     List<Diagnosis> findDiagnosesByPatientId(int pageNumber, int DiagnosesPerPage, long patientId);
-    boolean addDiagnosis(DiagnosisDTO dto, long patientId, String doctorEmail);
+    boolean addDiagnosis(DiagnosisDTO dto, long patientId, long doctorId);
     Optional<Diagnosis> getDiagnosis(long idDiagnosis);
 }

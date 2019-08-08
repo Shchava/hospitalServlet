@@ -3,6 +3,7 @@ package ua.training.servlet.hospital.service;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
+import ua.training.servlet.hospital.service.diagnosis.DiagnosisServiceImpl;
 import ua.training.servlet.hospital.service.medicine.MedicineService;
 import ua.training.servlet.hospital.service.procedure.ProcedureService;
 import ua.training.servlet.hospital.service.surgery.SurgeryService;
@@ -26,7 +27,7 @@ public class DefaultServiceFactory extends ServiceFactory {
 
     @Override
     public DiagnosisService getDiagnosisService() {
-        return null;
+        return new DiagnosisServiceImpl(daoFactory.createDiagnosisDao());
     }
 
     @Override
