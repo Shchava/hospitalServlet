@@ -25,6 +25,11 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
+    public long getNumberOfDiagnosesByPatientId(long patientId) {
+        return diagnosisDao.countDiagnosesOfPatient(patientId);
+    }
+
+    @Override
     public boolean addDiagnosis(DiagnosisDTO dto, long patientId, long doctorId) {
         return diagnosisDao.create(
                 new Diagnosis(

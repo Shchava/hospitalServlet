@@ -77,4 +77,10 @@ public class DiagnosisServiceImplTest {
         assertEquals(3L,diagnosisCaptor.getValue().getDoctor().getId());
         assertTimeIsBetween(diagnosisCaptor.getValue().getAssigned(), before, after);
     }
+
+    @Test
+    public void testGetNumberOfDiagnosesByPatientId(){
+        given(diagnosisDao.countDiagnosesOfPatient(5L)).willReturn(612L);
+        assertEquals(612,service.getNumberOfDiagnosesByPatientId(5L));
+    }
 }
