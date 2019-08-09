@@ -9,6 +9,7 @@ import org.mockito.stubbing.Answer;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.ProcedureDao;
 import ua.training.servlet.hospital.dao.UserDao;
+import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Procedure;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.enums.Roles;
@@ -36,7 +37,7 @@ public class JDBCProcedureDaoTest {
             LocalDateTime.of(2019, Month.AUGUST, 21, 15, 30));
     private static Connection connection;
     private static User user = new User("testProcedureUserName", "testProcedureUserSurname", "testProcedureUserPatronymic", "JDBCProcedureDaoTest@example.com", "password", Roles.DOCTOR);
-    private static Procedure procedure = new Procedure(1, "testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
+    private static Procedure procedure = new Procedure(new Diagnosis(1), "testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
 

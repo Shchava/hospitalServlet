@@ -90,7 +90,7 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
 
     @Override
     void setEntityValues(PreparedStatement statement, Procedure entity) throws SQLException {
-        statement.setLong(1,entity.getDiagnosis());
+        statement.setLong(1,entity.getDiagnosis().getIdDiagnosis());
         statement.setString(2,entity.getName());
         statement.setString(3,entity.getDescription());
         statement.setTimestamp(4, Timestamp.valueOf(entity.getAssigned()));

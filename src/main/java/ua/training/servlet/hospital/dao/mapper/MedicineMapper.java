@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.dao.mapper;
 
+import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.User;
 
@@ -14,7 +15,7 @@ public class MedicineMapper implements ObjectMapper<Medicine> {
         UserMapper userMapper = new UserMapper();
 
         Medicine medicine = new Medicine();
-        medicine.setDiagnosis(rs.getLong("medicine.diagnosis"));
+        medicine.setDiagnosis(new Diagnosis(rs.getLong("medicine.diagnosis")));
         medicine.setId(rs.getLong("medicine.id_therapy"));
         medicine.setName(rs.getString("medicine.name"));
         medicine.setDescription(rs.getString("medicine.description"));

@@ -11,13 +11,13 @@ public class Procedure extends Therapy{
     public Procedure() {
     }
 
-    public Procedure(long diagnosis,String name, String description, LocalDateTime assigned, User assignedBy, int room, List<LocalDateTime> appointmentDates) {
+    public Procedure(Diagnosis diagnosis,String name, String description, LocalDateTime assigned, User assignedBy, int room, List<LocalDateTime> appointmentDates) {
         super(diagnosis,name, description, assigned, assignedBy);
         this.room = room;
         this.appointmentDates = appointmentDates;
     }
 
-    public Procedure(long diagnosis,long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy, int room, List<LocalDateTime> appointmentDates) {
+    public Procedure(Diagnosis diagnosis,long idTherapy, String name, String description, LocalDateTime assigned, User assignedBy, int room, List<LocalDateTime> appointmentDates) {
         super(idTherapy, diagnosis ,name, description, assigned, assignedBy);
         this.room = room;
         this.appointmentDates = appointmentDates;
