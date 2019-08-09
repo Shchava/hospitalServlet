@@ -24,6 +24,10 @@ public class PaginationUtility {
         request.setAttribute("records", rows);
     }
 
+    public int getPage() {
+        return page;
+    }
+
     public int getOffset() {
         return (page - 1) * recordsPerPage;
     }
