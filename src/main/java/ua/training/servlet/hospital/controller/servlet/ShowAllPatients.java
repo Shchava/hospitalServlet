@@ -27,7 +27,7 @@ public class ShowAllPatients extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long rows = userService.getNumberOfPatients();
         utility.setAttributes(req,rows);
-        List<ShowUserToDoctorDTO> patients = userService.findPatientsToShow(utility.getOffset(),utility.getRecordsPerPage());
+        List<ShowUserToDoctorDTO> patients = userService.findPatientsToShow(utility.getPage(),utility.getRecordsPerPage());
         req.setAttribute("patients",patients);
 
         req.getRequestDispatcher("/patientsList.jsp").forward(req,resp);
