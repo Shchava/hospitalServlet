@@ -1,4 +1,4 @@
-package ua.training.servlet.hospital.controller.command.ShowPatient;
+package ua.training.servlet.hospital.controller.command.showpatient;
 
 import ua.training.servlet.hospital.controller.command.Command;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;

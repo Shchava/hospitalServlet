@@ -1,4 +1,4 @@
-package ua.training.servlet.hospital.controller.command.ShowPatient;
+package ua.training.servlet.hospital.controller.command.showpatient;
 
 import org.junit.Before;
 import org.junit.Test;

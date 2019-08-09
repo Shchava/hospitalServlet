@@ -1,7 +1,7 @@
 package ua.training.servlet.hospital.controller.servlet;
 
 import ua.training.servlet.hospital.controller.command.Command;
-import ua.training.servlet.hospital.controller.command.ShowPatient.ShowPatientDiagnoses;
+import ua.training.servlet.hospital.controller.command.showpatient.ShowPatientDiagnoses;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
