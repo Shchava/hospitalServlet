@@ -1,6 +1,7 @@
 package ua.training.servlet.hospital.dao.impl;
 
 import ua.training.servlet.hospital.dao.ProcedureDao;
+import ua.training.servlet.hospital.dao.mapper.ObjectMapper;
 import ua.training.servlet.hospital.dao.mapper.ProcedureMapper;
 import ua.training.servlet.hospital.entity.Procedure;
 
@@ -56,7 +57,7 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
     }
 
     @Override
-    Procedure extractEntity(ResultSet rs) throws SQLException {
+    Procedure extractEntity(ResultSet rs, ObjectMapper<Procedure> mapper) throws SQLException {
         Procedure extracted = mapper.extractFromResultSet(rs);
         extracted.setAppointmentDates(getAppointmentDates(extracted.getId()));
         return extracted;

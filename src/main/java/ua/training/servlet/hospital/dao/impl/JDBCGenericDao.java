@@ -60,7 +60,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             statement.setLong(1, id);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                entity = extractEntity(result);
+                entity = extractEntity(result,mapper);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -143,10 +143,14 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     }
 
     List<E> getAllFromStatement(PreparedStatement statement) throws SQLException {
+        return getAllFromStatement(statement,mapper);
+    }
+
+    List<E> getAllFromStatement(PreparedStatement statement, ObjectMapper<E> mapper) throws SQLException {
         List<E> entities = new ArrayList<>();
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            entities.add(extractEntity(rs));
+            entities.add(extractEntity(rs,mapper));
         }
         return entities;
     }
@@ -162,7 +166,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
         return statement.executeUpdate();
     }
 
-    E extractEntity(ResultSet rs) throws SQLException {
+    E extractEntity(ResultSet rs, ObjectMapper<E> mapper) throws SQLException {
         return mapper.extractFromResultSet(rs);
     }
 

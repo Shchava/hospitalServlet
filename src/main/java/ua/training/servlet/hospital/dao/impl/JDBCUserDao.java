@@ -74,7 +74,7 @@ public class JDBCUserDao extends JDBCGenericDao<User> implements UserDao {
             statement.setString(1, email);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                entity = extractEntity(result);
+                entity = extractEntity(result,mapper);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
