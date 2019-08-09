@@ -25,7 +25,7 @@ public class PaginationUtility {
     }
 
     public int getPage() {
-        return page;
+        return page - 1;
     }
 
     public int getOffset() {
