@@ -11,7 +11,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class GetUserIdTest {
+public class GetPathAttributeTest {
     @Mock
     HttpServletRequest request;
 
@@ -24,28 +24,48 @@ public class GetUserIdTest {
     @Test
     public void testGetUserId() {
         when(request.getRequestURI()).thenReturn("/patient/5/");
-        assertEquals(5,GetUserId.getUserId(request));
+        assertEquals(5, GetPathAttribute.getUserId(request));
 
         when(request.getRequestURI()).thenReturn("/patient/5");
-        assertEquals(5,GetUserId.getUserId(request));
+        assertEquals(5, GetPathAttribute.getUserId(request));
     }
 
     @Test(expected = NumberFormatException.class)
     public void testEmptyNumber(){
         when(request.getRequestURI()).thenReturn("/patient/");
-        GetUserId.getUserId(request);
+        GetPathAttribute.getUserId(request);
     }
 
     @Test(expected = NumberFormatException.class)
     public void testEmptyNumberWithSlash(){
         when(request.getRequestURI()).thenReturn("/patient//");
-        GetUserId.getUserId(request);
+        GetPathAttribute.getUserId(request);
     }
 
     @Test(expected = NumberFormatException.class)
     public void testWrongPath(){
         when(request.getRequestURI()).thenReturn("/patint/5/");
-        GetUserId.getUserId(request);
+        GetPathAttribute.getUserId(request);
     }
 
+    @Test
+    public void testGetDiagnosisId() {
+        when(request.getRequestURI()).thenReturn("/diagnosis/15/");
+        assertEquals(15, GetPathAttribute.getDiagnosisId(request));
+
+        when(request.getRequestURI()).thenReturn("/diagnosis/55/");
+        assertEquals(55, GetPathAttribute.getDiagnosisId(request));
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testDiagnosisEmptyNumber(){
+        when(request.getRequestURI()).thenReturn("/diagnosis/");
+        GetPathAttribute.getDiagnosisId(request);
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testDiagnosisEmptyNumberWithSlash(){
+        when(request.getRequestURI()).thenReturn("/diagnosis//");
+        GetPathAttribute.getDiagnosisId(request);
+    }
 }

@@ -4,14 +4,15 @@ package ua.training.servlet.hospital.controller.command.utilities;
 import javax.servlet.http.HttpServletRequest;
 
 
-public class GetUserId {
+public class GetPathAttribute {
     private final static String USER_ID_START = "/patient/";
+    private final static String DIAGNOSIS_ID_START = "/diagnosis/";
     private final static String SEPARATOR = "/";
 
     public static long getUserId(HttpServletRequest request){
         String path = request.getRequestURI();
 
-        int numberStartIndex = getFirstIndex(path);
+        int numberStartIndex = getFirstIndex(USER_ID_START,path);
         int numberEndIndex = getLastIndex(numberStartIndex,path);
 
         String id = path.substring(numberStartIndex,numberEndIndex);
@@ -19,12 +20,23 @@ public class GetUserId {
         return Long.parseLong(id);
     }
 
-    private static int getFirstIndex(String path){
-        int numberStartIndex = path.indexOf(USER_ID_START);
+    public static long getDiagnosisId(HttpServletRequest request){
+        String path = request.getRequestURI();
+
+        int numberStartIndex = getFirstIndex(DIAGNOSIS_ID_START,path);
+        int numberEndIndex = getLastIndex(numberStartIndex,path);
+
+        String id = path.substring(numberStartIndex,numberEndIndex);
+
+        return Long.parseLong(id);
+    }
+
+    private static int getFirstIndex(String IdAnnouncement, String path){
+        int numberStartIndex = path.indexOf(IdAnnouncement);
         if(numberStartIndex < 0){
-            throw new NumberFormatException("cant find user id");
+            throw new NumberFormatException("cant find requested id");
         };
-        return numberStartIndex + USER_ID_START.length();
+        return numberStartIndex + IdAnnouncement.length();
     }
 
     private static int getLastIndex(int firstIndex, String path){

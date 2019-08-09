@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static ua.training.servlet.hospital.controller.command.utilities.GetUserId.getUserId;
+import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getUserId;
 
 public class ShowPatientDiagnoses implements Command {
     private ServiceFactory factory = ServiceFactory.getInstance();
