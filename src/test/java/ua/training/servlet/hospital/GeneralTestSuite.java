@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ua.training.servlet.hospital.controller.ControllerTestSuite;
 import ua.training.servlet.hospital.dao.impl.JDBCTestSuite;
-import ua.training.servlet.hospital.service.user.ServicesTestSuite;
+import ua.training.servlet.hospital.service.ServicesTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SurgeryService {
+    long getNumberOfSurgeriesByDiagnosisId(long diagnosisId);
     List<Surgery> findSurgeriesByDiagnosisId(int pageNumber, int SurgeriesPerPage, long diagnosisId);
-    Optional<Surgery> createSurgery(SurgeryDTO dto, long diagnosisId, String doctorEmail);
+    boolean createSurgery(SurgeryDTO dto, long diagnosisId, long doctorId);
 }
