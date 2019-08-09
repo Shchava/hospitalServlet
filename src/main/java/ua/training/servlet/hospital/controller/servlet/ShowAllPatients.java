@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/patientsList/")
+@WebServlet("/patientsList")
 public class ShowAllPatients extends HttpServlet {
-    private PaginationUtility utility;
-    private UserService userService;
+    PaginationUtility utility;
+    UserService userService;
     @Override
     public void init(){
         userService = ServiceFactory.getInstance().getUserService();
