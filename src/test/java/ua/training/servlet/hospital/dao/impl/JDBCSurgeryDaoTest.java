@@ -63,7 +63,7 @@ public class JDBCSurgeryDaoTest {
         when(source.getConnection())
                 .thenAnswer((Answer<Connection>) invocation -> connection);
 
-        dao = factory.createOperationDao();
+        dao = factory.createSurgeryDao();
         userDao = factory.createUserDao();
     }
 

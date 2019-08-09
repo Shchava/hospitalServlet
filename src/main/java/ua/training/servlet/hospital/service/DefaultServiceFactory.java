@@ -5,8 +5,11 @@ import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisServiceImpl;
 import ua.training.servlet.hospital.service.medicine.MedicineService;
+import ua.training.servlet.hospital.service.medicine.MedicineServiceImpl;
 import ua.training.servlet.hospital.service.procedure.ProcedureService;
+import ua.training.servlet.hospital.service.procedure.ProcedureServiceImpl;
 import ua.training.servlet.hospital.service.surgery.SurgeryService;
+import ua.training.servlet.hospital.service.surgery.SurgeryServiceImpl;
 import ua.training.servlet.hospital.service.user.AuthService;
 import ua.training.servlet.hospital.service.user.AuthServiceImpl;
 import ua.training.servlet.hospital.service.user.UserService;
@@ -32,17 +35,17 @@ public class DefaultServiceFactory extends ServiceFactory {
 
     @Override
     public MedicineService getMedicineService() {
-        return null;
+        return new MedicineServiceImpl(daoFactory.createMedicineDao());
     }
 
     @Override
     public ProcedureService getProcedureService() {
-        return null;
+        return new ProcedureServiceImpl(daoFactory.createProcedureDao());
     }
 
     @Override
     public SurgeryService getSurgeryService() {
-        return null;
+        return new SurgeryServiceImpl(daoFactory.createSurgeryDao());
     }
 
 }

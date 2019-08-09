@@ -33,7 +33,7 @@ public class JDBCDaoFactory extends DaoFactory {
     }
 
     @Override
-    public SurgeryDao createOperationDao() {
+    public SurgeryDao createSurgeryDao() {
         return new JDBCSurgeryDao(getConnection());
     }
 

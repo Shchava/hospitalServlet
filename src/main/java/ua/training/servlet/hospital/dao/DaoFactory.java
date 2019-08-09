@@ -11,7 +11,7 @@ public abstract class DaoFactory {
 
     public abstract MedicineDao createMedicineDao();
 
-    public abstract SurgeryDao createOperationDao();
+    public abstract SurgeryDao createSurgeryDao();
 
     public abstract ProcedureDao createProcedureDao();
 
