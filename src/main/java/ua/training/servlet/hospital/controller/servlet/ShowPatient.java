@@ -20,6 +20,7 @@ public class ShowPatient extends HttpServlet {
     @Override
     public void init(){
         commands.put("",new ShowPatientDiagnoses());
+        commands.put("diagnosis/",new ShowDiagnosis());
     }
 
     @Override
@@ -29,9 +30,9 @@ public class ShowPatient extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
-        path = path.replaceAll(".*/patient/\\d*/" , "");
-
-        Command command = commands.getOrDefault(path , (r)->"/index.jsp");
+        path = path.replaceAll(".*/patient/\\d*/?" , "");
+        path = path.replaceAll("\\d+/?","");
+        Command command = commands.getOrDefault(path , (r)->"/notFoundPage.jsp");
         String page = command.execute(request);
         request.getRequestDispatcher(page).forward(request,response);
     }
