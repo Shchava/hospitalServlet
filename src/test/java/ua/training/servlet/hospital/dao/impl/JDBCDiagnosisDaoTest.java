@@ -68,9 +68,8 @@ public class JDBCDiagnosisDaoTest {
         userDao = factory.createUserDao();
 
 
-        User doctor = new User();
+        User doctor = userDao.findById(1).get();
         User patient = new User();
-        doctor.setId(1);
         patient.setId(3);
         diagnosis.setDoctor(doctor);
         diagnosis.setPatient(patient);

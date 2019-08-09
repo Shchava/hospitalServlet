@@ -11,7 +11,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements DiagnosisDao  {
-    private final String findDiagnosesByPatientIdQuery = "SELECT * FROM diagnosis WHERE diagnosis.patient_id_user = ?  LIMIT ?,?";
+    private final String findDiagnosesByPatientIdQuery = "SELECT * FROM diagnosis " +
+            "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user " +
+            "WHERE diagnosis.patient_id_user = ?  LIMIT ?,?";
     private final String countPatientsQuery = "SELECT COUNT(*)FROM diagnosis WHERE diagnosis.patient_id_user = ";
     private final String patientsCountLabel = "COUNT(*)";
 
@@ -19,10 +21,13 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
         super(
                 connection,
                 "INSERT INTO diagnosis(name, description, assigned, cured, doctor_id_user, patient_id_user) VALUES(?,?,?,?,?,?)",
-                "SELECT * FROM diagnosis WHERE id_diagnosis = ?",
+                "SELECT * FROM diagnosis " +
+                        "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user " +
+                        "WHERE id_diagnosis = ?",
                 "SELECT SQL_CALC_FOUND_ROWS * FROM diagnosis LIMIT ?,?",
-                "SELECT * FROM diagnosis",
-                "SELECT COUNT(*)FROM diagnosis",
+                "SELECT * FROM diagnosis " +
+                        "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user ",
+                "SELECT COUNT(*)FROM diagnosis ",
                 "COUNT(*)",
                 "UPDATE diagnosis SET name = ?, description = ?, assigned = ?, cured = ?, doctor_id_user = ?, patient_id_user = ?  WHERE id_diagnosis = ?",
                 7,
