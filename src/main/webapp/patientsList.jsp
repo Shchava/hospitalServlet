@@ -126,7 +126,7 @@
                                     value="${patient.surname}"/></th>
                             <th><c:out value="${patient.email}"/></th>
                             <th><c:out value="${patient.lastDiagnosisName}"/></th>
-                            <th><a class="btn btn-primary" href="#" role="button">
+                            <th><a class="btn btn-primary" href="/patient/${patient.id}/" role="button">
                                 <fmt:message key="doctor.page.patientsList.open"/></a>
                             </th>
                         </tr>
@@ -166,7 +166,7 @@
 
                         <c:if test="${requestScope.page lt requestScope.numberOfPages}">
                             <li class="page-item"><a class="page-link"
-                                                     href="/patientsList?page=${requestScope.page + 1}&recordsPerPage=${requestScope.recordsPerPage}""><fmt:message key="pagination.next"/></a>
+                                                     href="/patientsList?page=${requestScope.page + 1}&recordsPerPage=${requestScope.recordsPerPage}"><fmt:message key="pagination.next"/></a>
                             </li>
                         </c:if>
                     </ul>
