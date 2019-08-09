@@ -2,11 +2,20 @@ package ua.training.servlet.hospital.dao.impl;
 
 import ua.training.servlet.hospital.dao.MedicineDao;
 import ua.training.servlet.hospital.dao.mapper.MedicineMapper;
+import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
 
 import java.sql.*;
+import java.util.List;
 
 public class JDBCMedicineDao extends JDBCGenericDao<Medicine> implements MedicineDao {
+    private final String findMedicinesByDiagnosisIdQuery =
+            "SELECT * FROM medicine " +
+            "LEFT JOIN diagnosis ON diagnosis.id_diagnosis = medicine.diagnosis " +
+            "WHERE medicine.diagnosis = ?  LIMIT ?,?";
+    private final String countMedicineByDiagnosisQuery = "SELECT COUNT(*)FROM medicine WHERE diagnosis = ";
+    private final String medicineCountLabel = "COUNT(*)";
+
     public JDBCMedicineDao(Connection connection) {
         super(
                 connection,
@@ -41,5 +50,24 @@ public class JDBCMedicineDao extends JDBCGenericDao<Medicine> implements Medicin
         statement.setLong(5,entity.getAssignedBy().getId());
         statement.setInt(6,entity.getCount());
         statement.setObject(7,entity.getRefill());
+    }
+
+    @Override
+    public List<Medicine> findMedicineWithDoctorByDiagnosisId(int start, int count, long diagnosisId) {
+        List<Medicine> found = null;
+        try (PreparedStatement statement = connection.prepareStatement(findMedicinesByDiagnosisIdQuery)){
+            statement.setLong(1,diagnosisId);
+            statement.setInt(2,start);
+            statement.setInt(3,count);
+            found = getAllFromStatement(statement);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return found;
+    }
+
+    @Override
+    public long countMedicinesOfDiagnosis(long diagnosisId) {
+        return count(countMedicineByDiagnosisQuery + diagnosisId,medicineCountLabel);
     }
 }

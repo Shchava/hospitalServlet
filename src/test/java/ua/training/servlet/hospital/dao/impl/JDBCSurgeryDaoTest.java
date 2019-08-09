@@ -10,6 +10,7 @@ import org.mockito.stubbing.Answer;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.SurgeryDao;
 import ua.training.servlet.hospital.dao.UserDao;
+import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.Surgery;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.enums.Roles;
@@ -100,7 +101,20 @@ public class JDBCSurgeryDaoTest {
     }
 
     @Test
-    public void test6Update() {
+    public void test6CountDiagnosesOfPatient() {
+        Assert.assertEquals(1, dao.countSurgeriesOfDiagnosis(1));
+    }
+
+    @Test
+    @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
+    public void test7FindPatientsForDoctorPage(){
+        List<Surgery> found = dao.findSurgeriesWithDoctorByDiagnosisId(0,5,3);
+        assertEquals(4, found.size());
+        assertTrue(found.contains(surgery));
+    }
+
+    @Test
+    public void test8Update() {
         long id = surgery.getId();
         String newName = "test2";
         surgery.setName(newName);
@@ -110,7 +124,7 @@ public class JDBCSurgeryDaoTest {
     }
 
     @Test
-    public void test7Delete(){
+    public void test9Delete(){
         assertTrue(dao.delete(surgery.getId()));
         assertFalse(dao.findById(surgery.getId()).isPresent());
     }

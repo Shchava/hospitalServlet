@@ -23,21 +23,20 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JDBCProcedureDaoTest {
-    private static Connection connection;
-
-    private static User user = new User("testProcedureUserName", "testProcedureUserSurname", "testProcedureUserPatronymic", "JDBCProcedureDaoTest@example.com", "password", Roles.DOCTOR);
     static List<LocalDateTime> appointmentDates = Arrays.asList(
             LocalDateTime.of(2019, Month.AUGUST, 12, 14, 30),
             LocalDateTime.of(2019, Month.AUGUST, 14, 13, 30),
             LocalDateTime.of(2019, Month.AUGUST, 16, 14, 30),
             LocalDateTime.of(2019, Month.AUGUST, 19, 14, 0),
             LocalDateTime.of(2019, Month.AUGUST, 21, 15, 30));
-    private static Procedure procedure = new Procedure(1,"testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
+    private static Connection connection;
+    private static User user = new User("testProcedureUserName", "testProcedureUserSurname", "testProcedureUserPatronymic", "JDBCProcedureDaoTest@example.com", "password", Roles.DOCTOR);
+    private static Procedure procedure = new Procedure(1, "testProcedureName", "testProcedureDescription", LocalDateTime.now(), user, 524, appointmentDates);
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
 
@@ -104,7 +103,21 @@ public class JDBCProcedureDaoTest {
     }
 
     @Test
-    public void test6Update() {
+    public void test6CountDiagnosesOfPatient() {
+        Assert.assertEquals(4, dao.countProceduresOfDiagnosis(1));
+    }
+
+    @Test
+    @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
+    public void test7FindPatientsForDoctorPage() {
+        List<Procedure> found = dao.findProceduresWithDoctorByDiagnosisId(0, 5, 3);
+        Assert.assertEquals(4, found.size());
+        assertTrue(found.contains(procedure));
+    }
+
+
+    @Test
+    public void test8Update() {
         long id = procedure.getId();
         String newName = "test3";
         procedure.setName(newName);
@@ -114,7 +127,7 @@ public class JDBCProcedureDaoTest {
     }
 
     @Test
-    public void test7Delete() {
+    public void test9Delete() {
         assertTrue(dao.delete(procedure.getId()));
         assertFalse(dao.findById(procedure.getId()).isPresent());
     }
