@@ -3,24 +3,21 @@ package ua.training.servlet.hospital.controller.command.showdiagnosis;
 import com.google.gson.Gson;
 import ua.training.servlet.hospital.controller.command.RestCommand;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
-import ua.training.servlet.hospital.entity.Diagnosis;
-import ua.training.servlet.hospital.entity.Medicine;
+import ua.training.servlet.hospital.entity.Procedure;
 import ua.training.servlet.hospital.entity.dto.Page;
 import ua.training.servlet.hospital.service.ServiceFactory;
-import ua.training.servlet.hospital.service.medicine.MedicineService;
+import ua.training.servlet.hospital.service.procedure.ProcedureService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getDiagnosisId;
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getUserId;
 
-public class ShowMedicine implements RestCommand {
+public class ShowProcedures implements RestCommand {
     private Gson gson = new Gson();
     private ServiceFactory factory = ServiceFactory.getInstance();
-    private MedicineService medicineService = factory.getMedicineService();
+    private ProcedureService procedureService = factory.getProcedureService();
     private PaginationUtility utility = new PaginationUtility();
 
 
@@ -29,17 +26,17 @@ public class ShowMedicine implements RestCommand {
         long idUser;
         long idDiagnosis;
 
-        try{
+        try {
             idUser = getUserId(request);
             idDiagnosis = getDiagnosisId(request);
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             return "wrong request";
         }
 
-        long medicineCount = medicineService.getNumberOfMedicineByDiagnosisId(idDiagnosis);
+        long procedureCount = procedureService.getNumberOfProceduresByDiagnosisId(idDiagnosis);
 
-        utility.init(request,medicineCount);
-        List<Medicine> requestedMedicines = medicineService.findMedicineByDiagnosisId(utility.getPage(),utility.getRecordsPerPage(),idDiagnosis);
+        utility.init(request, procedureCount);
+        List<Procedure> requestedMedicines = procedureService.findProceduresByDiagnosisId(utility.getPage(), utility.getRecordsPerPage(), idDiagnosis);
 
         Page page = utility.createPage(requestedMedicines);
 
