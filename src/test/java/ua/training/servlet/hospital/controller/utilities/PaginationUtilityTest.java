@@ -3,10 +3,13 @@ package ua.training.servlet.hospital.controller.utilities;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.entity.dto.Page;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
@@ -19,6 +22,9 @@ public class PaginationUtilityTest {
     HttpServletRequest request;
 
     PaginationUtility utility = new PaginationUtility();
+
+    @Mock
+    List<String> data;
 
     @Before
     public void setUp(){
@@ -47,5 +53,21 @@ public class PaginationUtilityTest {
     public void getRecordsPerPage() {
         utility.setAttributes(request,43);
         assertEquals(5,utility.getRecordsPerPage());
+    }
+
+    @Test
+    public void testCreatePage() {
+        given(data.size()).willReturn(5);
+
+        utility.init(request,45);
+        Page<String> page = utility.createPage(data);
+
+        assertEquals(data,page.getContent());
+        assertEquals(3,page.getPageNumber());
+        assertEquals(5,page.getPageSize());
+        assertEquals(5,page.getNumberOfElements());
+        assertEquals(45,page.getTotalElements());
+        assertFalse(page.isFirst());
+        assertFalse(page.isLast());
     }
 }
