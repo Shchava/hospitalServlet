@@ -12,6 +12,9 @@ import java.time.format.DateTimeFormatter;
 public class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime> {
     @Override
     public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        if(jsonElement.isJsonNull() || jsonElement.getAsString().isEmpty()){
+            return null;
+        }
         return LocalDateTime.parse(jsonElement.toString());
     }
 }

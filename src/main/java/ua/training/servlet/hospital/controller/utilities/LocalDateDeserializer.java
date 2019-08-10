@@ -11,6 +11,9 @@ import java.time.LocalDate;
 public class LocalDateDeserializer  implements JsonDeserializer<LocalDate> {
     @Override
     public LocalDate deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        if(jsonElement.isJsonNull() || jsonElement.getAsString().isEmpty()){
+            return null;
+        }
         return  LocalDate.parse(jsonElement.getAsString());
     }
 }
