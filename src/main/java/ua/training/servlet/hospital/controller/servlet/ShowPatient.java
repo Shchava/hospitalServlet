@@ -6,6 +6,8 @@ import ua.training.servlet.hospital.controller.command.Command;
 import ua.training.servlet.hospital.controller.command.RestCommand;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowDiagnosis;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowMedicine;
+import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowProcedures;
+import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowSurgeries;
 import ua.training.servlet.hospital.controller.command.showpatient.ShowPatientDiagnoses;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.dto.Page;
@@ -30,6 +32,8 @@ public class ShowPatient extends HttpServlet {
     @Override
     public void init(){
         restCommands.put("diagnosis/getMedicine/",new ShowMedicine());
+        restCommands.put("diagnosis/getProcedures/",new ShowProcedures());
+        restCommands.put("diagnosis/getSurgeries/",new ShowSurgeries());
 
         commands.put("",new ShowPatientDiagnoses());
         commands.put("diagnosis/",new ShowDiagnosis());
