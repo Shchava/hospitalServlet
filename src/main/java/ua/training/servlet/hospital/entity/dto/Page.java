@@ -11,11 +11,12 @@ public class Page<E> {
     long totalElements;
     boolean first;
     boolean last;
+    long totalPages;
 
     public Page() {
     }
 
-    public Page(List<E> content, int pageNumber, int pageSize, int numberOfElements, long totalElements, boolean first, boolean last) {
+    public Page(List<E> content, int pageNumber, int pageSize, int numberOfElements, long totalElements, boolean first, boolean last, long totalPages) {
         this.content = content;
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
@@ -23,6 +24,7 @@ public class Page<E> {
         this.totalElements = totalElements;
         this.first = first;
         this.last = last;
+        this.totalPages = totalPages;
     }
 
     public List<E> getContent() {
@@ -79,5 +81,13 @@ public class Page<E> {
 
     public void setLast(boolean last) {
         this.last = last;
+    }
+
+    public long getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(long totalPages) {
+        this.totalPages = totalPages;
     }
 }
