@@ -37,7 +37,7 @@ public class PaginationUtilityTest {
     public void setAttributes() {
         utility.setAttributes(request,43);
 
-        verify(request,times(1)).setAttribute("numberOfPages",9);
+        verify(request,times(1)).setAttribute("numberOfPages",9L);
         verify(request,times(1)).setAttribute("page",4);
         verify(request,times(1)).setAttribute("recordsPerPage",5);
         verify(request,times(1)).setAttribute("records",43L);
@@ -67,6 +67,7 @@ public class PaginationUtilityTest {
         assertEquals(5,page.getPageSize());
         assertEquals(5,page.getNumberOfElements());
         assertEquals(45,page.getTotalElements());
+        assertEquals(9,page.getTotalPages());
         assertFalse(page.isFirst());
         assertFalse(page.isLast());
     }

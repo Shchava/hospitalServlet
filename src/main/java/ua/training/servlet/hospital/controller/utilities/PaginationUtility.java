@@ -64,11 +64,12 @@ public class PaginationUtility {
         page.setNumberOfElements(data.size());
         page.setTotalElements(rows);
         page.setFirst(page.getPageNumber() <= 0);
-        page.setLast(page.getPageNumber() >= page.getNumberOfElements()-1);
+        page.setTotalPages(getNumberOfPages());
+        page.setLast(page.getPageNumber() >= page.getTotalPages() - 1);
         return page;
     };
 
-    public int getNumberOfPages(){
-        return (int) Math.ceil(rows * 1.0 / recordsPerPage);
+    public long getNumberOfPages(){
+        return (long)Math.ceil(rows * 1.0 / recordsPerPage);
     }
 }
