@@ -2,6 +2,7 @@ package ua.training.servlet.hospital.controller.command.showdiagnosis;
 
 import com.google.gson.Gson;
 import ua.training.servlet.hospital.controller.command.RestCommand;
+import ua.training.servlet.hospital.controller.utilities.GsonFactory;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
 import ua.training.servlet.hospital.entity.Procedure;
 import ua.training.servlet.hospital.entity.dto.Page;
@@ -15,7 +16,7 @@ import static ua.training.servlet.hospital.controller.command.utilities.GetPathA
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getUserId;
 
 public class ShowProcedures implements RestCommand {
-    private Gson gson = new Gson();
+    private Gson gson = GsonFactory.create();
     private ServiceFactory factory = ServiceFactory.getInstance();
     private ProcedureService procedureService = factory.getProcedureService();
     private PaginationUtility utility = new PaginationUtility();
