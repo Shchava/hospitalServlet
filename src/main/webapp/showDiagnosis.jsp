@@ -598,7 +598,7 @@
         console.log(page);
         $.ajax({
             type: 'GET',
-            url: "/getMedicine${diagnosis.idDiagnosis}/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getMedicine/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
@@ -614,8 +614,8 @@
 
     function setMedicinePaginationData(data) {
         console.log(data);
-        var page = data.pageable.pageNumber;
-        var recordsPerPage = data.pageable.pageSize;
+        var page = data.pageNumber;
+        var recordsPerPage = data.pageSize;
 
         $('#medicineEntriesDropdownButton').html(recordsPerPage);
         $('#medicineEntriesDropdown a').click(function (e) {
@@ -734,8 +734,8 @@
 
     function setProceduresPaginationData(data) {
         console.log(data);
-        var page = data.pageable.pageNumber;
-        var recordsPerPage = data.pageable.pageSize;
+        var page = data.pageNumber;
+        var recordsPerPage = data.pageSize;
 
         $('#procedureEntriesDropdownButton').html(recordsPerPage);
         $('#procedureEntriesDropdown a').click(function (e) {
@@ -860,8 +860,8 @@
 
     function setSurgeryPaginationData(data) {
         console.log(data);
-        var page = data.pageable.pageNumber;
-        var recordsPerPage = data.pageable.pageSize;
+        var page = data.pageNumber;
+        var recordsPerPage = data.pageSize;
 
         $('#surgeryEntriesDropdownButton').html(recordsPerPage);
         $('#surgeryEntriesDropdown a').click(function (e) {
