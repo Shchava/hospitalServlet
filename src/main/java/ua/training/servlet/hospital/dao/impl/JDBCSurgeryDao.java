@@ -6,12 +6,13 @@ import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.Surgery;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCSurgeryDao extends JDBCGenericDao<Surgery> implements SurgeryDao {
     private final String findSurgeriesByDiagnosisIdQuery =
             "SELECT * FROM surgery " +
-                    "LEFT JOIN diagnosis ON diagnosis.id_diagnosis = surgery.diagnosis " +
+                    "LEFT JOIN user ON user.id_user = surgery.assigned_by_id_user " +
                     "WHERE surgery.diagnosis = ?  LIMIT ?,?";
     private final String countSurgeriesByDiagnosisQuery = "SELECT COUNT(*)FROM surgery WHERE diagnosis = ";
     private final String surgeriesCountLabel = "COUNT(*)";
@@ -62,6 +63,7 @@ public class JDBCSurgeryDao extends JDBCGenericDao<Surgery> implements SurgeryDa
             found = getAllFromStatement(statement);
         }catch (Exception ex){
             ex.printStackTrace();
+            found = new ArrayList<>();
         }
         return found;
     }

@@ -77,6 +77,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             found = getAllFromStatement(statement);
         }catch (Exception ex){
             ex.printStackTrace();
+            found = new ArrayList<>();
         }
         return found;
     }
@@ -89,6 +90,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             found = getAllFromStatement(statement);
         }catch (Exception ex){
             ex.printStackTrace();
+            found = new ArrayList<>();
         }
         return found;
     }

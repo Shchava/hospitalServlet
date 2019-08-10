@@ -13,7 +13,7 @@ import java.util.List;
 public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements ProcedureDao {
     private final String findProceduresByDiagnosisIdQuery =
             "SELECT * FROM treatment " +
-                    "LEFT JOIN diagnosis ON diagnosis.id_diagnosis = treatment.diagnosis " +
+                    "LEFT JOIN user ON user.id_user = treatment.assigned_by_id_user " +
                     "WHERE treatment.diagnosis = ?  LIMIT ?,?";
     private final String countProceduresByDiagnosisQuery = "SELECT COUNT(*)FROM treatment WHERE diagnosis = ";
     private final String proceduresCountLabel = "COUNT(*)";
@@ -139,6 +139,7 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
             found = getAllFromStatement(statement);
         }catch (Exception ex){
             ex.printStackTrace();
+            found = new ArrayList<>();
         }
         return found;
     }
