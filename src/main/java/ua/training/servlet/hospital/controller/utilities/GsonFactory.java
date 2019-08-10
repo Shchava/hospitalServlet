@@ -13,8 +13,7 @@ public class GsonFactory {
             .registerTypeAdapter(LocalDateTime.class,new LocalDateTimeSerializer())
             .registerTypeAdapter(LocalDateTime.class,new LocalDateTimeDeserializer())
             .registerTypeAdapter(int.class, new IntegerTypeAdapter())
-            .registerTypeAdapter(Integer.class, new IntegerTypeAdapter())
-            .serializeNulls();
+            .registerTypeAdapter(Integer.class, new IntegerTypeAdapter());
 
     public static Gson create(){
         return builder.create();
