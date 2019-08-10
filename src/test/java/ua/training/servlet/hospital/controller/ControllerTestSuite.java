@@ -4,6 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowDiagnosisTest;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowMedicineTest;
+import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowProceduresTest;
+import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowSurgeriesTest;
 import ua.training.servlet.hospital.controller.command.utilities.GetPathAttributeTest;
 import ua.training.servlet.hospital.controller.filter.EncodingFilterTest;
 import ua.training.servlet.hospital.controller.filter.LocalizationFilterTest;
@@ -19,6 +21,8 @@ import ua.training.servlet.hospital.controller.utilities.PaginationUtilityTest;
         ShowAllPatientsTest.class,
         ShowDiagnosisTest.class,
         ShowMedicineTest.class,
+        ShowProceduresTest.class,
+        ShowSurgeriesTest.class,
         LocalizationFilterTest.class,
         EncodingFilterTest.class,
         GetPathAttributeTest.class,
