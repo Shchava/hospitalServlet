@@ -718,7 +718,7 @@
     function loadProcedures(page, recordsPerPage) {
         $.ajax({
             type: 'GET',
-            url: "/getProcedures${diagnosis.idDiagnosis}/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getProcedures/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
@@ -844,7 +844,7 @@
     function loadSurgeries(page, recordsPerPage) {
         $.ajax({
             type: 'GET',
-            url: "/getSurgeries${diagnosis.idDiagnosis}/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getSurgeries/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
