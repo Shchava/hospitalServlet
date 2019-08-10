@@ -4,10 +4,13 @@ import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.User;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MedicineMapper implements ObjectMapper<Medicine> {
     @Override
@@ -22,7 +25,13 @@ public class MedicineMapper implements ObjectMapper<Medicine> {
         medicine.setAssigned(rs.getTimestamp("medicine.assigned").toLocalDateTime());
         medicine.setAssignedBy(userMapper.extractFromResultSet(rs));
         medicine.setCount(rs.getInt("medicine.count"));
-        medicine.setRefill((LocalDate) rs.getDate("medicine.refill").toLocalDate());
+        Date refill = rs.getDate("medicine.refill");
+        if(Objects.nonNull(refill)){
+            medicine.setRefill(refill.toLocalDate());
+        }else{
+            medicine.setRefill(null);
+        }
+
 
         return medicine;
     }
