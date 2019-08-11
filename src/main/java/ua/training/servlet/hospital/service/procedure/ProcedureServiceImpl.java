@@ -40,7 +40,7 @@ public class ProcedureServiceImpl implements ProcedureService {
         toCreate.setRoom(dto.getRoom());
         toCreate.setAppointmentDates(dto.getAppointmentDates());
         toCreate.setAssigned(getAssignedTime());
-        toCreate.setDiagnosis(new Diagnosis(doctorId));
+        toCreate.setDiagnosis(new Diagnosis(diagnosisId));
         toCreate.setAssignedBy(new User(doctorId));
 
         try (ProcedureDao procedureDao = factory.createProcedureDao()) {
