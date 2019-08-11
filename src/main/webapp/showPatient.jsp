@@ -7,6 +7,7 @@
 
 <fmt:setLocale value="${pageContext.response.locale}"/>
 <fmt:setBundle basename="bundles/messages"/>
+<fmt:setBundle basename="bundles/ValidationMessages" var="validation"/>
 
 <c:set var="dateFormat">
     <fmt:message key="dateFormat"/>
@@ -18,7 +19,7 @@
     <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-    <link rel="stylesheet" href="/css/doctorPageMarkUp.css"/>
+    <link rel="stylesheet" href="/css/doctorPageMarkup.css"/>
     <link rel="stylesheet" href="/css/listOfEntries.css"/>
     <link rel="stylesheet" href="/css/pagination.css"/>
     <link rel="stylesheet" href="/css/showPatient.css"/>
@@ -122,6 +123,10 @@
                     </div>
                 </div>
 
+                <c:if test="${!empty requestScope.created}">
+                    <div class="alert alert-info" role="alert"><fmt:message key="doctor.showPatient.newDiagnosis.created"/></div>
+                </c:if>
+
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
@@ -144,29 +149,47 @@
                             <th>
                                 <c:out value="${diagnosis.cured.format(formatter)}"/>
                             </th>
-                            <th><a class="btn btn-primary" href="/patient/${patient.id}/diagnosis${diagnosis.idDiagnosis}" role="button"><fmt:message key="doctor.showPatient.diagnosesList.open"/></a>
+                            <th><a class="btn btn-primary" href="/patient/${patient.id}/diagnosis/${diagnosis.idDiagnosis}/" role="button"><fmt:message key="doctor.showPatient.diagnosesList.open"/></a>
                             </th>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
                 <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR'}">
-                    <div id="addDiagnosis" class="hidden-form">
-                        <form method="POST" modelAttribute="newDiagnosis" action="/doctor/patient/${patient.id}/addDiagnosis">
-                            <input type="hidden" name="pageNumber" value="${requestScope.recordsPerPage}">
-                            <input type="hidden" name="recordsPerPage" value="${requestScope.page}">
+                    <c:choose>
+                        <c:when  test="${not empty requestScope.values}">
+                            <div id="addDiagnosis">
+                        </c:when>
+                        <c:otherwise>
+                            <div id="addDiagnosis" class="hidden-form">
+                        </c:otherwise>
+                    </c:choose>
+
+                        <c:if test="${!empty requestScope.creationError}">
+                            <div class="alert-danger error-message" >
+                                <fmt:message key="diagnosis.creationError" bundle="${validation}"/>
+                            </div>
+                        </c:if>
+
+                        <form id="addDiagnosisForm" method="POST"  action="/patient/${patient.id}/addDiagnosis/">
+                            <input type="hidden" name="pageNumber" value="${requestScope.page}">
+                            <input type="hidden" name="recordsPerPage" value="${requestScope.recordsPerPage}">
                             <div class="form-group">
                                 <label><fmt:message key="doctor.showPatient.newDiagnosis.name"/></label>
-<%--                                <springForm:errors path="name" cssClass="alert-danger error-message" />--%>
-                                <input name="name" type="text" class="form-control" required="required"/>
+                                <c:if test="${!empty requestScope.nameEmpty}">
+                                    <div class="alert alert-danger" >
+                                        <fmt:message key="diagnosis.name.empty" bundle="${validation}"/>
+                                    </div>
+                                </c:if>
+                                <input name="name" type="text" class="form-control" required="required" value="${requestScope.values.name}"/>
                             </div>
                             <div class="form-group">
                                 <label><fmt:message key="doctor.showPatient.newDiagnosis.description"/></label>
-                                <input name="description" type="text" class="form-control input-description"/>
+                                <input name="description" type="text" class="form-control input-description" value="${requestScope.values.description}"/>
                             </div>
-                            <button role="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="showPatient.addDiagnosis"/></button>
                         </form>
                     </div>
+
                     <button id="showAddDiagnosisForm" role="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="showPatient.addDiagnosis"/></button>
                 </c:if>
                 <div class="clearfix">
@@ -227,10 +250,13 @@
 <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR'}">
     <script>
         $(document).ready(function () {
+
             $("#showAddDiagnosisForm").click(function () {
-                $("#showAddDiagnosisForm").hide();
-                $("#addDiagnosis").show();
-                return false;
+                if ($("#addDiagnosis").is(":visible")) {
+                    $("#addDiagnosisForm").submit();
+                } else {
+                    $("#addDiagnosis").show()
+                }
             });
         });
     </script>
