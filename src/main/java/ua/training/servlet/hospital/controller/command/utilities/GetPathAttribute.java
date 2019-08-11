@@ -1,7 +1,11 @@
 package ua.training.servlet.hospital.controller.command.utilities;
 
 
+import ua.training.servlet.hospital.entity.dto.CreationError;
+import ua.training.servlet.hospital.entity.dto.CreationResponse;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.ResourceBundle;
 
 
 public class GetPathAttribute {
@@ -31,6 +35,16 @@ public class GetPathAttribute {
         return Long.parseLong(id);
     }
 
+    public static long getDiagnosisIdOrAddError(HttpServletRequest request, CreationResponse response, ResourceBundle errors){
+        try{
+            return getDiagnosisId(request);
+        }catch (NumberFormatException ex){
+            ex.printStackTrace();
+            response.addError(new CreationError("diagnosisId",errors.getString("diagnosis.id.numberForamtException")));
+            return -1L;
+        }
+    }
+
     private static int getFirstIndex(String IdAnnouncement, String path){
         int numberStartIndex = path.indexOf(IdAnnouncement);
         if(numberStartIndex < 0){
@@ -46,4 +60,5 @@ public class GetPathAttribute {
         }
         return numberEndIndex;
     }
+
 }

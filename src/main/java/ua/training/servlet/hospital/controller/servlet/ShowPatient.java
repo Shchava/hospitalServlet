@@ -27,6 +27,7 @@ public class ShowPatient extends HttpServlet {
         restCommands.put("diagnosis/getMedicine/",new ShowMedicine());
         restCommands.put("diagnosis/getProcedures/",new ShowProcedures());
         restCommands.put("diagnosis/getSurgeries/",new ShowSurgeries());
+        restCommands.put("diagnosis/addMedicine/",new AddMedicine());
 
         commands.put("",new ShowPatientDiagnoses());
         commands.put("diagnosis/",new ShowDiagnosis());
