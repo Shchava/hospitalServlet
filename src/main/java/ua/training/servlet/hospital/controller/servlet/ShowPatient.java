@@ -3,6 +3,7 @@ package ua.training.servlet.hospital.controller.servlet;
 import ua.training.servlet.hospital.controller.command.Command;
 import ua.training.servlet.hospital.controller.command.RestCommand;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.*;
+import ua.training.servlet.hospital.controller.command.showpatient.AddDiagnosis;
 import ua.training.servlet.hospital.controller.command.showpatient.ShowPatientDiagnoses;
 import ua.training.servlet.hospital.entity.dto.CommandResponse;
 
@@ -33,6 +34,7 @@ public class ShowPatient extends HttpServlet {
 
         commands.put("",new ShowPatientDiagnoses());
         commands.put("diagnosis/",new ShowDiagnosis());
+        commands.put("addDiagnosis/",new AddDiagnosis());
     }
 
     @Override

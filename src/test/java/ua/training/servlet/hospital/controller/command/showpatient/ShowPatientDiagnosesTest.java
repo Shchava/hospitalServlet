@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.User;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.service.ServiceFactory;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
 import ua.training.servlet.hospital.service.user.UserService;
@@ -64,7 +65,9 @@ public class ShowPatientDiagnosesTest {
 
     @Test
     public void showPatient(){
-        assertEquals("/showPatient.jsp",showPatientDiagnoses.execute(request));
+        CommandResponse response = showPatientDiagnoses.execute(request);
+        assertEquals("/showPatient.jsp",response.getResponse());
+        assertEquals(200,response.getStatus());
 
         verify(request,times(1)).setAttribute("patient",patient);
         verify(request,times(1)).setAttribute("diagnoses",diagnoses);
@@ -74,7 +77,9 @@ public class ShowPatientDiagnosesTest {
     public void showNotExistingPatient(){
         given(userService.getUser(2L)).willReturn(Optional.empty());
 
-        assertEquals("/notFoundPage.jsp",showPatientDiagnoses.execute(request));
+        CommandResponse response = showPatientDiagnoses.execute(request);
+        assertEquals("/notFoundPage.jsp",response.getResponse());
+        assertEquals(404,response.getStatus());
 
         verify(request,times(0)).setAttribute("patient",patient);
         verify(request,times(0)).setAttribute("diagnoses",diagnoses);
