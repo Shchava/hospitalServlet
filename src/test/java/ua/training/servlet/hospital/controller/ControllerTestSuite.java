@@ -22,6 +22,7 @@ import ua.training.servlet.hospital.controller.utilities.PaginationUtilityTest;
         ShowProceduresTest.class,
         ShowSurgeriesTest.class,
         AddMedicineTest.class,
+        AddProcedureTest.class,
         LocalizationFilterTest.class,
         EncodingFilterTest.class,
         GetPathAttributeTest.class,
