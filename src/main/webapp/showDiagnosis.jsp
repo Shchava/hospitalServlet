@@ -801,8 +801,7 @@
     function addProcedureRow(dataEntry) {
         var dates = "";
         for (var i = 0; i < dataEntry.appointmentDates.length; i++) {
-            var dateTime = dataEntry.appointmentDates[i];
-            dates += "<p>" + new Date(dateTime.date.year,dateTime.date.month,dateTime.date.day,dateTime.time.hour, dateTime.time.minute, dateTime.time.second).toLocaleString() + "</p>";
+            dates += "<p>" + new Date(dataEntry.appointmentDates[i]).toLocaleString() + "</p>";
         }
 
         var row =
