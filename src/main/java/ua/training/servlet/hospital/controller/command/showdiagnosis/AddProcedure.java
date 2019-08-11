@@ -77,7 +77,7 @@ public class AddProcedure implements RestCommand {
 
     private void createProcedure(ProcedureDTO dto, long diagnosisId, long userId, CreationResponse response, ResourceBundle errors) {
         if (!procedureService.createProcedure(dto, diagnosisId, userId)) {
-            response.addError(new CreationError("object", errors.getString("medicine.cannotCreate")));
+            response.addError(new CreationError("object", errors.getString("procedure.cannotCreate")));
         }
     }
 
