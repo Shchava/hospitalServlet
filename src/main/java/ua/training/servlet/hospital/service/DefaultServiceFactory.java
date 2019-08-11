@@ -51,7 +51,7 @@ public class DefaultServiceFactory extends ServiceFactory {
 
     @Override
     public DiagnosisService getDiagnosisService() {
-        if (userService == null) {
+        if (diagnosisService == null) {
             synchronized (DiagnosisService.class) {
                 if (diagnosisService == null) {
                     diagnosisService = new DiagnosisServiceImpl(daoFactory);
