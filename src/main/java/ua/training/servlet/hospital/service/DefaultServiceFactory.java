@@ -18,34 +18,83 @@ import ua.training.servlet.hospital.service.user.UserServiceImpl;
 public class DefaultServiceFactory extends ServiceFactory {
     private DaoFactory daoFactory = DaoFactory.getInstance();
 
+    private volatile UserService userService;
+    private volatile AuthService authService;
+    private volatile DiagnosisService diagnosisService;
+    private volatile MedicineService medicineService;
+    private volatile ProcedureService procedureService;
+    private volatile SurgeryService surgeryService;
+
     @Override
     public UserService getUserService() {
-        return new UserServiceImpl(daoFactory);
+        if (userService == null) {
+            synchronized (UserService.class) {
+                if (userService == null) {
+                    userService = new UserServiceImpl(daoFactory);
+                }
+            }
+        }
+        return userService;
     }
 
     @Override
     public AuthService getAuthService() {
-        return new AuthServiceImpl(getUserService());
+        if (authService == null) {
+            synchronized (AuthService.class) {
+                if (authService == null) {
+                    authService = new AuthServiceImpl(getUserService());
+                }
+            }
+        }
+        return authService;
     }
 
     @Override
     public DiagnosisService getDiagnosisService() {
-        return new DiagnosisServiceImpl(daoFactory);
+        if (userService == null) {
+            synchronized (DiagnosisService.class) {
+                if (diagnosisService == null) {
+                    diagnosisService = new DiagnosisServiceImpl(daoFactory);
+                }
+            }
+        }
+        return diagnosisService;
     }
 
     @Override
     public MedicineService getMedicineService() {
-        return new MedicineServiceImpl(daoFactory);
+        if (medicineService == null) {
+            synchronized (MedicineService.class) {
+                if (medicineService == null) {
+                    medicineService = new MedicineServiceImpl(daoFactory);
+                }
+            }
+        }
+        return medicineService;
     }
 
     @Override
     public ProcedureService getProcedureService() {
-        return new ProcedureServiceImpl(daoFactory);
+        if (procedureService == null) {
+            synchronized (ProcedureService.class) {
+                if (procedureService == null) {
+                    procedureService = new ProcedureServiceImpl(daoFactory);
+                }
+            }
+        }
+        return procedureService;
     }
 
     @Override
     public SurgeryService getSurgeryService() {
-        return new SurgeryServiceImpl(daoFactory);
+        if (surgeryService == null) {
+            synchronized (SurgeryService.class) {
+                if (surgeryService == null) {
+                    surgeryService = new SurgeryServiceImpl(daoFactory);
+                }
+            }
+        }
+        return surgeryService;
     }
 
 }
