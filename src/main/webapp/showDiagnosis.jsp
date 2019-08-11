@@ -679,6 +679,15 @@
     }
 
     function addMedicineRow(dataEntry) {
+
+        var refillDate;
+        if(!dataEntry.refill || dataEntry.refill === null || dataEntry.refill === ""){
+            refillDate = " "
+        }else{
+            refillDate = "<h6>${medicineRefill}</h6>" +
+                "<p>" + new Date(dataEntry.refill).toLocaleString().slice(0, 10) + "</p>";
+        }
+
         var row =
             "<tr>" +
             "<th>" + dataEntry.idTherapy + "</th>" +
@@ -694,8 +703,7 @@
             "<p>" + dataEntry.description + "</p>" +
             "<h6>${therapyDoctorEmail}</h6>" +
             "<p>" + dataEntry.assignedBy.email + "</p>" +
-            "<h6>${medicineRefill}</h6>" +
-            "<p>" + new Date(dataEntry.refill).toLocaleString() + "</p>" +
+            refillDate +
             "</th>" +
             "</tr>";
 
