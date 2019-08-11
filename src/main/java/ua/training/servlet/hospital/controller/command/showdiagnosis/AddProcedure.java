@@ -2,11 +2,9 @@ package ua.training.servlet.hospital.controller.command.showdiagnosis;
 
 import com.google.gson.Gson;
 import ua.training.servlet.hospital.controller.command.RestCommand;
-import ua.training.servlet.hospital.controller.utilities.GsonFactory;
-import ua.training.servlet.hospital.entity.Procedure;
+import ua.training.servlet.hospital.controller.utilities.gson.GsonFactory;
 import ua.training.servlet.hospital.entity.dto.*;
 import ua.training.servlet.hospital.service.ServiceFactory;
-import ua.training.servlet.hospital.service.medicine.MedicineService;
 import ua.training.servlet.hospital.service.procedure.ProcedureService;
 
 import javax.servlet.http.HttpServletRequest;

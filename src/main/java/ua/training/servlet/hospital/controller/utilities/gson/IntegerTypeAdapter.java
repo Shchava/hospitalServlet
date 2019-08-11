@@ -1,4 +1,4 @@
-package ua.training.servlet.hospital.controller.utilities;
+package ua.training.servlet.hospital.controller.utilities.gson;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

@@ -7,7 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import ua.training.servlet.hospital.controller.utilities.GsonFactory;
+import ua.training.servlet.hospital.controller.utilities.gson.GsonFactory;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.entity.dto.CreationResponse;

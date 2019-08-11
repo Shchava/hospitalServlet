@@ -2,9 +2,8 @@ package ua.training.servlet.hospital.controller.command.showdiagnosis;
 
 import com.google.gson.Gson;
 import ua.training.servlet.hospital.controller.command.RestCommand;
-import ua.training.servlet.hospital.controller.utilities.GsonFactory;
+import ua.training.servlet.hospital.controller.utilities.gson.GsonFactory;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
-import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.entity.dto.Page;
@@ -12,9 +11,7 @@ import ua.training.servlet.hospital.service.ServiceFactory;
 import ua.training.servlet.hospital.service.medicine.MedicineService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getDiagnosisId;
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getUserId;
