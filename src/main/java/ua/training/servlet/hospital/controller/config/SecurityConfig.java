@@ -20,6 +20,7 @@ public class SecurityConfig {
         accessPaths.put("ANYONE",notSecuredPaths);
 
         List<String> userPaths = new ArrayList<>(notSecuredPaths);
+        userPaths.add("/");
         userPaths.add("/index.jsp");
         userPaths.add("/logout");
         userPaths.add("/patient/");

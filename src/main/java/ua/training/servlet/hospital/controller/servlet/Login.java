@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
     private String getRequestedPage(HttpServletRequest request){
         String url = request.getParameter("requestedUrl");
         if(url == null || url.startsWith("/login")){
-            url = "/index.jsp";
+            url = "/";
         }
         return url;
     }

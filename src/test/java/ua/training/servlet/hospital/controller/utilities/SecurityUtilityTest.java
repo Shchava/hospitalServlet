@@ -57,6 +57,9 @@ public class SecurityUtilityTest {
         when(request.getRequestURI()).thenReturn("/patient/7/");
         assertFalse(SecurityUtility.hasAccess(request));
 
+        when(request.getRequestURI()).thenReturn("/patient/4/");
+        assertTrue(SecurityUtility.hasAccess(request));
+
         when(request.getRequestURI()).thenReturn("/login");
         assertTrue(SecurityUtility.hasAccess(request));
     }

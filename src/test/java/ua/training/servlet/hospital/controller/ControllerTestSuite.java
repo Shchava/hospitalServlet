@@ -11,9 +11,12 @@ import ua.training.servlet.hospital.controller.filter.EncodingFilterTest;
 import ua.training.servlet.hospital.controller.filter.LocalizationFilterTest;
 import ua.training.servlet.hospital.controller.servlet.*;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtilityTest;
+import ua.training.servlet.hospital.controller.utilities.SecurityUtility;
+import ua.training.servlet.hospital.controller.utilities.SecurityUtilityTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        StartPageTest.class,
         LoginTest.class,
         LogOutTest.class,
         RegistrationTest.class,
@@ -32,7 +35,8 @@ import ua.training.servlet.hospital.controller.utilities.PaginationUtilityTest;
         EncodingFilterTest.class,
         GetPathAttributeTest.class,
         GetSessionAttributeTest.class,
-        PaginationUtilityTest.class
+        PaginationUtilityTest.class,
+        SecurityUtilityTest.class
 })
 public class ControllerTestSuite {
 }

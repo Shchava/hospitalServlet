@@ -108,7 +108,7 @@
                     <label class="navbar-brand">${sessionScope.LoggedUser.name}</label>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/index.jsp"><fmt:message key="header.message"/><span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/"><fmt:message key="header.message"/><span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ">
