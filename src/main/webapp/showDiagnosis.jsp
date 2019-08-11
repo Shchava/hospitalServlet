@@ -259,7 +259,7 @@
                             </div>
                             <div class="form-group">
                                 <label><fmt:message key="doctor.showDiagnosis.addMedicine.refill"/></label>
-                                <input type='date' class="form-control"/>
+                                <input type='date' name="refill" class="form-control"/>
                             </div>
                         </form>
                     </div>
@@ -598,7 +598,7 @@
         console.log(page);
         $.ajax({
             type: 'GET',
-            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getMedicine/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getMedicine/?page=" + (page + 1)+ "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
@@ -718,7 +718,7 @@
     function loadProcedures(page, recordsPerPage) {
         $.ajax({
             type: 'GET',
-            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getProcedures/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getProcedures/?page=" + (page + 1)+ "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
@@ -845,7 +845,7 @@
     function loadSurgeries(page, recordsPerPage) {
         $.ajax({
             type: 'GET',
-            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getSurgeries/?pageNumber=" + page + "&recordsPerPage=" + recordsPerPage,
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/getSurgeries/?page=" + (page + 1)+ "&recordsPerPage=" + recordsPerPage,
             contentType: "text/plain",
             dataType: 'json',
             success: function (data) {
@@ -969,15 +969,9 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        });
-
         $.ajax({
             type: 'POST',
-            url: "/doctor/diagnosis${diagnosis.idDiagnosis}/addMedicine",
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/addMedicine/",
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -998,18 +992,18 @@
                 console.log(data);
                 data.responseJSON.errors.forEach(function (error) {
                     console.log(error);
-                    if (error.field === "name") {
+                    if (error.cause === "name") {
                         var errMessage = $("#medicineNameFieldError");
-                        errMessage.html(error.defaultMessage);
+                        errMessage.html(error.message);
                         errMessage.show();
 
-                    } else if (error.field === "count") {
+                    } else if (error.cause === "count") {
                         var errMessage = $("#medicineCountFieldError");
-                        errMessage.html(error.defaultMessage);
+                        errMessage.html(error.message);
                         errMessage.show();
                     } else {
                         var errMessage = $("#medicineCreationError");
-                        errMessage.html(error.defaultMessage);
+                        errMessage.html(error.message);
                         errMessage.show();
                     }
                 });
@@ -1030,15 +1024,9 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        });
-
         $.ajax({
             type: 'POST',
-            url: "/doctor/diagnosis${diagnosis.idDiagnosis}/addProcedure",
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/addProcedure/",
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -1061,14 +1049,14 @@
                 console.log(data);
                 if (data.responseJSON.errors !== 'undefined' && data.responseJSON.errors.length > 0) {
                     data.responseJSON.errors.forEach(function (error) {
-                        if (error.field === "name") {
+                        if (error.cause === "name") {
                             var errMessage = $("#procedureNameFieldError");
-                            errMessage.html(error.defaultMessage);
+                            errMessage.html(error.message);
                             errMessage.show();
 
-                        } else if (error.field === "room") {
+                        } else if (error.cause === "room") {
                             var errMessage = $("#procedureRoomFieldError");
-                            errMessage.html(error.defaultMessage);
+                            errMessage.html(error.message);
                             errMessage.show();
                         } else {
                             var errMessage = $("#procedureCreationError");
@@ -1098,15 +1086,9 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        });
-
         $.ajax({
             type: 'POST',
-            url: "/doctor/diagnosis${diagnosis.idDiagnosis}/addSurgery",
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${requestScope.diagnosis.idDiagnosis}/addSurgery/",
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -1129,14 +1111,14 @@
                 console.log(data);
                 if (data.responseJSON.errors !== 'undefined' && data.responseJSON.errors.length > 0) {
                     data.responseJSON.errors.forEach(function (error) {
-                        if (error.field === "name") {
+                        if (error.cause === "name") {
                             var errMessage = $("#surgeryNameFieldError");
-                            errMessage.html(error.defaultMessage);
+                            errMessage.html(error.message);
                             errMessage.show();
 
-                        } else if (error.field === "room") {
+                        } else if (error.cause === "room") {
                             var errMessage = $("#surgeryDateFieldError");
-                            errMessage.html(error.defaultMessage);
+                            errMessage.html(error.message);
                             errMessage.show();
                         } else {
                             var errMessage = $("#surgeryCreationError");
