@@ -9,7 +9,7 @@ import ua.training.servlet.hospital.service.user.AuthService;
 import ua.training.servlet.hospital.service.user.UserService;
 
 public abstract class ServiceFactory {
-    private static ServiceFactory serviceFactory;
+    private volatile static ServiceFactory serviceFactory;
 
     public abstract UserService getUserService();
     public abstract AuthService getAuthService();
