@@ -7,6 +7,7 @@ import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowMedicin
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowProceduresTest;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowSurgeriesTest;
 import ua.training.servlet.hospital.controller.command.utilities.GetPathAttributeTest;
+import ua.training.servlet.hospital.controller.command.utilities.GetSessionAttributeTest;
 import ua.training.servlet.hospital.controller.filter.EncodingFilterTest;
 import ua.training.servlet.hospital.controller.filter.LocalizationFilterTest;
 import ua.training.servlet.hospital.controller.servlet.*;
@@ -26,6 +27,7 @@ import ua.training.servlet.hospital.controller.utilities.PaginationUtilityTest;
         LocalizationFilterTest.class,
         EncodingFilterTest.class,
         GetPathAttributeTest.class,
+        GetSessionAttributeTest.class,
         PaginationUtilityTest.class
 })
 public class ControllerTestSuite {
