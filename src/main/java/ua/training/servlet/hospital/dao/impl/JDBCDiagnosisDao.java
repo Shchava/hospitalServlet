@@ -8,17 +8,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements DiagnosisDao  {
+    private final String findDiagnosesByPatientIdQuery = "SELECT * FROM diagnosis " +
+            "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user " +
+            "WHERE diagnosis.patient_id_user = ?  LIMIT ?,?";
+    private final String countPatientsQuery = "SELECT COUNT(*)FROM diagnosis WHERE diagnosis.patient_id_user = ";
+    private final String patientsCountLabel = "COUNT(*)";
 
     public JDBCDiagnosisDao(Connection connection) {
         super(
                 connection,
                 "INSERT INTO diagnosis(name, description, assigned, cured, doctor_id_user, patient_id_user) VALUES(?,?,?,?,?,?)",
-                "SELECT * FROM diagnosis WHERE id_diagnosis = ?",
+                "SELECT * FROM diagnosis " +
+                        "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user " +
+                        "WHERE id_diagnosis = ?",
                 "SELECT SQL_CALC_FOUND_ROWS * FROM diagnosis LIMIT ?,?",
-                "SELECT * FROM diagnosis",
-                "SELECT COUNT(*)FROM diagnosis",
+                "SELECT * FROM diagnosis " +
+                        "LEFT JOIN user ON diagnosis.doctor_id_user = user.id_user ",
+                "SELECT COUNT(*)FROM diagnosis ",
                 "COUNT(*)",
                 "UPDATE diagnosis SET name = ?, description = ?, assigned = ?, cured = ?, doctor_id_user = ?, patient_id_user = ?  WHERE id_diagnosis = ?",
                 7,
@@ -40,9 +49,28 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
     void setEntityValues(PreparedStatement statement, Diagnosis entity) throws SQLException{
         statement.setString(1,entity.getName());
         statement.setString(2,entity.getDescription());
-        statement.setTimestamp(3, Timestamp.valueOf(entity.getAssigned()));
-        statement.setTimestamp(4, Timestamp.valueOf(entity.getCured()));
+        statement.setObject(3, entity.getAssigned());
+        statement.setObject(4, entity.getCured());
         statement.setLong(5,entity.getDoctor().getId());
         statement.setLong(6,entity.getPatient().getId());
+    }
+
+    @Override
+    public List<Diagnosis> findDiagnosesByPatientId(int start, int count, long patientId) {
+        List<Diagnosis> found = null;
+        try (PreparedStatement statement = connection.prepareStatement(findDiagnosesByPatientIdQuery)){
+            statement.setLong(1,patientId);
+            statement.setInt(2,start);
+            statement.setInt(3,count);
+            found = getAllFromStatement(statement);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return found;
+    }
+
+    @Override
+    public long countDiagnosesOfPatient(long patientId) {
+        return count(countPatientsQuery + patientId,patientsCountLabel);
     }
 }

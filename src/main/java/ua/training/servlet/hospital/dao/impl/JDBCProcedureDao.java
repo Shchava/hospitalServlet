@@ -2,6 +2,7 @@ package ua.training.servlet.hospital.dao.impl;
 
 import ua.training.servlet.hospital.dao.ProcedureDao;
 import ua.training.servlet.hospital.dao.mapper.ProcedureMapper;
+import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.Procedure;
 
 import java.sql.*;
@@ -10,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements ProcedureDao {
+    private final String findProceduresByDiagnosisIdQuery =
+            "SELECT * FROM treatment " +
+                    "LEFT JOIN user ON user.id_user = treatment.assigned_by_id_user " +
+                    "WHERE treatment.diagnosis = ?  LIMIT ?,?";
+    private final String countProceduresByDiagnosisQuery = "SELECT COUNT(*)FROM treatment WHERE diagnosis = ";
+    private final String proceduresCountLabel = "COUNT(*)";
+
     String createAssignmentDatesQuery = "INSERT INTO procedure_appointment_dates(procedure_id_therapy, appointment_dates) VALUES (?,?)";
     String deleteAppointmentDatesQuery = "DELETE FROM procedure_appointment_dates WHERE procedure_id_therapy = ?";
     String FindAppointmentDatesQuery = "SELECT appointment_dates from procedure_appointment_dates where procedure_id_therapy = ?";
@@ -82,7 +90,7 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
 
     @Override
     void setEntityValues(PreparedStatement statement, Procedure entity) throws SQLException {
-        statement.setLong(1,entity.getDiagnosis());
+        statement.setLong(1,entity.getDiagnosis().getIdDiagnosis());
         statement.setString(2,entity.getName());
         statement.setString(3,entity.getDescription());
         statement.setTimestamp(4, Timestamp.valueOf(entity.getAssigned()));
@@ -121,4 +129,23 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
     }
 
 
+    @Override
+    public List<Procedure> findProceduresWithDoctorByDiagnosisId(int start, int count, long diagnosisId) {
+        List<Procedure> found = null;
+        try (PreparedStatement statement = connection.prepareStatement(findProceduresByDiagnosisIdQuery)){
+            statement.setLong(1,diagnosisId);
+            statement.setInt(2,start);
+            statement.setInt(3,count);
+            found = getAllFromStatement(statement);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            found = new ArrayList<>();
+        }
+        return found;
+    }
+
+    @Override
+    public long countProceduresOfDiagnosis(long diagnosisId) {
+        return count(countProceduresByDiagnosisQuery + diagnosisId,proceduresCountLabel);
+    }
 }

@@ -9,10 +9,10 @@ import ua.training.servlet.hospital.service.user.AuthService;
 import ua.training.servlet.hospital.service.user.UserService;
 
 public abstract class ServiceFactory {
-    private static ServiceFactory serviceFactory;
+    private volatile static ServiceFactory serviceFactory;
 
-    public abstract UserService getUserService(UserDao dao);
-    public abstract AuthService getAuthService(UserService userService);
+    public abstract UserService getUserService();
+    public abstract AuthService getAuthService();
     public abstract DiagnosisService getDiagnosisService();
     public abstract MedicineService getMedicineService();
     public abstract ProcedureService getProcedureService();

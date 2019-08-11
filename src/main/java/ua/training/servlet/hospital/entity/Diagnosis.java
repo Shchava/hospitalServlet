@@ -16,6 +16,10 @@ public class Diagnosis {
     public Diagnosis() {
     }
 
+    public Diagnosis(long idDiagnosis) {
+        this.idDiagnosis = idDiagnosis;
+    }
+
     public Diagnosis(String name, String description, LocalDateTime assigned, LocalDateTime cured) {
         this.name = name;
         this.description = description;

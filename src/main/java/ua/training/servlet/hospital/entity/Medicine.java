@@ -11,13 +11,13 @@ public class Medicine extends Therapy {
     public Medicine() {
     }
 
-    public Medicine(long diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
+    public Medicine(Diagnosis diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
         super(diagnosis, name, description, assigned, assignedBy);
         this.count = count;
         this.refill = refill;
     }
 
-    public Medicine(long idTherapy, long diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
+    public Medicine(long idTherapy, Diagnosis diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, int count, LocalDate refill) {
         this(diagnosis,name,description,assigned,assignedBy,count,refill);
         setId(idTherapy);
     }

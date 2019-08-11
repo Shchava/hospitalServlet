@@ -3,6 +3,11 @@ package ua.training.servlet.hospital.entity.dto;
 
 public class DiagnosisDTO {
 
+    public DiagnosisDTO(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     private String name;
 
     private String description;

@@ -8,7 +8,7 @@ public class ProcedureDTO {
 
     String description;
 
-    int room;
+    Integer room;
 
     List<LocalDateTime> appointmentDates;
 
@@ -28,11 +28,11 @@ public class ProcedureDTO {
         this.description = description;
     }
 
-    public int getRoom() {
+    public Integer getRoom() {
         return room;
     }
 
-    public void setRoom(int room) {
+    public void setRoom(Integer room) {
         this.room = room;
     }
 

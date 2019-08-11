@@ -9,12 +9,12 @@ public class Surgery extends Therapy {
     public Surgery() {
     }
 
-    public Surgery(long diagnosis,String name, String description, LocalDateTime assigned, User assignedBy, LocalDateTime date) {
+    public Surgery(Diagnosis diagnosis,String name, String description, LocalDateTime assigned, User assignedBy, LocalDateTime date) {
         super(diagnosis, name, description, assigned, assignedBy);
         this.date = date;
     }
 
-    public Surgery(long idTherapy, long diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, LocalDateTime date) {
+    public Surgery(long idTherapy, Diagnosis diagnosis, String name, String description, LocalDateTime assigned, User assignedBy, LocalDateTime date) {
         super(idTherapy, diagnosis, name, description, assigned, assignedBy);
         this.date = date;
     }

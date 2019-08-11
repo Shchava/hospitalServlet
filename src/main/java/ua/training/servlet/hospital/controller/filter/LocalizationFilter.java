@@ -49,9 +49,14 @@ public class LocalizationFilter implements Filter {
     }
 
     private Optional<String> readCookie(String key, HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
-                .filter(c -> key.equals(c.getName()))
-                .map(Cookie::getValue)
-                .findAny();
+        Cookie[] cookies;
+        if(nonNull(cookies = request.getCookies())) {
+            return Arrays.stream(cookies)
+                    .filter(c -> key.equals(c.getName()))
+                    .map(Cookie::getValue)
+                    .findAny();
+        }else{
+            return Optional.empty();
+        }
     }
 }

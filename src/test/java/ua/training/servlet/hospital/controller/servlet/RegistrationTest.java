@@ -48,8 +48,8 @@ public class RegistrationTest {
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
         registration.init(config);
+        initMocks(this);
         when(request.getRequestDispatcher(any())).thenReturn(requestDispatcher);
         when(config.getServletContext()).thenReturn(context);
         when(context.getResourceAsStream(any()))
@@ -62,6 +62,14 @@ public class RegistrationTest {
         given(request.getParameter("password")).willReturn("password1");
         given(request.getParameter("confirmPassword")).willReturn("password1");
         given(request.getParameter("role")).willReturn(Roles.DOCTOR.name());
+    }
+
+    @Test
+    public void testGetPage() throws IOException, ServletException {
+        registration.doGet(request,response);
+
+        verify(request,times(1)).getRequestDispatcher("/register.jsp");
+        verify(requestDispatcher,times(1)).forward(any(),any());
     }
 
     @Test

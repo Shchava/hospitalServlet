@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class DiagnosisMapper implements ObjectMapper<Diagnosis>{
     @Override
     public Diagnosis extractFromResultSet(ResultSet rs) throws SQLException {
+        UserMapper userMapper = new UserMapper();
 
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setIdDiagnosis(rs.getLong("diagnosis.id_diagnosis"));
@@ -23,9 +24,7 @@ public class DiagnosisMapper implements ObjectMapper<Diagnosis>{
         }else{
             diagnosis.setCured(null);
         }
-        User doctor = new User();
-        doctor.setId(rs.getLong("diagnosis.doctor_id_user"));
-        diagnosis.setDoctor(doctor);
+        diagnosis.setDoctor(userMapper.extractFromResultSet(rs));
         User patient = new User();
         patient.setId(rs.getLong("diagnosis.patient_id_user"));
         diagnosis.setPatient(patient);

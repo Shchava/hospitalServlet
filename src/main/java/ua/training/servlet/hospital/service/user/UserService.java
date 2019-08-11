@@ -11,6 +11,7 @@ public interface UserService {
     Optional<User> getUser(String email);
     Optional<User> getUser(long id);
     boolean registerUser(UserDTO userDto);
-    int getNumberOfRecords();
+    long getNumberOfRecords();
     List<ShowUserToDoctorDTO> findPatientsToShow(int pageNumber, int UsersPerPage);
+    long getNumberOfPatients();
 }

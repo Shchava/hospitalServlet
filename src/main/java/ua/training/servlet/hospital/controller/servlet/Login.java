@@ -14,15 +14,14 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class Login extends HttpServlet {
-    private ServiceFactory serviceFactory;
     private UserService userService;
     AuthService auth;
 
-    public Login(){
-        super();
-        serviceFactory = ServiceFactory.getInstance();
-        userService = serviceFactory.getUserService(DaoFactory.getInstance().createUserDao());
-        auth = serviceFactory.getAuthService(userService);
+    @Override
+    public void init(){
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        userService = serviceFactory.getUserService();
+        auth = serviceFactory.getAuthService();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -51,7 +50,7 @@ public class Login extends HttpServlet {
     private String getRequestedPage(HttpServletRequest request){
         String url = request.getParameter("requestedUrl");
         if(url == null || url.startsWith("/login")){
-            url = "/index.jsp";
+            url = "/";
         }
         return url;
     }

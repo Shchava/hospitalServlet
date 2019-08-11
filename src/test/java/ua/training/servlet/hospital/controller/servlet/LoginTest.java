@@ -69,7 +69,7 @@ public class LoginTest {
         login.doPost(request, response);
 
         verify(session,times(1)).setAttribute("LoggedUser", foundUser);
-        verify(response,times(1)).sendRedirect("/index.jsp");
+        verify(response,times(1)).sendRedirect("/");
     }
 
 

@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.dao.mapper;
 
+import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Procedure;
 
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ public class ProcedureMapper implements ObjectMapper<Procedure> {
         UserMapper userMapper = new UserMapper();
 
         Procedure procedure = new Procedure();
-        procedure.setDiagnosis(rs.getLong("treatment.diagnosis"));
+        procedure.setDiagnosis(new Diagnosis(rs.getLong("treatment.diagnosis")));
         procedure.setId(rs.getLong("treatment.id_therapy"));
         procedure.setName(rs.getString("treatment.name"));
         procedure.setDescription(rs.getString("treatment.description"));

@@ -68,40 +68,45 @@ public class JDBCUserDaoTest {
     }
 
     @Test
-    public void test1Create() {
+    public void test01Create() {
         assertTrue(dao.create(user));
         User dbUser = dao.findById(user.getId()).get();
         assertEquals(user, dbUser);
     }
 
     @Test
-    public void test2FindByID() {
+    public void test02FindByID() {
         User dbUser = dao.findById(user.getId()).get();
         assertTrue(user.equals(dbUser));
     }
 
     @Test
     @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
-    public void test3FindRange() {
+    public void test03FindRange() {
         List<User> found = dao.findRange(4, 3);
         assertEquals(3, found.size());
         assertTrue(found.contains(user));
     }
 
     @Test
-    public void test4FindAll() {
+    public void test04FindAll() {
         List<User> all = dao.findAll();
         assertEquals(7, all.size());
         assertTrue(all.contains(user));
     }
 
     @Test
-    public void test5Count() {
+    public void test05Count() {
         assertEquals(7, dao.count());
     }
 
     @Test
-    public void test6Update() throws Exception {
+    public void test06CountPatients() {
+        assertEquals(3, dao.countPatients());
+    }
+
+    @Test
+    public void test07Update() throws Exception {
         long id = user.getId();
         String newName = "test2";
         user.setName(newName);
@@ -112,18 +117,18 @@ public class JDBCUserDaoTest {
 
     @Test
     @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
-    public void testFindPatientsForDoctorPage(){
+    public void test08FindPatientsForDoctorPage(){
         List<ShowUserToDoctorDTO> patients = dao.findPatientsForDoctorPage(0,3);
         assertEquals(2, patients.size());
     }
 
     @Test
-    public void test8FindByEmail() {
+    public void test09FindByEmail() {
         assertEquals(dao.findById(2),dao.findByEmail("email2@example.com"));
         assertEquals(dao.findById(4),dao.findByEmail("email4@example.com"));
     }
     @Test
-    public void test9Delete(){
+    public void test19Delete(){
         assertTrue(dao.delete(user.getId()));
         assertFalse(dao.findById(user.getId()).isPresent());
     }

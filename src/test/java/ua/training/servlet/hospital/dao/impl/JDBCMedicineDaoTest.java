@@ -1,6 +1,5 @@
 package ua.training.servlet.hospital.dao.impl;
 
-import org.h2.tools.RunScript;
 import org.h2.tools.Server;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -11,13 +10,12 @@ import org.mockito.stubbing.Answer;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.MedicineDao;
 import ua.training.servlet.hospital.dao.UserDao;
+import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.enums.Roles;
 
 import javax.sql.DataSource;
-import java.io.FileReader;
-import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.time.LocalDate;
@@ -36,7 +34,7 @@ public class JDBCMedicineDaoTest {
     private static Connection connection;
 
     private static User user = new User("testMedicineUserName", "testMedicineUserSurname", "testMedicineUserPatronymic", "JDBCMedicineDaoTestUser@example.com", "password", Roles.DOCTOR);
-    private static Medicine medicine = new Medicine(1,"testMedicineName","testDescription",LocalDateTime.now(),user,30,LocalDate.now().plusDays(30));
+    private static Medicine medicine = new Medicine(new Diagnosis(1),"testMedicineName","testDescription",LocalDateTime.now(),user,30,LocalDate.now().plusDays(30));
 
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
@@ -104,7 +102,20 @@ public class JDBCMedicineDaoTest {
     }
 
     @Test
-    public void test6Update() {
+    public void test6CountDiagnosesOfPatient() {
+        Assert.assertEquals(2, dao.countMedicinesOfDiagnosis(1));
+    }
+
+    @Test
+    @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
+    public void test7FindPatientsForDoctorPage() {
+        List<Medicine> found = dao.findMedicineWithDoctorByDiagnosisId(0, 5, 3);
+        assertEquals(4, found.size());
+        assertTrue(found.contains(medicine));
+    }
+
+    @Test
+    public void test8Update() {
         long id = medicine.getId();
         String newName = "test2";
         medicine.setName(newName);
@@ -114,7 +125,7 @@ public class JDBCMedicineDaoTest {
     }
 
     @Test
-    public void test7Delete(){
+    public void test9Delete(){
         assertTrue(dao.delete(medicine.getId()));
         assertFalse(dao.findById(medicine.getId()).isPresent());
     }
