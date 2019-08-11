@@ -20,7 +20,7 @@ public class DefaultServiceFactory extends ServiceFactory {
 
     @Override
     public UserService getUserService() {
-        return new UserServiceImpl(daoFactory.createUserDao());
+        return new UserServiceImpl(daoFactory);
     }
 
     @Override
@@ -30,22 +30,22 @@ public class DefaultServiceFactory extends ServiceFactory {
 
     @Override
     public DiagnosisService getDiagnosisService() {
-        return new DiagnosisServiceImpl(daoFactory.createDiagnosisDao());
+        return new DiagnosisServiceImpl(daoFactory);
     }
 
     @Override
     public MedicineService getMedicineService() {
-        return new MedicineServiceImpl(daoFactory.createMedicineDao());
+        return new MedicineServiceImpl(daoFactory);
     }
 
     @Override
     public ProcedureService getProcedureService() {
-        return new ProcedureServiceImpl(daoFactory.createProcedureDao());
+        return new ProcedureServiceImpl(daoFactory);
     }
 
     @Override
     public SurgeryService getSurgeryService() {
-        return new SurgeryServiceImpl(daoFactory.createSurgeryDao());
+        return new SurgeryServiceImpl(daoFactory);
     }
 
 }

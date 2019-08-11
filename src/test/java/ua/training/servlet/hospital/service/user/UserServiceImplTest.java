@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.dto.ShowUserToDoctorDTO;
@@ -24,13 +25,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UserServiceImplTest {
     @Mock
+    DaoFactory factory;
+
+    @Mock
     UserDao userDao;
 
     @Mock
     PasswordEncoder encoder;
 
     @InjectMocks
-    UserServiceImpl service = new UserServiceImpl(userDao);
+    UserServiceImpl service = new UserServiceImpl(factory);
 
     @Mock
     List<ShowUserToDoctorDTO> patientsDtoList;
@@ -53,6 +57,8 @@ public class UserServiceImplTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
+        given(factory.createUserDao()).willReturn(userDao);
 
         given(userDao.findByEmail(testEmail) ).willReturn(Optional.of(testUser));
         given(userDao.findByEmail(wrongEmail) ).willReturn(Optional.empty());

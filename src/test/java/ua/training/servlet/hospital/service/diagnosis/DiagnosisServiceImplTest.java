@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.dto.DiagnosisDTO;
@@ -24,10 +25,13 @@ import static ua.training.servlet.hospital.TestUtils.assertTimeIsBetween;
 
 public class DiagnosisServiceImplTest {
     @Mock
+    DaoFactory factory;
+
+    @Mock
     DiagnosisDao diagnosisDao;
 
     @InjectMocks
-    DiagnosisServiceImpl service = new DiagnosisServiceImpl(diagnosisDao);
+    DiagnosisServiceImpl service = new DiagnosisServiceImpl(factory);
 
     @Mock
     List<Diagnosis> diagnosesList;
@@ -45,6 +49,9 @@ public class DiagnosisServiceImplTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
+        given(factory.createDiagnosisDao()).willReturn(diagnosisDao);
+
         given(diagnosisDao.create(any())).willReturn(true);
         given(diagnosisDao.findDiagnosesByPatientId(anyInt(), anyInt(),anyLong())).willReturn(diagnosesList);
         given(diagnosisDao.create(any())).willReturn(true);

@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.service.diagnosis;
 
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
@@ -12,40 +13,47 @@ import java.util.List;
 import java.util.Optional;
 
 public class DiagnosisServiceImpl implements DiagnosisService {
+    DaoFactory factory;
 
-    DiagnosisDao diagnosisDao;
-
-    public DiagnosisServiceImpl(DiagnosisDao diagnosisDao) {
-        this.diagnosisDao = diagnosisDao;
+    public DiagnosisServiceImpl(DaoFactory factory) {
+        this.factory = factory;
     }
 
     @Override
     public List<Diagnosis> findDiagnosesByPatientId(int pageNumber, int DiagnosesPerPage, long patientId) {
-        return diagnosisDao.findDiagnosesByPatientId(pageNumber*DiagnosesPerPage,DiagnosesPerPage, patientId);
+        try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
+            return diagnosisDao.findDiagnosesByPatientId(pageNumber * DiagnosesPerPage, DiagnosesPerPage, patientId);
+        }
     }
 
     @Override
     public long getNumberOfDiagnosesByPatientId(long patientId) {
-        return diagnosisDao.countDiagnosesOfPatient(patientId);
+        try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
+            return diagnosisDao.countDiagnosesOfPatient(patientId);
+        }
     }
 
     @Override
     public boolean addDiagnosis(DiagnosisDTO dto, long patientId, long doctorId) {
-        return diagnosisDao.create(
-                new Diagnosis(
-                        dto.getName(),
-                        dto.getDescription(),
-                        getAssignedTime(),
-                        null,
-                        new User(patientId),
-                        new User(doctorId)
-                )
-        );
+        try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
+            return diagnosisDao.create(
+                    new Diagnosis(
+                            dto.getName(),
+                            dto.getDescription(),
+                            getAssignedTime(),
+                            null,
+                            new User(patientId),
+                            new User(doctorId)
+                    )
+            );
+        }
     }
 
     @Override
     public Optional<Diagnosis> getDiagnosis(long idDiagnosis) {
-        return diagnosisDao.findById(idDiagnosis);
+        try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
+            return diagnosisDao.findById(idDiagnosis);
+        }
     }
 
     private LocalDateTime getAssignedTime() {

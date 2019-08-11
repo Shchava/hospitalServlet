@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.service.medicine;
 
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.MedicineDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Medicine;
@@ -10,20 +11,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MedicineServiceImpl implements MedicineService {
-    private MedicineDao medicineDao;
+    private DaoFactory factory;
 
-    public MedicineServiceImpl(MedicineDao medicineDao) {
-        this.medicineDao = medicineDao;
+    public MedicineServiceImpl(DaoFactory factory) {
+        this.factory = factory;
     }
 
     @Override
     public long getNumberOfMedicineByDiagnosisId(long diagnosisId) {
-        return medicineDao.countMedicinesOfDiagnosis(diagnosisId);
+        try (MedicineDao medicineDao = factory.createMedicineDao()) {
+            return medicineDao.countMedicinesOfDiagnosis(diagnosisId);
+        }
     }
 
     @Override
     public List<Medicine> findMedicineByDiagnosisId(int pageNumber, int MedicinePerPage, long diagnosisId) {
-        return  medicineDao.findMedicineWithDoctorByDiagnosisId(pageNumber*MedicinePerPage,MedicinePerPage, diagnosisId);
+        try (MedicineDao medicineDao = factory.createMedicineDao()) {
+            return medicineDao.findMedicineWithDoctorByDiagnosisId(pageNumber * MedicinePerPage, MedicinePerPage, diagnosisId);
+        }
     }
 
     @Override
@@ -39,8 +44,9 @@ public class MedicineServiceImpl implements MedicineService {
         toCreate.setDiagnosis(new Diagnosis(diagnosisId));
         toCreate.setAssignedBy(assignedBy);
 
-
-        return medicineDao.create(toCreate);
+        try (MedicineDao medicineDao = factory.createMedicineDao()) {
+            return medicineDao.create(toCreate);
+        }
     }
 
     private LocalDateTime getAssignedTime() {

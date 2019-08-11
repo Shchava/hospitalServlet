@@ -1,6 +1,7 @@
 package ua.training.servlet.hospital.service.procedure;
 
 
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.ProcedureDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Procedure;
@@ -9,23 +10,26 @@ import ua.training.servlet.hospital.entity.dto.ProcedureDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public class ProcedureServiceImpl implements ProcedureService {
-    private ProcedureDao procedureDao;
+    private DaoFactory factory;
 
-    public ProcedureServiceImpl(ProcedureDao procedureDao) {
-        this.procedureDao = procedureDao;
+    public ProcedureServiceImpl(DaoFactory factory) {
+        this.factory = factory;
     }
 
     @Override
     public long getNumberOfProceduresByDiagnosisId(long diagnosisId) {
-        return procedureDao.countProceduresOfDiagnosis(diagnosisId);
+        try (ProcedureDao procedureDao = factory.createProcedureDao()) {
+            return procedureDao.countProceduresOfDiagnosis(diagnosisId);
+        }
     }
 
     @Override
     public List<Procedure> findProceduresByDiagnosisId(int pageNumber, int procedurePerPage, long diagnosisId) {
-        return procedureDao.findProceduresWithDoctorByDiagnosisId(pageNumber*procedurePerPage, procedurePerPage,diagnosisId);
+        try (ProcedureDao procedureDao = factory.createProcedureDao()) {
+            return procedureDao.findProceduresWithDoctorByDiagnosisId(pageNumber * procedurePerPage, procedurePerPage, diagnosisId);
+        }
     }
 
     @Override
@@ -39,8 +43,9 @@ public class ProcedureServiceImpl implements ProcedureService {
         toCreate.setDiagnosis(new Diagnosis(doctorId));
         toCreate.setAssignedBy(new User(doctorId));
 
-
-        return procedureDao.create(toCreate);
+        try (ProcedureDao procedureDao = factory.createProcedureDao()) {
+            return procedureDao.create(toCreate);
+        }
     }
 
 

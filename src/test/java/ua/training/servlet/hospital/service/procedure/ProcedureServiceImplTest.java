@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.ProcedureDao;
 import ua.training.servlet.hospital.entity.Procedure;
 import ua.training.servlet.hospital.entity.dto.ProcedureDTO;
@@ -25,10 +26,13 @@ import static ua.training.servlet.hospital.TestUtils.assertTimeIsBetween;
 
 public class ProcedureServiceImplTest {
     @Mock
+    DaoFactory factory;
+
+    @Mock
     ProcedureDao dao;
 
     @InjectMocks
-    ProcedureServiceImpl service = new ProcedureServiceImpl(dao);
+    ProcedureServiceImpl service = new ProcedureServiceImpl(factory);
 
     @Mock
     List<Procedure> foundList;
@@ -54,6 +58,9 @@ public class ProcedureServiceImplTest {
         ));
 
         initMocks(this);
+
+        given(factory.createProcedureDao()).willReturn(dao);
+
         given(dao.findProceduresWithDoctorByDiagnosisId(anyInt(), anyInt(), anyLong())).willReturn(foundList);
         given(dao.create(any())).willReturn(true);
     }

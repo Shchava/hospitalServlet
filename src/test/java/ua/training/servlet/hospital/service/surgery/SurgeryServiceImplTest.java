@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.SurgeryDao;
 import ua.training.servlet.hospital.entity.Surgery;
 import ua.training.servlet.hospital.entity.dto.SurgeryDTO;
@@ -24,10 +25,13 @@ import static ua.training.servlet.hospital.TestUtils.assertTimeIsBetween;
 
 public class SurgeryServiceImplTest {
     @Mock
+    DaoFactory factory;
+
+    @Mock
     SurgeryDao dao;
 
     @InjectMocks
-    SurgeryServiceImpl service = new SurgeryServiceImpl(dao);
+    SurgeryServiceImpl service = new SurgeryServiceImpl(factory);
 
     @Mock
     List<Surgery> foundList;
@@ -48,6 +52,9 @@ public class SurgeryServiceImplTest {
         dto.setSurgeryDate(LocalDateTime.of(2019, 9, 5, 12, 0));
 
         initMocks(this);
+
+        given(factory.createSurgeryDao()).willReturn(dao);
+
         given(dao.findSurgeriesWithDoctorByDiagnosisId(anyInt(), anyInt(), anyLong())).willReturn(foundList);
 
         given(dao.create(any())).willReturn(true);

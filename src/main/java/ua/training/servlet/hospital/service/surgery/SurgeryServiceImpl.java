@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.service.surgery;
 
+import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.SurgeryDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.Surgery;
@@ -10,20 +11,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class SurgeryServiceImpl implements SurgeryService {
-    private SurgeryDao surgeryDao;
+    private DaoFactory factory;
 
-    public SurgeryServiceImpl(SurgeryDao surgeryDao) {
-        this.surgeryDao = surgeryDao;
+    public SurgeryServiceImpl(DaoFactory factory) {
+        this.factory = factory;
     }
 
     @Override
     public long getNumberOfSurgeriesByDiagnosisId(long diagnosisId) {
-        return surgeryDao.countSurgeriesOfDiagnosis(diagnosisId);
+        try (SurgeryDao surgeryDao = factory.createSurgeryDao()) {
+            return surgeryDao.countSurgeriesOfDiagnosis(diagnosisId);
+        }
     }
 
     @Override
     public List<Surgery> findSurgeriesByDiagnosisId(int pageNumber, int surgeryPerPage, long diagnosisId) {
-        return surgeryDao.findSurgeriesWithDoctorByDiagnosisId(pageNumber * surgeryPerPage, surgeryPerPage, diagnosisId);
+        try (SurgeryDao surgeryDao = factory.createSurgeryDao()) {
+            return surgeryDao.findSurgeriesWithDoctorByDiagnosisId(pageNumber * surgeryPerPage, surgeryPerPage, diagnosisId);
+        }
     }
 
     @Override
@@ -36,7 +41,9 @@ public class SurgeryServiceImpl implements SurgeryService {
         toCreate.setDiagnosis(new Diagnosis(diagnosisId));
         toCreate.setAssignedBy(new User(doctorId));
 
-        return surgeryDao.create(toCreate);
+        try (SurgeryDao surgeryDao = factory.createSurgeryDao()) {
+            return surgeryDao.create(toCreate);
+        }
     }
 
 
