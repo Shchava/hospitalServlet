@@ -392,7 +392,7 @@
 
 
                         <div id="surgeryCreated" class="alert alert-info createNotification" role="alert">
-                            <fmt:message key="doctor.showDiagnosis.procedureCreated"/></div>
+                            <fmt:message key="doctor.showDiagnosis.surgeryCreated"/></div>
                         <div id="surgeryCreationError" class="alert alert-danger fieldError" role="alert"></div>
 
 
@@ -1143,7 +1143,7 @@
                             errMessage.html(error.message);
                             errMessage.show();
 
-                        } else if (error.cause === "room") {
+                        } else if (error.cause === "surgeryDate") {
                             var errMessage = $("#surgeryDateFieldError");
                             errMessage.html(error.message);
                             errMessage.show();
