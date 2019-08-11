@@ -983,10 +983,9 @@
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function (data) {
-                $("#medicineNameFieldError").hide();
-                $("#medicineCountFieldError").hide();
-                $("#addMedicine").hide();
                 console.log(data);
+                $("#addMedicine").hide();
+                hideMedicineNotifications();
                 if (data.message === "created") {
                     $("#medicineCreated").show();
                 } else {
@@ -997,6 +996,7 @@
             },
             error: function (data) {
                 console.log(data);
+                hideMedicineNotifications();
                 data.responseJSON.errors.forEach(function (error) {
                     console.log(error);
                     if (error.cause === "name") {
@@ -1008,7 +1008,11 @@
                         var errMessage = $("#medicineCountFieldError");
                         errMessage.html(error.message);
                         errMessage.show();
-                    } else {
+                    } else if (error.cause === "object") {
+                        var errMessage = $("#medicineCreationError");
+                        errMessage.html(error.message);
+                        errMessage.show();
+                    }else {
                         var errMessage = $("#medicineCreationError");
                         errMessage.html(error.message);
                         errMessage.show();
@@ -1017,7 +1021,14 @@
             }
         });
 
+    }
 
+
+    function hideMedicineNotifications() {
+        $("#medicineNameFieldError").hide();
+        $("#medicineCountFieldError").hide();
+        $("#medicineCreationError").hide();
+        $("#medicineCreated").hide();
     }
 
     function sendAddProcedure() {
@@ -1039,11 +1050,8 @@
             data: JSON.stringify(formData),
             success: function (data) {
                 console.log(data);
-
-                $("#procedureNameFieldError").hide();
-                $("#procedureRoomFieldError").hide();
                 $("#addProcedure").hide();
-                console.log(data);
+                hideProcedureNotifications();
                 if (data.message === "created") {
                     $("#procedureCreated").show();
                 } else {
@@ -1054,6 +1062,7 @@
             },
             error: function (data) {
                 console.log(data);
+                hideProcedureNotifications();
                 if (data.responseJSON.errors !== 'undefined' && data.responseJSON.errors.length > 0) {
                     data.responseJSON.errors.forEach(function (error) {
                         if (error.cause === "name") {
@@ -1063,6 +1072,10 @@
 
                         } else if (error.cause === "room") {
                             var errMessage = $("#procedureRoomFieldError");
+                            errMessage.html(error.message);
+                            errMessage.show();
+                        } else if (error.cause === "object") {
+                            var errMessage = $("#procedureCreationError");
                             errMessage.html(error.message);
                             errMessage.show();
                         } else {
@@ -1079,6 +1092,14 @@
             }
         });
 
+    }
+
+
+    function hideProcedureNotifications() {
+        $("#procedureNameFieldError").hide();
+        $("#procedureRoomFieldError").hide();
+        $("#procedureCreationError").hide();
+        $("#procedureCreated").hide();
     }
 
     <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR'}">
@@ -1101,10 +1122,8 @@
             data: JSON.stringify(formData),
             success: function (data) {
                 console.log(data);
-
-                $("#surgeryNameFieldError").hide();
-                $("#surgeryDateFieldError").hide();
                 $("#addSurgery").hide();
+                hideSurgeryNotifications();
                 console.log(data);
                 if (data.message === "created") {
                     $("#surgeryCreated").show();
@@ -1116,6 +1135,7 @@
             },
             error: function (data) {
                 console.log(data);
+                hideSurgeryNotifications();
                 if (data.responseJSON.errors !== 'undefined' && data.responseJSON.errors.length > 0) {
                     data.responseJSON.errors.forEach(function (error) {
                         if (error.cause === "name") {
@@ -1125,6 +1145,10 @@
 
                         } else if (error.cause === "room") {
                             var errMessage = $("#surgeryDateFieldError");
+                            errMessage.html(error.message);
+                            errMessage.show();
+                        } else if (error.cause === "object") {
+                            var errMessage = $("#surgeryCreationError");
                             errMessage.html(error.message);
                             errMessage.show();
                         } else {
@@ -1142,6 +1166,12 @@
         });
     }
 
+    function hideSurgeryNotifications() {
+        $("#surgeryNameFieldError").hide();
+        $("#surgeryDateFieldError").hide();
+        $("#surgeryCreationError").hide();
+        $("#surgeryCreated").hide();
+    }
     </c:if>
 
     function getFormData($form) {
