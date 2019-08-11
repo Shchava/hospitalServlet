@@ -49,8 +49,8 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
     void setEntityValues(PreparedStatement statement, Diagnosis entity) throws SQLException{
         statement.setString(1,entity.getName());
         statement.setString(2,entity.getDescription());
-        statement.setTimestamp(3, Timestamp.valueOf(entity.getAssigned()));
-        statement.setTimestamp(4, Timestamp.valueOf(entity.getCured()));
+        statement.setObject(3, entity.getAssigned());
+        statement.setObject(4, entity.getCured());
         statement.setLong(5,entity.getDoctor().getId());
         statement.setLong(6,entity.getPatient().getId());
     }
