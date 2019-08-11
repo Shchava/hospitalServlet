@@ -1,5 +1,7 @@
 package ua.training.servlet.hospital.controller.filter;
 
+import ua.training.servlet.hospital.controller.utilities.SecurityUtility;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +23,20 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
-        String path = (request).getRequestURI();
-        if (path.startsWith("/login") || path.startsWith("/registration")) {
-            filterChain.doFilter(request, response);
-        }else {
-            HttpSession session = request.getSession();
-            if (nonNull(session) && nonNull(session.getAttribute("LoggedUser"))) {
-                filterChain.doFilter(servletRequest, servletResponse);
-            } else {
-                servletRequest.setAttribute("requestedUrl",path);
-                servletRequest.getRequestDispatcher("/login.jsp").forward(servletRequest, servletResponse);
-            }
+        if (SecurityUtility.hasAccess(request)) {
+            giveAccess(filterChain,request,response);
+        }else{
+            denyAccess(request,response);
         }
+    }
+
+    private void giveAccess(FilterChain filterChain, HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws IOException, ServletException {
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private void denyAccess(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {
+        servletRequest.setAttribute("requestedUrl",servletRequest.getRequestURI());
+        servletRequest.getRequestDispatcher("/login.jsp").forward(servletRequest, servletResponse);
     }
 
     @Override
