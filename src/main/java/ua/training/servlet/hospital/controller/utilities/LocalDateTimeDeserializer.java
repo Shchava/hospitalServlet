@@ -15,6 +15,6 @@ public class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime
         if(jsonElement.isJsonNull() || jsonElement.getAsString().isEmpty()){
             return null;
         }
-        return LocalDateTime.parse(jsonElement.toString());
+        return LocalDateTime.parse(jsonElement.toString().replaceAll("\"",""),DateTimeFormatter.ISO_DATE_TIME);
     }
 }

@@ -12,6 +12,7 @@ import ua.training.servlet.hospital.service.medicine.MedicineService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import static ua.training.servlet.hospital.controller.command.utilities.GetPathAttribute.getDiagnosisIdOrAddError;
@@ -43,7 +44,7 @@ public class AddMedicine implements RestCommand {
         MedicineDTO dto = null;
         try {
             dto = gson.fromJson(request.getReader(), MedicineDTO.class);
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException | NumberFormatException | DateTimeParseException e) {
             e.printStackTrace();
             response.addError(new CreationError("name", errors.getString("exceptionHandler.json.message")));
         }
