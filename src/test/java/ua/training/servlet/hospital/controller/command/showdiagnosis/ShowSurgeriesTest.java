@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
 import ua.training.servlet.hospital.entity.Surgery;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.entity.dto.Page;
 import ua.training.servlet.hospital.service.surgery.SurgeryService;
 
@@ -63,7 +64,9 @@ public class ShowSurgeriesTest {
 
     @Test
     public void testGetMedicine () {
-        assertEquals(gson.toJson(createdPage), showSurgeries.execute(request));
+        CommandResponse response = showSurgeries.execute(request);
+        assertEquals(gson.toJson(createdPage), response.getResponse());
+        assertEquals(200, response.getStatus());
         verify(surgeryService,times(1)).findSurgeriesByDiagnosisId(2,5,5L);
         verify(pagination,times(1)).createPage(surgeries);
     }

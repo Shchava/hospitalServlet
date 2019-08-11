@@ -6,6 +6,7 @@ import ua.training.servlet.hospital.controller.utilities.GsonFactory;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
 import ua.training.servlet.hospital.entity.Procedure;
 import ua.training.servlet.hospital.entity.Surgery;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.entity.dto.Page;
 import ua.training.servlet.hospital.service.ServiceFactory;
 import ua.training.servlet.hospital.service.procedure.ProcedureService;
@@ -25,7 +26,7 @@ public class ShowSurgeries   implements RestCommand {
 
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResponse execute(HttpServletRequest request) {
         long idUser;
         long idDiagnosis;
 
@@ -33,7 +34,7 @@ public class ShowSurgeries   implements RestCommand {
             idUser = getUserId(request);
             idDiagnosis = getDiagnosisId(request);
         }catch (NumberFormatException ex){
-            return "wrong request";
+            return new CommandResponse(400,ex.getLocalizedMessage());
         }
 
         long procedureCount = surgeryService.getNumberOfSurgeriesByDiagnosisId(idDiagnosis);
@@ -43,7 +44,7 @@ public class ShowSurgeries   implements RestCommand {
 
         Page page = utility.createPage(requestedMedicines);
 
-        return gson.toJson(page);
+        return new CommandResponse(200, gson.toJson(page));
     }
 
 }

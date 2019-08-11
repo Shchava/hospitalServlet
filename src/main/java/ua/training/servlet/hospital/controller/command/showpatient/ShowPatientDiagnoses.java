@@ -4,6 +4,7 @@ import ua.training.servlet.hospital.controller.command.Command;
 import ua.training.servlet.hospital.controller.utilities.PaginationUtility;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.User;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.service.ServiceFactory;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
 import ua.training.servlet.hospital.service.user.UserService;
@@ -21,7 +22,7 @@ public class ShowPatientDiagnoses implements Command {
     private PaginationUtility pagination = new PaginationUtility();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResponse execute(HttpServletRequest request) {
         long idUser;
         User patient;
 
@@ -29,7 +30,7 @@ public class ShowPatientDiagnoses implements Command {
             idUser = getUserId(request);
             patient = userService.getUser(idUser).orElseThrow(NoSuchElementException::new);
         }catch (NumberFormatException|NoSuchElementException ex){
-            return "/notFoundPage.jsp";
+            return new CommandResponse(404,"/notFoundPage.jsp");
         }
 
         long diagnosesCount = diagnosisService.getNumberOfDiagnosesByPatientId(idUser);
@@ -41,7 +42,7 @@ public class ShowPatientDiagnoses implements Command {
         request.setAttribute("patient",patient);
         request.setAttribute("diagnoses",diagnoses);
 
-        return  "/showPatient.jsp";
+        return  new CommandResponse(200,"/showPatient.jsp");
     }
 
 

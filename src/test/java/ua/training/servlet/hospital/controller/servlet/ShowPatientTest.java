@@ -9,6 +9,7 @@ import ua.training.servlet.hospital.controller.command.RestCommand;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowDiagnosis;
 import ua.training.servlet.hospital.controller.command.showdiagnosis.ShowMedicine;
 import ua.training.servlet.hospital.controller.command.showpatient.ShowPatientDiagnoses;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -70,10 +71,10 @@ public class ShowPatientTest {
 
         when(response.getWriter()).thenReturn(mockWriter);
 
-        when(showPatientDiagnoses.execute(request)).thenReturn("/showPatient.jsp");
-        when(showDiagnosis.execute(request)).thenReturn("/showDiagnosis.jsp");
+        when(showPatientDiagnoses.execute(request)).thenReturn(new CommandResponse(200,"/showPatient.jsp"));
+        when(showDiagnosis.execute(request)).thenReturn(new CommandResponse(200,"/showDiagnosis.jsp"));
 
-        when(showMedicine.execute(request)).thenReturn(JSON);
+        when(showMedicine.execute(request)).thenReturn(new CommandResponse(200,JSON));
     }
 
     @Test

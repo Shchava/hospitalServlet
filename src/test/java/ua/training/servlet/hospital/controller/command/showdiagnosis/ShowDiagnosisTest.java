@@ -4,7 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import ua.training.servlet.hospital.controller.command.Command;
 import ua.training.servlet.hospital.entity.Diagnosis;
+import ua.training.servlet.hospital.entity.dto.CommandResponse;
 import ua.training.servlet.hospital.service.diagnosis.DiagnosisService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +45,9 @@ public class ShowDiagnosisTest {
 
     @Test
     public void showPatient(){
-        assertEquals("/showDiagnosis.jsp",showDiagnosis.execute(request));
+        CommandResponse response = showDiagnosis.execute(request);
+        assertEquals("/showDiagnosis.jsp",response.getResponse());
+        assertEquals(200,response.getStatus());
         verify(request,times(1)).setAttribute("diagnosis",foundDiagnosis);
     }
 
@@ -51,7 +55,9 @@ public class ShowDiagnosisTest {
     public void showNotExistingPatient(){
         given(diagnosisService.getDiagnosis(2L)).willReturn(Optional.empty());
 
-        assertEquals("/notFoundPage.jsp",showDiagnosis.execute(request));
+        CommandResponse response = showDiagnosis.execute(request);
+        assertEquals("/notFoundPage.jsp",response.getResponse());
+        assertEquals(404,response.getStatus());
 
         verify(request,times(0)).setAttribute(eq("diagnosis"),any());
     }
