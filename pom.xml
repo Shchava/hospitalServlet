@@ -146,6 +146,9 @@
           <configuration>
             <port>8080</port>
             <path>/</path>
+            <server>TomcatServer</server>
+              <username>admin</username>
+              <password>password</password>
           </configuration>
         </plugin>
       </plugins>
