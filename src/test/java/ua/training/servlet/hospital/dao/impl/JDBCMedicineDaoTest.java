@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.dao.impl;
 
+import org.h2.tools.RunScript;
 import org.h2.tools.Server;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -16,8 +17,12 @@ import ua.training.servlet.hospital.entity.User;
 import ua.training.servlet.hospital.entity.enums.Roles;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,8 +52,15 @@ public class JDBCMedicineDaoTest {
 
 
     @BeforeClass
-    public static void getConnection() throws Exception {
-        connection = DriverManager.getConnection("jdbc:h2:mem:" + dbName, "sa", "");
+    public static void init() throws FileNotFoundException, SQLException {
+        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
+        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
+
+        connection = DriverManager.getConnection("jdbc:h2:mem:hospital", "sa", "");
+
+        RunScript.execute(connection, schema);
+        RunScript.execute(connection, data);
+
     }
 
     @AfterClass
