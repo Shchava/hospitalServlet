@@ -1,6 +1,7 @@
 package ua.training.servlet.hospital.controller.filter;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -55,7 +56,7 @@ public class AuthFilterTest {
                 Roles.DOCTOR);
 
         given(session.getAttribute("LoggedUser")).willReturn(loggedUser);
-        given(request.getRequestURI()).willReturn("/index");
+        given(request.getRequestURI()).willReturn("/");
 
         login.doFilter(request,response,chain);
 
@@ -79,7 +80,7 @@ public class AuthFilterTest {
     public void testLoginPageAcces() throws IOException, ServletException {
 
         given(session.getAttribute("LoggedUser")).willReturn(null);
-        given(request.getRequestURI()).willReturn("/login.jsp");
+        given(request.getRequestURI()).willReturn("/login");
 
         login.doFilter(request,response,chain);
 
@@ -91,7 +92,7 @@ public class AuthFilterTest {
     public void testRegistrationPageAcces() throws IOException, ServletException {
 
         given(session.getAttribute("LoggedUser")).willReturn(null);
-        given(request.getRequestURI()).willReturn("/registration.jsp");
+        given(request.getRequestURI()).willReturn("/registration");
 
         login.doFilter(request,response,chain);
 

@@ -15,6 +15,7 @@ import ua.training.servlet.hospital.entity.dto.ShowUserToDoctorDTO;
 import ua.training.servlet.hospital.entity.enums.Roles;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.sql.Connection;
@@ -48,8 +49,15 @@ public class JDBCUserDaoTest {
     DataSource source;
 
     @BeforeClass
-    public static void getConnection() throws Exception {
-        connection = DriverManager.getConnection("jdbc:h2:mem:" + dbName, "sa", "");
+    public static void init() throws FileNotFoundException, SQLException {
+        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
+        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
+
+        connection = DriverManager.getConnection("jdbc:h2:mem:hospital", "sa", "");
+
+        RunScript.execute(connection, schema);
+        RunScript.execute(connection, data);
+
     }
 
     @AfterClass

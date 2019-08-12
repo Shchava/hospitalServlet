@@ -1,5 +1,6 @@
 package ua.training.servlet.hospital.dao.impl;
 
+import org.h2.tools.RunScript;
 import org.h2.tools.Server;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -12,18 +13,20 @@ import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
 import ua.training.servlet.hospital.entity.User;
-import ua.training.servlet.hospital.entity.dto.ShowUserToDoctorDTO;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.time.LocalDate;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -31,25 +34,28 @@ public class JDBCDiagnosisDaoTest {
     private static Server server;
     private static String dbName = "hospital";
     private static Connection connection;
-
+    private static Diagnosis diagnosis = new Diagnosis(
+            "testDiagnosisName",
+            "testDiagnosisDescription",
+            LocalDateTime.of(2019, 6, 20, 12, 30),
+            LocalDateTime.of(2019, 8, 7, 10, 30));
     @InjectMocks
     DaoFactory factory = DaoFactory.getInstance();
-
     @Mock
     DataSource source;
-
     private DiagnosisDao dao;
     private UserDao userDao;
 
-    private static Diagnosis  diagnosis = new Diagnosis(
-            "testDiagnosisName",
-            "testDiagnosisDescription",
-            LocalDateTime.of(2019,6,20,12,30),
-            LocalDateTime.of(2019,8,7,10,30));
-
     @BeforeClass
-    public static void getConnection() throws Exception {
-        connection = DriverManager.getConnection("jdbc:h2:mem:" + dbName, "sa", "");
+    public static void init() throws FileNotFoundException, SQLException {
+        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
+        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
+
+        connection = DriverManager.getConnection("jdbc:h2:mem:hospital", "sa", "");
+
+        RunScript.execute(connection, schema);
+        RunScript.execute(connection, data);
+
     }
 
     @AfterClass
@@ -115,8 +121,8 @@ public class JDBCDiagnosisDaoTest {
 
     @Test
     @Ignore //H2 does not support SQL_CALC_FOUND_ROWS
-    public void test7FindPatientsForDoctorPage(){
-        List<Diagnosis> diagnoses = dao.findDiagnosesByPatientId(0,3,3);
+    public void test7FindPatientsForDoctorPage() {
+        List<Diagnosis> diagnoses = dao.findDiagnosesByPatientId(0, 3, 3);
         assertEquals(4, diagnoses.size());
         assertTrue(diagnoses.contains(diagnosis));
     }
@@ -132,7 +138,7 @@ public class JDBCDiagnosisDaoTest {
     }
 
     @Test
-    public void test9Delete(){
+    public void test9Delete() {
         assertTrue(dao.delete(diagnosis.getIdDiagnosis()));
         assertFalse(dao.findById(diagnosis.getIdDiagnosis()).isPresent());
     }

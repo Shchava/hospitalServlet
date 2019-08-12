@@ -7,6 +7,8 @@ import ua.training.servlet.hospital.controller.command.showpatient.AddDiagnosisT
 import ua.training.servlet.hospital.controller.command.showpatient.ShowPatientDiagnosesTest;
 import ua.training.servlet.hospital.controller.command.utilities.GetPathAttributeTest;
 import ua.training.servlet.hospital.controller.command.utilities.GetSessionAttributeTest;
+import ua.training.servlet.hospital.controller.filter.AuthFilter;
+import ua.training.servlet.hospital.controller.filter.AuthFilterTest;
 import ua.training.servlet.hospital.controller.filter.EncodingFilterTest;
 import ua.training.servlet.hospital.controller.filter.LocalizationFilterTest;
 import ua.training.servlet.hospital.controller.servlet.*;
@@ -31,6 +33,7 @@ import ua.training.servlet.hospital.controller.utilities.SecurityUtilityTest;
         AddMedicineTest.class,
         AddProcedureTest.class,
         AddSurgeryTest.class,
+        AuthFilterTest.class,
         LocalizationFilterTest.class,
         EncodingFilterTest.class,
         GetPathAttributeTest.class,

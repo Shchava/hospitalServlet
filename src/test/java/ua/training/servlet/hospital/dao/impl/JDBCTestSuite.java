@@ -23,22 +23,7 @@ import java.sql.SQLException;
 })
 
 public class JDBCTestSuite {
-    static Connection connection;
 
-    @BeforeClass
-    public static void init() throws FileNotFoundException, SQLException {
-        Reader schema = new FileReader("src/test/resources/hospitalDatabaseSchema.sql");
-        Reader data = new FileReader("src/test/resources/hospitalDatabaseData.sql");
 
-        connection = DriverManager.getConnection("jdbc:h2:mem:hospital", "sa", "");
 
-        RunScript.execute(connection, schema);
-        RunScript.execute(connection, data);
-
-    }
-
-    @AfterClass
-    public static void closeConnection() throws SQLException {
-        connection.close();
-    }
 }
