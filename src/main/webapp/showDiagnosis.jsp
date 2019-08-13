@@ -232,34 +232,36 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="addMedicine" class="addNewMedicine">
-                        <form id="addMedicineForm" action="/doctor/diagnosis${diagnosis.idDiagnosis}/addMedicine"
-                              method="POST" enctype="utf8">
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addTherapy.name"/></label>
-                                <div id="medicineNameFieldError" class="alert alert-danger fieldError" role="alert"
-                                     required="required"></div>
-                                <input type="text" name="name" class="form-control" value=""/>
-                            </div>
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addTherapy.description"/></label>
-                                <textarea type="text" name="description" class="form-control  input-description"
-                                          value=""></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addMedicine.count"/></label>
-                                <div id="medicineCountFieldError" class="alert alert-danger fieldError"
-                                     role="alert"></div>
-                                <input type="number" class="form-control" name="count" value="" required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addMedicine.refill"/></label>
-                                <input type='date' name="refill" class="form-control"/>
-                            </div>
-                        </form>
-                    </div>
-                    <button id="addMedicineBtn" role="button" class="btn btn-primary btn-lg btn-block show-button">
-                        <fmt:message key="doctor.showDiagnosis.addMedicine.button"/></button>
+                    <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' || sessionScope.LoggedUser.role == 'NURSE'}">
+                        <div id="addMedicine" class="addNewMedicine">
+                            <form id="addMedicineForm" action="/doctor/diagnosis${diagnosis.idDiagnosis}/addMedicine"
+                                  method="POST" enctype="utf8">
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addTherapy.name"/></label>
+                                    <div id="medicineNameFieldError" class="alert alert-danger fieldError" role="alert"
+                                         required="required"></div>
+                                    <input type="text" name="name" class="form-control" value=""/>
+                                </div>
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addTherapy.description"/></label>
+                                    <textarea type="text" name="description" class="form-control  input-description"
+                                              value=""></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addMedicine.count"/></label>
+                                    <div id="medicineCountFieldError" class="alert alert-danger fieldError"
+                                         role="alert"></div>
+                                    <input type="number" class="form-control" name="count" value="" required="required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addMedicine.refill"/></label>
+                                    <input type='date' name="refill" class="form-control"/>
+                                </div>
+                            </form>
+                        </div>
+                        <button id="addMedicineBtn" role="button" class="btn btn-primary btn-lg btn-block show-button">
+                            <fmt:message key="doctor.showDiagnosis.addMedicine.button"/></button>
+                    </c:if>
                 </div>
 
                 <button id="showProcedures" role="button" class="btn btn-primary btn-lg btn-block show-button">
@@ -341,39 +343,39 @@
                         </div>
                     </div>
 
+                    <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' || sessionScope.LoggedUser.role == 'NURSE'}">
+                        <div id="addProcedure" class="addNewProcedure">
+                            <form id="addProcedureForm" method="POST" enctype="utf8">
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addTherapy.name"/></label>
+                                    <div id="procedureNameFieldError" class="alert alert-danger fieldError" role="alert"
+                                         required="required"></div>
+                                    <input type="text" name="name" class="form-control" value=""/>
+                                </div>
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addTherapy.description"/></label>
+                                    <textarea type="text" name="description" class="form-control  input-description"
+                                              value=""></textarea>
+                                </div>
 
-                    <div id="addProcedure" class="addNewProcedure">
-                        <form id="addProcedureForm" method="POST" enctype="utf8">
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addTherapy.name"/></label>
-                                <div id="procedureNameFieldError" class="alert alert-danger fieldError" role="alert"
-                                     required="required"></div>
-                                <input type="text" name="name" class="form-control" value=""/>
-                            </div>
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addTherapy.description"/></label>
-                                <textarea type="text" name="description" class="form-control  input-description"
-                                          value=""></textarea>
-                            </div>
+                                <div class="form-group">
+                                    <label><fmt:message key="doctor.showDiagnosis.addProcedure.room"/></label>
+                                    <div id="procedureRoomFieldError" class="alert alert-danger fieldError"
+                                         role="alert"></div>
+                                    <input type="number" class="form-control" name="room" value="" required="required"/>
+                                </div>
 
-                            <div class="form-group">
-                                <label><fmt:message key="doctor.showDiagnosis.addProcedure.room"/></label>
-                                <div id="procedureRoomFieldError" class="alert alert-danger fieldError"
-                                     role="alert"></div>
-                                <input type="number" class="form-control" name="room" value="" required="required"/>
-                            </div>
+                                <div id="appointmentDatesDiv" class="form-group assignedDatesWrap">
+                                    <label><fmt:message key="doctor.showDiagnosis.addProcedure.apponitmentdates"/></label>
+                                    <button id="addAssignedDateBtn" class="add_field_button"><fmt:message key="doctor.showDiagnosis.addProcedure.addNewDate"/></button>
+                                </div>
 
-                            <div id="appointmentDatesDiv" class="form-group assignedDatesWrap">
-                                <label><fmt:message key="doctor.showDiagnosis.addProcedure.apponitmentdates"/></label>
-                                <button id="addAssignedDateBtn" class="add_field_button"><fmt:message key="doctor.showDiagnosis.addProcedure.addNewDate"/></button>
-                            </div>
+                            </form>
+                        </div>
 
-                        </form>
-                    </div>
-
-                    <button id="addProcedureBtn" role="button" class="btn btn-primary btn-lg btn-block show-button">
-                        <fmt:message key="doctor.showDiagnosis.addProcedure.button"/></button>
-
+                        <button id="addProcedureBtn" role="button" class="btn btn-primary btn-lg btn-block show-button">
+                            <fmt:message key="doctor.showDiagnosis.addProcedure.button"/></button>
+                    </c:if>
                 </div>
                 <button id="showSurgeries" role="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="doctor.showDiagnosis.showSurgeries"/></button>
                 <div class="clearfix"></div>
@@ -506,13 +508,15 @@
             }
         });
 
-        $("#addMedicineBtn").click(function () {
-            if ($("#addMedicine").is(":visible")) {
-                sendAddMedicine();
-            } else {
-                $("#addMedicine").show();
-            }
-        });
+        <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' || sessionScope.LoggedUser.role == 'NURSE'}">
+            $("#addMedicineBtn").click(function () {
+                if ($("#addMedicine").is(":visible")) {
+                    sendAddMedicine();
+                } else {
+                    $("#addMedicine").show();
+                }
+            });
+        </c:if>
 
         $("#showProcedures").click(function () {
             if ($("#procedureContainer").is(":visible")) {
@@ -523,13 +527,15 @@
             }
         });
 
-        $("#addProcedureBtn").click(function () {
-            if ($("#addProcedure").is(":visible")) {
-                sendAddProcedure();
-            } else {
-                $("#addProcedure").show();
-            }
-        });
+        <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' || sessionScope.LoggedUser.role == 'NURSE'}">
+            $("#addProcedureBtn").click(function () {
+                if ($("#addProcedure").is(":visible")) {
+                    sendAddProcedure();
+                } else {
+                    $("#addProcedure").show();
+                }
+            });
+        </c:if>
 
         $("#showSurgeries").click(function () {
             if ($("#surgeryContainer").is(":visible")) {
@@ -553,6 +559,10 @@
 
         $("#surgeryDateField").val(new Date().toJSON().slice(0, 19));
         $("#surgeryDateField").attr("min", (new Date().toJSON().slice(0, 19)));
+
+        $("#closeDiagnosisButton").click(function () {
+            closeDiagnosis();
+        });
 
         </c:if>
 
@@ -952,8 +962,8 @@
     }
 
     //add new therapy functions
-
-    function sendAddMedicine() {
+    <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' || sessionScope.LoggedUser.role == 'NURSE'}">
+        function sendAddMedicine() {
         $("#medicineCreated").hide();
 
         var formData = getFormData($('#addMedicineForm'));
@@ -1087,7 +1097,7 @@
         $("#procedureCreationError").hide();
         $("#procedureCreated").hide();
     }
-
+    </c:if>
     <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR'}">
 
     function sendAddSurgery() {
