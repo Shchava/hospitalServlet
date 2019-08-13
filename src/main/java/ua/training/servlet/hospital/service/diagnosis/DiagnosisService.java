@@ -11,4 +11,5 @@ public interface DiagnosisService {
     long getNumberOfDiagnosesByPatientId(long patientId);
     boolean addDiagnosis(DiagnosisDTO dto, long patientId, long doctorId);
     Optional<Diagnosis> getDiagnosis(long idDiagnosis);
+    boolean closeDiagnosis(long idDiagnosis);
 }

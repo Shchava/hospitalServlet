@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DiagnosisServiceImpl implements DiagnosisService {
+
     DaoFactory factory;
 
     public DiagnosisServiceImpl(DaoFactory factory) {
@@ -53,6 +54,13 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     public Optional<Diagnosis> getDiagnosis(long idDiagnosis) {
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.findById(idDiagnosis);
+        }
+    }
+
+    @Override
+    public boolean closeDiagnosis(long idDiagnosis) {
+        try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
+            return diagnosisDao.closeDiagnosis(idDiagnosis, getAssignedTime());
         }
     }
 
