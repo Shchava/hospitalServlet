@@ -38,6 +38,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
 
     @Override
     public boolean create(E entity) {
+        
         boolean created = false;
         try (PreparedStatement statement = connection.prepareStatement(CreateQuery, Statement.RETURN_GENERATED_KEYS)) {
 

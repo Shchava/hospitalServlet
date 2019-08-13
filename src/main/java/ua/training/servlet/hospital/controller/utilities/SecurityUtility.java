@@ -22,11 +22,20 @@ public class SecurityUtility {
         }
     }
     public static boolean hasAccess(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("LoggedUser");
-        return checkUserPermission(user,request);
+        if(isResourcePath(request)){
+            return true;
+        }
+        return checkUserPermission(request);
     }
 
-    private static boolean checkUserPermission(User user, HttpServletRequest request){
+    private static boolean isResourcePath(HttpServletRequest request){
+        String path = request.getRequestURI();
+        return path.endsWith(".css")||path.endsWith("js");
+    }
+
+    private static boolean checkUserPermission(HttpServletRequest request){
+
+        User user = (User) request.getSession().getAttribute("LoggedUser");
         if(user == null){
             return SecurityConfig.getPublicPaths().contains(removeVariableParts(request.getRequestURI()));
         }
