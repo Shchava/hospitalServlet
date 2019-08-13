@@ -5,6 +5,7 @@ import ua.training.servlet.hospital.dao.mapper.ProcedureMapper;
 import ua.training.servlet.hospital.entity.Medicine;
 import ua.training.servlet.hospital.entity.Procedure;
 
+import javax.swing.text.html.parser.Entity;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,6 +56,31 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
     }
 
     @Override
+    public boolean delete(long id) {
+        boolean affected = false;
+        try (PreparedStatement statement = connection.prepareStatement(DeleteQuery)) {
+            affected = transaction(statement,id,this::deleteProcedures);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return affected;
+    }
+    boolean deleteProcedures(PreparedStatement statement, Long id) throws SQLException {
+        statement.setLong(1, id);
+        deleteAppointmentDates(id);
+        return statement.executeUpdate() > 0;
+    }
+    @Override
+    boolean createAction(PreparedStatement statement,Procedure entity) throws SQLException{
+        if (insertIntoDb(statement,entity) == 1) {
+            setId(entity, getId(entity, statement));
+            insertAppointmentDates(entity);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     int updateOnDb(PreparedStatement statement, Procedure entity) throws SQLException {
         setEntityValues(statement, entity);
         statement.setLong(UpdateIdParameterIndex, entity.getId());
@@ -70,12 +96,7 @@ public class JDBCProcedureDao extends JDBCGenericDao<Procedure> implements Proce
         return extracted;
     }
 
-    @Override
-    void deleteEntity(PreparedStatement statement, long id) throws SQLException {
-        statement.setLong(1, id);
-        deleteAppointmentDates(id);
-        statement.execute();
-    }
+
 
     @Override
     long getId(Procedure entity) {
