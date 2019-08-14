@@ -1,5 +1,7 @@
 package ua.training.servlet.hospital.service.diagnosis;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.dao.UserDao;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DiagnosisServiceImpl implements DiagnosisService {
+    private static final Logger logger = LogManager.getLogger(DiagnosisServiceImpl.class);
 
     DaoFactory factory;
 
@@ -22,6 +25,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public List<Diagnosis> findDiagnosesByPatientId(int pageNumber, int DiagnosesPerPage, long patientId) {
+        logger.debug("searching for diagnoses with patient id " + patientId + " on page " + pageNumber + " with "
+                + DiagnosesPerPage + "entries on page");
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.findDiagnosesByPatientId(pageNumber * DiagnosesPerPage, DiagnosesPerPage, patientId);
         }
@@ -29,6 +34,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public long getNumberOfDiagnosesByPatientId(long patientId) {
+        logger.debug("searching for number of diagnoses with patient id " + patientId + " ");
+
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.countDiagnosesOfPatient(patientId);
         }
@@ -36,6 +43,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public boolean addDiagnosis(DiagnosisDTO dto, long patientId, long doctorId) {
+        logger.info("trying to create diagnosis with name" + dto.getName() + "for user with id " + patientId);
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.create(
                     new Diagnosis(
@@ -52,6 +60,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public Optional<Diagnosis> getDiagnosis(long idDiagnosis) {
+        logger.debug("searching for diagnosis with id: " + idDiagnosis);
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.findById(idDiagnosis);
         }
@@ -59,6 +68,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public boolean closeDiagnosis(long idDiagnosis) {
+        logger.info("trying to close diagnosis with id: " + idDiagnosis);
         try (DiagnosisDao diagnosisDao = factory.createDiagnosisDao()) {
             return diagnosisDao.closeDiagnosis(idDiagnosis, getAssignedTime());
         }

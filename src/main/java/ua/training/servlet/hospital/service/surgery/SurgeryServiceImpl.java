@@ -1,5 +1,7 @@
 package ua.training.servlet.hospital.service.surgery;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.SurgeryDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class SurgeryServiceImpl implements SurgeryService {
+    private static final Logger logger = LogManager.getLogger(SurgeryServiceImpl.class);
+
     private DaoFactory factory;
 
     public SurgeryServiceImpl(DaoFactory factory) {
@@ -19,6 +23,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     @Override
     public long getNumberOfSurgeriesByDiagnosisId(long diagnosisId) {
+        logger.debug("searching for surgeries number of with diagnosis id " + diagnosisId);
+
         try (SurgeryDao surgeryDao = factory.createSurgeryDao()) {
             return surgeryDao.countSurgeriesOfDiagnosis(diagnosisId);
         }
@@ -26,6 +32,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     @Override
     public List<Surgery> findSurgeriesByDiagnosisId(int pageNumber, int surgeryPerPage, long diagnosisId) {
+        logger.debug("searching for surgeries with diagnosis id " + diagnosisId + " on page " + pageNumber + " with "
+                + surgeryPerPage + "entries on page");
         try (SurgeryDao surgeryDao = factory.createSurgeryDao()) {
             return surgeryDao.findSurgeriesWithDoctorByDiagnosisId(pageNumber * surgeryPerPage, surgeryPerPage, diagnosisId);
         }
@@ -33,6 +41,7 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     @Override
     public boolean createSurgery(SurgeryDTO dto, long diagnosisId, long doctorId) {
+        logger.info("trying to create procedure with name" + dto.getName() + "for diagnosis with id " + diagnosisId);
         Surgery toCreate = new Surgery();
         toCreate.setName(dto.getName());
         toCreate.setDescription(dto.getDescription());

@@ -1,5 +1,7 @@
 package ua.training.servlet.hospital.service.medicine;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.MedicineDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MedicineServiceImpl implements MedicineService {
+    private static final Logger logger = LogManager.getLogger(MedicineServiceImpl.class);
+
     private DaoFactory factory;
 
     public MedicineServiceImpl(DaoFactory factory) {
@@ -19,6 +23,8 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public long getNumberOfMedicineByDiagnosisId(long diagnosisId) {
+        logger.debug("searching for number of medicines with diagnosis id " + diagnosisId);
+
         try (MedicineDao medicineDao = factory.createMedicineDao()) {
             return medicineDao.countMedicinesOfDiagnosis(diagnosisId);
         }
@@ -26,6 +32,8 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public List<Medicine> findMedicineByDiagnosisId(int pageNumber, int MedicinePerPage, long diagnosisId) {
+        logger.debug("searching for medicines with diagnosis id " + diagnosisId + " on page " + pageNumber + " with "
+                + MedicinePerPage + "entries on page");
         try (MedicineDao medicineDao = factory.createMedicineDao()) {
             return medicineDao.findMedicineWithDoctorByDiagnosisId(pageNumber * MedicinePerPage, MedicinePerPage, diagnosisId);
         }
@@ -33,6 +41,8 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public boolean createMedicine(MedicineDTO dto, long diagnosisId, long doctorId) {
+        logger.info("trying to create medicine with name" + dto.getName() + "for diagnosis with id " + diagnosisId);
+
         User assignedBy = new User(doctorId);
 
         Medicine toCreate = new Medicine();
