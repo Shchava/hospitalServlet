@@ -16,4 +16,14 @@
         <filter-name>authFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/notFoundPage.jsp</location> <!-- /src/main/webapp/error-404.html-->
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/errorPage.jsp</location>
+    </error-page>
 </web-app>
