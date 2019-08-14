@@ -39,6 +39,7 @@ public class SecurityConfig {
         List<String> doctorPaths = new ArrayList<>(nursePaths);
         doctorPaths.add("/patient/diagnosis/addSurgery/");
         doctorPaths.add("/patient/addDiagnosis/");
+        doctorPaths.add("/patient/diagnosis/closeDiagnosis/");
         accessPaths.put("DOCTOR",doctorPaths);
     }
 

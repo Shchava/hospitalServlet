@@ -89,7 +89,7 @@
             display: none;
         }
 
-        .createNotification {
+        .notification {
             display: none;
         }
 
@@ -144,10 +144,17 @@
                             <h2>${diagnosis.name}</h2>
                         </div>
                         <div class="col-sm-3">
-
+                            <c:if test="${sessionScope.LoggedUser.role == 'DOCTOR' and empty diagnosis.cured}">
+                                <button id="closeDiagnosisButton" class="btn btn-primary">
+                                    <span><fmt:message key="doctor.closeDiagnosis"/></span></button>
+                            </c:if>
                         </div>
                     </div>
                 </div>
+
+                <div id="closed" class="alert alert-info notification" role="alert"><fmt:message key="diagnosis.closeDiagnosis.closed" /></div>
+
+                <div id="cantClose" class="alert alert-danger notification" role="alert"><fmt:message key="diagnosis.closeDiagnosis.cantClose" /></div>
 
                 <div>
                     <h6><fmt:message key="doctor.showDiagnosis.description"/></h6>
@@ -156,6 +163,10 @@
                     <p>${diagnosis.assigned.format(formatter)}</p>
                     <h6><fmt:message key="doctor.showDiagnosis.diagnosedBy"/></h6>
                     <p>${diagnosis.doctor.surname} ${diagnosis.doctor.name} ${diagnosis.doctor.patronymic}</p>
+                    <c:if test="${!empty diagnosis.cured}">
+                        <h6><fmt:message key="doctor.showDiagnosis.cured"/></h6>
+                        <p>${diagnosis.cured.format(formatter)}</p>
+                    </c:if>
                 </div>
 
                 <button id="showMedicine" role="button" class="btn btn-primary btn-lg btn-block show-button">
@@ -164,7 +175,7 @@
                 <div id="medicineContainer" class="medicine-container">
                     <div class="table-wrapper">
 
-                        <div id="medicineCreated" class="alert alert-info createNotification" role="alert">
+                        <div id="medicineCreated" class="alert alert-info notification" role="alert">
                             <fmt:message key="doctor.showDiagnosis.medicineCreated"/></div>
                         <div id="medicineCreationError" class="alert alert-danger fieldError" role="alert"></div>
 
@@ -273,7 +284,7 @@
                     <div class="table-wrapper">
                         <div class="table-filter">
 
-                            <div id="procedureCreated" class="alert alert-info createNotification" role="alert">
+                            <div id="procedureCreated" class="alert alert-info notification" role="alert">
                                 <fmt:message key="doctor.showDiagnosis.procedureCreated"/></div>
                             <div id="procedureCreationError" class="alert alert-danger fieldError" role="alert"></div>
 
@@ -383,7 +394,7 @@
                     <div class="table-wrapper">
 
 
-                        <div id="surgeryCreated" class="alert alert-info createNotification" role="alert">
+                        <div id="surgeryCreated" class="alert alert-info notification" role="alert">
                             <fmt:message key="doctor.showDiagnosis.surgeryCreated"/></div>
                         <div id="surgeryCreationError" class="alert alert-danger fieldError" role="alert"></div>
 
@@ -1190,6 +1201,33 @@
             }
         });
         return indexed_array;
+    }
+
+    function closeDiagnosis() {
+
+
+        $.ajax({
+            type: 'POST',
+            url: "/patient/${requestScope.diagnosis.patient.id}/diagnosis/${diagnosis.idDiagnosis}/closeDiagnosis/",
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                if (data.response === "closed") {
+                    $("#closed").show();
+                    $("#closeDiagnosisButton").hide();
+                    $("#cantClose").hide();
+                } else {
+                    $("#closed").hide();
+                    $("#cantClose").show();
+                }
+            },
+            error: function (data) {
+                console.log(data);
+                $("#closed").hide();
+                $("#cantClose").show();
+            }
+        });
     }
 </script>
 </body>
