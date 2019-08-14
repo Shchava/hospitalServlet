@@ -1,6 +1,8 @@
 package ua.training.servlet.hospital.service.procedure;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.ProcedureDao;
 import ua.training.servlet.hospital.entity.Diagnosis;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProcedureServiceImpl implements ProcedureService {
+    private static final Logger logger = LogManager.getLogger(ProcedureServiceImpl.class);
+
     private DaoFactory factory;
 
     public ProcedureServiceImpl(DaoFactory factory) {
@@ -20,6 +24,8 @@ public class ProcedureServiceImpl implements ProcedureService {
 
     @Override
     public long getNumberOfProceduresByDiagnosisId(long diagnosisId) {
+        logger.debug("searching for number of procedures with diagnosis id " + diagnosisId);
+
         try (ProcedureDao procedureDao = factory.createProcedureDao()) {
             return procedureDao.countProceduresOfDiagnosis(diagnosisId);
         }
@@ -27,6 +33,9 @@ public class ProcedureServiceImpl implements ProcedureService {
 
     @Override
     public List<Procedure> findProceduresByDiagnosisId(int pageNumber, int procedurePerPage, long diagnosisId) {
+        logger.debug("searching for procedures with diagnosis id " + diagnosisId + " on page " + pageNumber + " with "
+                + procedurePerPage + "entries on page");
+
         try (ProcedureDao procedureDao = factory.createProcedureDao()) {
             return procedureDao.findProceduresWithDoctorByDiagnosisId(pageNumber * procedurePerPage, procedurePerPage, diagnosisId);
         }
@@ -34,6 +43,7 @@ public class ProcedureServiceImpl implements ProcedureService {
 
     @Override
     public boolean createProcedure(ProcedureDTO dto, long diagnosisId, long doctorId) {
+        logger.info("trying to create procedure with name" + dto.getName() + "for diagnosis with id " + diagnosisId);
         Procedure toCreate = new Procedure();
         toCreate.setName(dto.getName());
         toCreate.setDescription(dto.getDescription());

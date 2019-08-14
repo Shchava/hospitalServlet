@@ -1,12 +1,15 @@
 package ua.training.servlet.hospital.dao.impl;
 
 import ua.training.servlet.hospital.dao.GenericDao;
+import ua.training.servlet.hospital.dao.impl.functional.PreparedStatementAction;
+import ua.training.servlet.hospital.dao.impl.functional.PreparedStatementAndEntityAction;
 import ua.training.servlet.hospital.dao.mapper.ObjectMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     Connection connection;
@@ -40,12 +43,7 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     public boolean create(E entity) {
         boolean created = false;
         try (PreparedStatement statement = connection.prepareStatement(CreateQuery, Statement.RETURN_GENERATED_KEYS)) {
-
-            int affected = insertIntoDb(statement,entity);
-            if (affected == 1) {
-                setId(entity, getId(entity, statement));
-                created = true;
-            }
+            created = transaction(statement,entity,this::createAction);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -105,26 +103,26 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
     public boolean update(E entity) {
         boolean created = false;
         try (PreparedStatement statement = connection.prepareStatement(UpdateQuery, Statement.RETURN_GENERATED_KEYS)) {
-            int affected = updateOnDb(statement,entity);
-            created = affected == 1;
+            created = transaction(statement,entity,this::updateAction);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return created;
     }
 
+
     @Override
     public boolean delete(long id) {
         boolean affected = false;
         try (PreparedStatement statement = connection.prepareStatement(DeleteQuery)) {
-            deleteEntity(statement,id);
-            affected = true;
+            statement.setLong(1,id);
+            affected = transaction(statement,this::deleteEntity);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return affected;
     }
-
+    
     @Override
     public void close() {
         try {
@@ -133,6 +131,61 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
             throw new RuntimeException(e);
         }
     }
+
+    boolean transaction(PreparedStatement statement, PreparedStatementAction action)throws SQLException{
+        boolean success = false;
+        boolean wasAutocommit = connection.getAutoCommit();
+        connection.setAutoCommit(false);
+        try{
+            if(action.execute(statement)){
+                success = true;
+            }else{
+                connection.rollback();
+            }
+        }catch (Exception ex){
+            connection.rollback();
+            ex.printStackTrace();
+        }
+        if(wasAutocommit){
+            connection.commit();
+            connection.setAutoCommit(false);
+        }
+        return success;
+    }
+
+    <T> boolean transaction(PreparedStatement statement, T entity, PreparedStatementAndEntityAction<T> action)throws SQLException{
+        boolean success = false;
+        boolean wasAutocommit = connection.getAutoCommit();
+        connection.setAutoCommit(false);
+        try{
+            if(action.execute(statement,entity)){
+                success = true;
+            }else{
+                connection.rollback();
+            }
+        }catch (Exception ex){
+            connection.rollback();
+            ex.printStackTrace();
+        }
+        if(wasAutocommit){
+            connection.commit();
+            connection.setAutoCommit(false);
+        }
+        return success;
+    }
+
+    boolean createAction(PreparedStatement statement,E entity) throws SQLException{
+        if (insertIntoDb(statement,entity) == 1) {
+            setId(entity, getId(entity, statement));
+            return true;
+        }
+        return false;
+    }
+
+    boolean updateAction(PreparedStatement statement, E entity) throws SQLException{
+        return updateOnDb(statement,entity) == 1;
+    }
+
 
     long getId(E entity, Statement statement) throws SQLException {
 
@@ -168,9 +221,8 @@ public abstract class JDBCGenericDao<E> implements GenericDao<E> {
         return mapper.extractFromResultSet(rs);
     }
 
-    void deleteEntity(PreparedStatement statement, long entityId) throws SQLException {
-        statement.setLong(1, entityId);
-        statement.execute();
+    boolean deleteEntity(PreparedStatement statement) throws SQLException {
+        return statement.executeUpdate() > 0;
     }
 
     long count(String query, String countColumnLabel) {

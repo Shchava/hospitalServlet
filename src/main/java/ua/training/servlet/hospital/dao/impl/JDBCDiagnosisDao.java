@@ -4,10 +4,8 @@ import ua.training.servlet.hospital.dao.DiagnosisDao;
 import ua.training.servlet.hospital.dao.mapper.DiagnosisMapper;
 import ua.training.servlet.hospital.entity.Diagnosis;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements DiagnosisDao  {
@@ -16,6 +14,8 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
             "WHERE diagnosis.patient_id_user = ?  LIMIT ?,?";
     private final String countPatientsQuery = "SELECT COUNT(*)FROM diagnosis WHERE diagnosis.patient_id_user = ";
     private final String patientsCountLabel = "COUNT(*)";
+    private final String closeDiagnosisQuery = "UPDATE diagnosis SET cured = ?" +
+            "WHERE id_diagnosis = ?";
 
     public JDBCDiagnosisDao(Connection connection) {
         super(
@@ -72,5 +72,20 @@ public class JDBCDiagnosisDao extends JDBCGenericDao<Diagnosis> implements Diagn
     @Override
     public long countDiagnosesOfPatient(long patientId) {
         return count(countPatientsQuery + patientId,patientsCountLabel);
+    }
+
+    @Override
+    public boolean closeDiagnosis(long idDiagnosis, LocalDateTime timeOfClose) {
+        boolean changed = false;
+        try (PreparedStatement statement = connection.prepareStatement(closeDiagnosisQuery, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setObject(1,timeOfClose);
+            statement.setObject(2,idDiagnosis);
+                    changed = transaction(statement,(s)->{
+                        return s.executeUpdate() == 1;
+                    });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return changed;
     }
 }

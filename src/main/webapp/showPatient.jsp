@@ -113,11 +113,6 @@
                         <div class="col-sm-3"><h3 class="diagnosesTitle"><fmt:message key="showPatient.diagnosesTable"/></h3></div>
 
                         <div class="col-sm-6">
-                            <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                            <div class="filter-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control">
-                            </div>
 
                         </div>
                     </div>

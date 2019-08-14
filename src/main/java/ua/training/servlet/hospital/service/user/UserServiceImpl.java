@@ -1,5 +1,7 @@
 package ua.training.servlet.hospital.service.user;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.servlet.hospital.dao.DaoFactory;
 import ua.training.servlet.hospital.dao.UserDao;
 import ua.training.servlet.hospital.entity.User;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+
     private PasswordEncoder encoder;
     private DaoFactory daoFactory;
 
@@ -22,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUser(String email) {
+        logger.debug("searching for user with email: " + email);
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.findByEmail(email);
         }
@@ -29,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUser(long id) {
+        logger.debug("searching for user with id: " + id);
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.findById(id);
         }
@@ -38,8 +44,10 @@ public class UserServiceImpl implements UserService {
     public boolean registerUser(UserDTO userDto) {
         try (UserDao userDao = daoFactory.createUserDao()) {
             if (emailExists(userDto.getEmail(),userDao)) {
+                logger.info("tried to register user with existing email, throwing EmailExistsException");
                 throw new EmailExistsException("There is an account with that email address:" + userDto.getEmail());
             }
+            logger.info("trying to create user with email" + userDto.getEmail());
             User userToCreate = new User();
             userToCreate.setName(userDto.getName());
             userToCreate.setSurname(userDto.getSurname());
@@ -54,6 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long getNumberOfRecords() {
+        logger.debug("searching for number of users");
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.count();
         }
@@ -61,6 +70,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long getNumberOfPatients() {
+        logger.debug("searching for number of patients");
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.countPatients();
         }
@@ -68,6 +78,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ShowUserToDoctorDTO> findPatientsToShow(int pageNumber, int UsersPerPage) {
+        logger.debug("searching for patients and showing them as ShowUserToDoctorDTO from page " + pageNumber + " with "
+                + UsersPerPage + "entries on page");
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.findPatientsForDoctorPage(pageNumber * UsersPerPage, UsersPerPage);
         }

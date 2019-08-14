@@ -1,6 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="hospitalServlet:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/hospitalServlet_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/hospitalServlet</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>hospitalServlet</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -11,6 +18,9 @@
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
           <element id="library" level="project" name="Maven: com.h2database:h2:1.4.199" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-web:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.8.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.8.2" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
           <element id="library" level="project" name="Maven: org.mindrot:jbcrypt:0.3m" />
@@ -20,6 +30,9 @@
           <element id="library" level="project" name="Maven: org.webjars:bootstrap-datepicker:1.9.0" />
           <element id="library" level="project" name="Maven: org.webjars:jquery:3.4.1" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/hospitalServlet/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="hospitalServlet/web/Web" />
     </root>
